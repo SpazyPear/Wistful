@@ -9,43 +9,34 @@ public class PopUpManager : MonoBehaviour
 {
     public Transform player;
     public GameObject prefab;
-    private List<GameObject> posArray;
+    private List<GameObject> posArray = new List<GameObject>();
     private Vector2 currentPos;
     private float posX;
     private float posZ;
     public float posY;
     public Tweener tweener;
-    private List<GameObject> pastPlatforms;
-    private List<GameObject> toBeRemoved;
-    public Dictionary<GameObject, int> ForestArray;
-    public Dictionary<GameObject, int> WinterArray;
-    public Dictionary<GameObject, int> HellArray;
+    private List<GameObject> pastPlatforms = new List<GameObject>();
+    private List<GameObject> toBeRemoved = new List<GameObject>();
+    [SerializeField]
+    private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
+
     private Vector3 forward;
     private Vector3 left;
     private Vector3 right;
-    private bool puzzleUp = false;
-    
-    private GameObject currentPuzzle;
-    public enum biome { Hell = -20, Grass = 0, Ice = 100};
-    public biome currentBiome;
-    private Del popMethodGroup;
-    [SerializeField]
-    private List<GameObject> forestKeysList;
-    [SerializeField]
-    private List<int> forestValuesList;
-    [SerializeField]
-    private List<GameObject> winterKeysList;
-    [SerializeField]
-    private List<int> winterValuesList;
-    [SerializeField]
-    private List<GameObject> hellKeysList;
-    [SerializeField]
-    private List<int> hellValuesList;
+    private bool vaultUp = false;
 
-    private Dictionary<GameObject, int> biomeArray;
+
+    
+    public GameObject vaultPrefab;
+    public float[] levelHeights = { 0 };
+    public int currentLevel;
+    private Del popMethodGroup;
+
+    private List<TerrainBlock> currentLevelTerrain;
+
+    public float vaultSpawnProb = 0.01f;
 
     public Movement movement;
-    
 
     delegate void Del();
 
@@ -57,7 +48,7 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
-        currentBiome = biome.Grass;
+        currentLevel = 0;
         movement.nextBiomeEvent += nextBiome;
         posX = player.position.x;
         posZ = player.position.z;
@@ -73,47 +64,30 @@ public class PopUpManager : MonoBehaviour
 
     void instantiateDataStructures()
     {
-        posArray = new List<GameObject>();
-        pastPlatforms = new List<GameObject>();
-        toBeRemoved = new List<GameObject>();
-        ForestArray = new Dictionary<GameObject, int>();
-        WinterArray = new Dictionary<GameObject, int>();
-        HellArray = new Dictionary<GameObject, int>();
-       
-        for (int i = 0; i < forestKeysList.Count; i++)
-        {
-            ForestArray.Add(forestKeysList[i], forestValuesList[i]);
-        }
-        for (int i = 0; i < winterKeysList.Count; i++)
-        {
-            WinterArray.Add(winterKeysList[i], winterValuesList[i]);
-        }
-        for (int i = 0; i < hellKeysList.Count; i++)
-        {
-            HellArray.Add(hellKeysList[i], hellValuesList[i]);
+
+        for (int x = 0; x < gameTerrain.Count; x++) {
+
+            // Normalise probability values between 0 and 1
+            normalizeProbabilities(ref gameTerrain[x].blocks);
+            
         }
 
-        biomeArray = ForestArray;
+        currentLevelTerrain = gameTerrain[0].blocks;
+    }
+
+    void normalizeProbabilities(ref List<TerrainBlock> items)
+    {
+        float sum = items.Sum(x => x.probability);
+        for (int index = 0; index < items.Count; index++)
+        {
+            items.ElementAt(index).probability /= sum;
+        }
+        items.OrderByDescending(x => x.probability);
     }
 
     void nextBiome(object sender, EventArgs e)
     {
-        currentBiome = Enum.GetValues(typeof(biome)).Cast<biome>()
-            .Skip(1).First();
-        switch (currentBiome)
-        {
-            case biome.Hell:
-                biomeArray = HellArray;
-                break;
-
-            case biome.Grass:
-                biomeArray = ForestArray;
-                break;
-
-            case biome.Ice:
-                biomeArray = WinterArray;
-                break;
-        }
+        currentLevel++;
         
         StartCoroutine(newBiomePop());
         
@@ -123,8 +97,8 @@ public class PopUpManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.2f);
-            if (player.position.y > (float)currentBiome)
+            yield return null;
+            if (player.position.y > levelHeights[currentLevel])
             {
                 popStarterArea();
                 StartCoroutine(puzzleReset());
@@ -135,11 +109,11 @@ public class PopUpManager : MonoBehaviour
 
     IEnumerator puzzleReset()
     {
-        Destroy(currentPuzzle);
+        Destroy(vaultPrefab);
         yield return new WaitForSeconds(6f);
-        Destroy(currentPuzzle);
-        currentPuzzle = null;
-        puzzleUp = false;
+        Destroy(vaultPrefab);
+        vaultPrefab = null;
+        vaultUp = false;
     }
 
     void posChangedInstantiate()
@@ -176,10 +150,10 @@ public class PopUpManager : MonoBehaviour
     {
         foreach (GameObject obj in posArray)
         {
-            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, Mathf.Clamp(player.position.y - 3, (float)currentBiome, (float)currentBiome + 16), obj.transform.position.z)), 1.5f);
+            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), obj.transform.position.z)), 1.5f);
         }
 
-        for (int count = pastPlatforms.Count - 1; count > 0; count--)
+        /*for (int count = pastPlatforms.Count - 1; count > 0; count--) //Removes blocks you're far from
         {
             if (Vector3.Distance(player.transform.position, pastPlatforms.ElementAt(count).transform.position) > 35)
             {
@@ -191,14 +165,14 @@ public class PopUpManager : MonoBehaviour
             }
            
             
-        }
+        }*/
 
-        if (currentPuzzle != null && puzzleUp == true)
+        if (vaultPrefab != null && vaultUp == true)
         {
             if (Vector3.Distance(player.transform.position, GameObject.FindGameObjectWithTag("puzzle").transform.position) > 60)
             {
-                tweener.AddTween(currentPuzzle.transform, currentPuzzle.transform.position, new Vector3(currentPuzzle.transform.position.x, -20f + (float)currentBiome, currentPuzzle.transform.position.z), 3f);
-                puzzleUp = false;
+                tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, -20f + levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
+                vaultUp = false;
             }
         }
 
@@ -206,49 +180,51 @@ public class PopUpManager : MonoBehaviour
 
     }
 
-    void checkPuzzle()
+    void checkIfVaultSpawn()
     {
 
-        if (currentPuzzle == null)
+        if (vaultPrefab != null)
         {
-            if (Physics.CheckBox(new Vector3(forward.x, (float)currentBiome / 5, forward.z) * 5, new Vector3(12, 1, 12)) == false && puzzleUp == false)
+            if (Physics.CheckBox(new Vector3(forward.x, levelHeights[currentLevel] / 5, forward.z) * 5, new Vector3(12, 1, 12)) == false && vaultUp == false)
             {
-                if (UnityEngine.Random.Range(1, 300) > biomeArray.ElementAt(biomeArray.Count - 1).Value)
+                if (UnityEngine.Random.Range(0, 1f) < vaultSpawnProb)
                 {
-                    currentPuzzle = Instantiate(biomeArray.ElementAt(biomeArray.Count - 1).Key, new Vector3(forward.x, -2f, forward.z) + roundVector3(player.forward * 30), Quaternion.identity);
-                    tweener.AddTween(currentPuzzle.transform, currentPuzzle.transform.position, new Vector3(currentPuzzle.transform.position.x, (float)currentBiome, currentPuzzle.transform.position.z), 3f);
-                    puzzleUp = true;
+                    vaultPrefab = Instantiate(vaultPrefab, new Vector3(forward.x, -2f, forward.z) + roundVector3(player.forward * 30), Quaternion.identity);
+                    tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
+                    vaultUp = true;
                 }
             }
         }
-        else if (currentPuzzle != null && puzzleUp == false)
+      /*  else if (vaultPrefab != null && vaultUp == false)
         {
-            if (Vector3.Distance(player.transform.position, new Vector3(currentPuzzle.transform.position.x, (float)currentBiome, currentPuzzle.transform.position.z)) < 35)
+            if (Vector3.Distance(player.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z)) < 35)
             {
-                tweener.AddTween(currentPuzzle.transform, currentPuzzle.transform.position, new Vector3(currentPuzzle.transform.position.x, (float)currentBiome, currentPuzzle.transform.position.z), 3f);
-                puzzleUp = true;
+                tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
+                vaultUp = true;
             }
-        }
+        }*/
     }
 
-    void popBiome()
+    void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
     {
 
-        checkPuzzle();
+        checkIfVaultSpawn();
 
-        if (Physics.CheckBox(new Vector3(forward.x, Mathf.Clamp(player.position.y - 3, (float)currentBiome, (float)currentBiome + 16), forward.z), new Vector3(1, 1, 1)) == false)
+        TerrainBlock toSpawn = getModel();
+
+        if (Physics.CheckBox(new Vector3(forward.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), forward.z + toSpawn.size.z), toSpawn.size) == false)
         {
-            posArray.Add(Instantiate(getModel(biomeArray), new Vector3(forward.x, -2f, forward.z), Quaternion.identity));
+            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(forward.x + toSpawn.size.x, -2f, forward.z + toSpawn.size.z - 1), Quaternion.identity));
         }
-
-        if (Physics.CheckBox(new Vector3(left.x, Mathf.Clamp(player.position.y - 3, (float)currentBiome, (float)currentBiome + 16), left.z), new Vector3(1, 1, 1)) == false)
+        toSpawn = getModel();
+        if (Physics.CheckBox(new Vector3(left.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), left.z + toSpawn.size.z), toSpawn.size) == false)
         {
-            posArray.Add(Instantiate(getModel(biomeArray), new Vector3(left.x, -2f, left.z), Quaternion.identity));
+            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(left.x + toSpawn.size.x, -2f, left.z + toSpawn.size.z - 1), Quaternion.identity));
         }
-
-        if (Physics.CheckBox(new Vector3(right.x, Mathf.Clamp(player.position.y - 3, (float)currentBiome, (float)currentBiome + 16), right.z), new Vector3(1, 1, 1)) == false)
+        toSpawn = getModel();
+        if (Physics.CheckBox(new Vector3(right.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), right.z + toSpawn.size.z), toSpawn.size) == false)
         {
-            posArray.Add(Instantiate(getModel(biomeArray), new Vector3(right.x, -2f, right.z), Quaternion.identity));
+            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(right.x + toSpawn.size.x, -2f, right.z + toSpawn.size.z), Quaternion.identity));
         }
         
     }
@@ -264,28 +240,29 @@ public class PopUpManager : MonoBehaviour
 
         posArray.Clear();
 
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z - 4)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z + 4)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x, -2f, player.position.z - 4)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x, -2f, player.position.z)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x, -2f, player.position.z + 4)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z - 4)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z)), Quaternion.identity));
-        posArray.Add(Instantiate(getModel(biomeArray), roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z + 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z - 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z + 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x, -2f, player.position.z - 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x, -2f, player.position.z)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x, -2f, player.position.z + 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z - 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z + 4)), Quaternion.identity));
 
         tweenerManager();
     }
 
-    GameObject getModel(Dictionary<GameObject, int> biomeArray)
+    TerrainBlock getModel()
     {
+        int index = 0;
+        float result = UnityEngine.Random.Range(0, 1f);
         while (true)
         {
-            GameObject potentialPop = biomeArray.ElementAt(UnityEngine.Random.Range(0, biomeArray.Count)).Key;
-            if (biomeArray[potentialPop] < UnityEngine.Random.Range(1, 10))
-            {
-                return potentialPop;
-            }
+            result -= currentLevelTerrain.ElementAt(index).probability;
+            if (result < 0)
+                return currentLevelTerrain.ElementAt(index);
+            index++;
         }
     }
 
@@ -311,7 +288,5 @@ public class PopUpManager : MonoBehaviour
 
         return num - remainder;
     }
-
-
 
 }

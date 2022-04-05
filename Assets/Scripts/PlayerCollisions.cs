@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-    public StatManger statManager;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Dictionary<string, GameObject> itemsHeld = new Dictionary<string, GameObject>(); 
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerStay(Collider collider)
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.tag == "Coin")
+        if (collider.CompareTag("RocketToy") && Input.GetKeyDown(KeyCode.E))
         {
-            statManager.handleCoinCollected();
+            itemsHeld.Add("RocketToy", collider.gameObject);
             Destroy(collider.gameObject);
+        }
+
+        if (collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.E))
+        {
+            itemsHeld.Add("Ladder", collider.gameObject);
+            Destroy(collider.gameObject);
+        }
+
+        if (collider.CompareTag("LadderPlacement") && Input.GetKeyDown(KeyCode.E))
+        {
+            collider.gameObject.transform.parent.gameObject.GetComponent<TreehouseManager>().placeLadder();
         }
     }
 }
