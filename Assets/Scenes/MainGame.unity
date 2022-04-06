@@ -198,6 +198,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7231d7cc7d80e458cab28087388a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &166513272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166513274}
+  - component: {fileID: 166513273}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &166513273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166513272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda215d3acb4cac4ea043335014fe32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &166513274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166513272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.2957308, y: 1.8532164, z: 0.08631611}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &243550727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298,26 +342,32 @@ MonoBehaviour:
       probability: 0.2
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
+      canSpawn: 0
     - prefab: {fileID: 7284957191060935758, guid: 0f6a842fc7245754d8e0f5f2c76cd98b, type: 3}
       probability: 0.3
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
+      canSpawn: 0
     - prefab: {fileID: 8929304426311543997, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
       probability: 0.6
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
+      canSpawn: 0
     - prefab: {fileID: 7578545202396088304, guid: 5196e66a9159a9b4496fd0ca447db512, type: 3}
       probability: 0.01
       size: {x: 1, y: 1, z: 1}
       containsItem: 1
+      canSpawn: 0
     - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
       probability: 0.1
       size: {x: 2, y: 3, z: 3}
       containsItem: 1
+      canSpawn: 0
     - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
       probability: 0.1
       size: {x: 3, y: 6, z: 3}
       containsItem: 1
+      canSpawn: 0
   vaultPrefab: {fileID: 0}
   levelHeights:
   - 0
