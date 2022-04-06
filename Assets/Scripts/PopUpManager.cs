@@ -215,16 +215,22 @@ public class PopUpManager : MonoBehaviour
         if (Physics.CheckBox(new Vector3(forward.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), forward.z + toSpawn.size.z), toSpawn.size) == false)
         {
             posArray.Add(Instantiate(toSpawn.prefab, new Vector3(forward.x + toSpawn.size.x, -2f, forward.z + toSpawn.size.z - 1), Quaternion.identity));
+            if (toSpawn.containsItem)
+                toSpawn.canSpawn = false;
         }
         toSpawn = getModel();
         if (Physics.CheckBox(new Vector3(left.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), left.z + toSpawn.size.z), toSpawn.size) == false)
         {
             posArray.Add(Instantiate(toSpawn.prefab, new Vector3(left.x + toSpawn.size.x, -2f, left.z + toSpawn.size.z - 1), Quaternion.identity));
+            if (toSpawn.containsItem)
+                toSpawn.canSpawn = false;
         }
         toSpawn = getModel();
         if (Physics.CheckBox(new Vector3(right.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), right.z + toSpawn.size.z), toSpawn.size) == false)
         {
             posArray.Add(Instantiate(toSpawn.prefab, new Vector3(right.x + toSpawn.size.x, -2f, right.z + toSpawn.size.z), Quaternion.identity));
+            if (toSpawn.containsItem)
+                toSpawn.canSpawn = false;
         }
         
     }
@@ -261,7 +267,12 @@ public class PopUpManager : MonoBehaviour
         {
             result -= currentLevelTerrain.ElementAt(index).probability;
             if (result < 0)
-                return currentLevelTerrain.ElementAt(index);
+                if (currentLevelTerrain.ElementAt(index).canSpawn != false)
+                    return currentLevelTerrain.ElementAt(index);
+                else
+                {
+                    return getModel();
+                }
             index++;
         }
     }
