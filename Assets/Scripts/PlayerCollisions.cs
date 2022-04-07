@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
@@ -8,15 +9,15 @@ public class PlayerCollisions : MonoBehaviour
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
+    public InventoryManager inventoryManager;
 
     private void Update()
     {
-        Debug.Log(itemsHeld.Count);
     }
 
     private void OnTriggerStay(Collider collider)
     {
-        if (collider.CompareTag("RocketToy") && Input.GetKeyDown(KeyCode.E))
+        /*if (collider.CompareTag("RocketToy") && Input.GetKeyDown(KeyCode.E))
         {
             itemsHeld.Add("RocketToy");
             uiManager.toggleRocketBar(true);
@@ -34,6 +35,11 @@ public class PlayerCollisions : MonoBehaviour
         {
             collider.gameObject.transform.parent.gameObject.GetComponent<TreehouseManager>().placeLadder();
             itemsHeld.Remove("Ladder");
+        }*/
+        if (Input.GetKeyDown(KeyCode.E) && collider.gameObject.GetComponents(typeof(Item)).Length > 0)
+        {
+            inventoryManager.pickUpItem((collider.gameObject.GetComponent(typeof(Item))).GetType());
+            Destroy(collider.gameObject);
         }
     }
 

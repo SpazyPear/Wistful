@@ -138,6 +138,10 @@ public class PopUpManager : MonoBehaviour
             forward = roundVector3(player.forward * 5 + player.position);
             left = roundVector3(player.right * 2 + player.forward * 5 + player.position);
             right = roundVector3(-player.right * 2 + player.forward * 5 + player.position);
+            /*Destroy(Instantiate(prefab, forward + Vector3.up, Quaternion.identity), 2f);
+            Destroy(Instantiate(prefab, left + Vector3.up, Quaternion.identity), 2f);
+            Destroy(Instantiate(prefab, right + Vector3.up, Quaternion.identity), 2f);*/
+
 
             popBiome();
 
