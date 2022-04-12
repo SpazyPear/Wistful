@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 8354788492517668139}
   m_Layer: 0
   m_Name: Stairs
-  m_TagString: ground
+  m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2711773804182663572
 Transform:
   m_ObjectHideFlags: 0
@@ -26,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59549999979668323}
-  m_LocalRotation: {x: -0.6729258, y: -0.21718873, z: 0.2171887, w: 0.6729258}
-  m_LocalPosition: {x: -0.18533723, y: 6.8807373, z: 3.2440972}
+  m_LocalRotation: {x: -0.67425495, y: -0.21302645, z: 0.21302642, w: 0.67425495}
+  m_LocalPosition: {x: -0.21034451, y: 6.8598876, z: 3.2440977}
   m_LocalScale: {x: 99.99999, y: 100, z: 99.99999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2491668057300391092}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -54.933, y: -90, z: 90}
 --- !u!33 &7766394730926186716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4399753833144714617}
   m_Layer: 0
   m_Name: Ladder
-  m_TagString: ground
+  m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -28,9 +28,9 @@ public class Movement : MonoBehaviour
     public PopUpManager popUpManager;
     public StatManger statManager;
     public PlayerCollisions playerCollisions;
-    public UIManager uiManager;
-    bool mouseDown = false;
-    float rocketFuel = 1f;
+    public bool onLadder = false;
+    public Vector3 lastLadderAngle;
+    bool interactDown = false;
     
 
     // Start is called before the first frame update
@@ -48,21 +48,60 @@ public class Movement : MonoBehaviour
         collectInput();
         movement();
         jump();
-
+        jetpackUse();
+        checkClimbLadder();
     }
 
-    private void collectInput()
+    public void checkClimbLadder()
+    {
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyUp(KeyCode.E))
+        {
+            interactDown = !interactDown;
+        }
+        if (interactDown && onLadder)
+            StartCoroutine(climbLadder());
+      
+    }
+
+    IEnumerator climbLadder()
+    {
+        float progress = 0;
+        Vector3 startPos = transform.position;
+        while (interactDown && progress < 0.98f)
+        {
+            transform.position = Vector3.Lerp(startPos, lastLadderAngle, progress);
+            progress += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    void collectInput()
     {
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
         Transform[] ts = target.GetComponentsInChildren<Transform>();
-
+        foreach (Transform com in ts)
+        {
+        }
         if (ts.Length > 1)
         {
+
             moveX = Input.GetAxis("Mouse X");
             moveY = Input.GetAxis("Mouse Y");
         }
     }
+
+    void jetpackUse()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && canUseJetPack)
+        {
+            rb.AddForce(Vector3.up * 45, ForceMode.Impulse);
+            canUseJetPack = false;
+            Physics.gravity += new Vector3(0, 1.2f, 0);
+            OnNextBiome();
+        }
+    }
+
     
 
 
@@ -87,6 +126,21 @@ public class Movement : MonoBehaviour
         {
             rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
         }
+    }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "box")
+        {
+            if (timer == 0)
+            {
+                timer = 0.4f;
+                this.other = other;
+            }
+        }
+
     }
 
     private void OnCollisionStay(Collision collision)
