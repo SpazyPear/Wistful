@@ -9,7 +9,6 @@ public class TerrainBlock
     public float probability;
     public Vector3 size;
     public bool containsItem;
-    public bool canSpawn;
 
     public TerrainBlock(GameObject prefab, float probability, Vector3 size, bool containsItem = false)
     {
@@ -17,6 +16,5 @@ public class TerrainBlock
         this.probability = probability;
         this.size = size;
         this.containsItem = containsItem;
-        canSpawn = true;
     }
 }
