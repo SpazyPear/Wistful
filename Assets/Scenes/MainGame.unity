@@ -899,7 +899,7 @@ MonoBehaviour:
       containsItem: 0
       canSpawn: 1
     - prefab: {fileID: 7284957191060935758, guid: 0f6a842fc7245754d8e0f5f2c76cd98b, type: 3}
-      probability: 0.3
+      probability: 0.6
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
       canSpawn: 1
@@ -919,7 +919,7 @@ MonoBehaviour:
       containsItem: 1
       canSpawn: 1
     - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
-      probability: 0.01
+      probability: 0.6
       size: {x: 3, y: 6, z: 3}
       containsItem: 1
       canSpawn: 1
@@ -1967,8 +1967,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.990566, g: 0.9843964, b: 0.8924439, a: 1}
-  m_Intensity: 0.6
+  m_Color: {r: 0.9433962, g: 0.6448016, b: 0.10145953, a: 1}
+  m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2010,7 +2010,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0.1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -2026,7 +2026,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 3.69, y: 14.05, z: -8.59}
+  m_LocalPosition: {x: 8.9, y: 26.5, z: -17.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16340,7 +16340,8 @@ MonoBehaviour:
   popUpManager: {fileID: 356297473}
   statManager: {fileID: 0}
   playerCollisions: {fileID: 1365182999}
-  uiManager: {fileID: 392340027}
+  onLadder: 0
+  lastLadderAngle: {x: 0, y: 0, z: 0}
 --- !u!54 &1365182994
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16452,6 +16453,7 @@ MonoBehaviour:
   itemsHeld: []
   uiManager: {fileID: 392340027}
   inventoryManager: {fileID: 1466194452}
+  prefab: {fileID: 13980495300744388, guid: 74bbb96e3fd75dc4db27cd11364a1cfa, type: 3}
 --- !u!4 &1390269915 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8590611226237344263, guid: 992f5f6171e09654abd5b498cef6adf5, type: 3}
