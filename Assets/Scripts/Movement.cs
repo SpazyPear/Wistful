@@ -20,18 +20,15 @@ public class Movement : MonoBehaviour
     private float moveVertical;
     private float moveX;
     private float moveY;
-    private float timer = 0.4f;
-    private bool isTimerRunning = false;
-    private Collider other;
+
     public GameObject target;
     public bool canUseJetPack = false;
     public PopUpManager popUpManager;
     public StatManger statManager;
     public PlayerCollisions playerCollisions;
-    public bool onLadder = false;
-    public Vector3 lastLadderAngle;
-    bool interactDown = false;
-    
+
+    public event EventHandler nextBiomeEvent;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,73 +41,27 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
- 
         collectInput();
         movement();
         jump();
-        jetpackUse();
-        checkClimbLadder();
     }
 
-    public void checkClimbLadder()
-    {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyUp(KeyCode.E))
-        {
-            interactDown = !interactDown;
-        }
-        if (interactDown && onLadder)
-            StartCoroutine(climbLadder());
-      
-    }
 
-    IEnumerator climbLadder()
-    {
-        float progress = 0;
-        Vector3 startPos = transform.position;
-        while (interactDown && progress < 0.98f)
-        {
-            transform.position = Vector3.Lerp(startPos, lastLadderAngle, progress);
-            progress += Time.deltaTime;
-            yield return null;
-        }
-    }
 
     void collectInput()
     {
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
-        Transform[] ts = target.GetComponentsInChildren<Transform>();
-        foreach (Transform com in ts)
-        {
-        }
-        if (ts.Length > 1)
-        {
 
-            moveX = Input.GetAxis("Mouse X");
-            moveY = Input.GetAxis("Mouse Y");
-        }
+        moveX = Input.GetAxis("Mouse X");
+        moveY = Input.GetAxis("Mouse Y");
+        
     }
-
-    void jetpackUse()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && canUseJetPack)
-        {
-            rb.AddForce(Vector3.up * 45, ForceMode.Impulse);
-            canUseJetPack = false;
-            Physics.gravity += new Vector3(0, 1.2f, 0);
-            OnNextBiome();
-        }
-    }
-
-    
-
 
     public void OnNextBiome()
     {
         nextBiomeEvent?.Invoke(this, EventArgs.Empty);
     }
-
-    public event EventHandler nextBiomeEvent;
 
     private void movement()
     {
@@ -128,21 +79,6 @@ public class Movement : MonoBehaviour
         }
     }
 
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "box")
-        {
-            if (timer == 0)
-            {
-                timer = 0.4f;
-                this.other = other;
-            }
-        }
-
-    }
-
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.tag == "ground")
@@ -158,11 +94,6 @@ public class Movement : MonoBehaviour
             isGrounded = false;
         }
     }
-
-
-
-
-
 
 }
 

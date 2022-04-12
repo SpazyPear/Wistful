@@ -21,5 +21,4 @@ public class PlayerCollisions : MonoBehaviour
             Destroy(collider.gameObject);
         }
     }
-
 }
