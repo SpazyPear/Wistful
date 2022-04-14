@@ -16,6 +16,7 @@ public class PopUpManager : MonoBehaviour
     public Tweener tweener;
     private List<GameObject> pastPlatforms = new List<GameObject>();
     private List<GameObject> toBeRemoved = new List<GameObject>();
+   
 
     [SerializeField]
     private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
@@ -25,8 +26,8 @@ public class PopUpManager : MonoBehaviour
 
     private bool vaultUp = false;
 
-    public const int width = 4;
-    public const int length = 2;
+    public const int width = 3;
+    public const int length = 3;
     public const int blockSize = 4;
     public int currentItemNum = 0;
     public bool deservesItem;
@@ -62,7 +63,7 @@ public class PopUpManager : MonoBehaviour
     void instantiateDataStructures()
     {
         currentLevelTerrain = gameTerrain[0].blocks;
-        currentLevelTerrain.Add(itemTerrain[currentLevel].blocks[currentItemNum]);
+        //currentLevelTerrain.Add(itemTerrain[currentLevel].blocks[currentItemNum]);
         normalizeProbabilities(ref currentLevelTerrain);
     }
 
@@ -164,7 +165,7 @@ public class PopUpManager : MonoBehaviour
     {
         GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
         obj.transform.localScale = scale;
-        Destroy(obj, 2f);
+        //Destroy(obj, 2f);
     }
 
     void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
@@ -172,28 +173,45 @@ public class PopUpManager : MonoBehaviour
 
         checkIfVaultSpawn();
 
-        TerrainBlock toSpawn;
-
-        for (int x = -width/2; x < width/2; x++)
+        for (int x = -width; x <= width; x++)
         {
-            for (int y = 0; y < length; y++)
+            for (int y = 0; y <= length; y++)
             {
-                toSpawn = getModel();
-                Vector3 pos = roundVector3(player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize) + toSpawn.size);
-
-                if (Physics.CheckBox(roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z) + toSpawn.size), toSpawn.size))
-                {
-                    if (toSpawn.containsItem)
-                        deservesItem = true;
-                    continue;
-                }
-
-                posArray.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
-
-                if (toSpawn.containsItem) 
-                    nextItem(toSpawn);
+                Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
+                pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
+                bool edgeCase = y == length ? true : false;
+                checkSpawnBlock(pos, edgeCase);
 
             }
+        }
+    }
+
+    void checkSpawnBlock(Vector3 pos, bool canBeItem)
+    {
+        TerrainBlock toSpawn = getModel(canBeItem);
+
+        Vector3 searchPos = pos;
+
+        if (toSpawn.containsItem)
+        {
+            pos = roundVector3(pos + new Vector3(toSpawn.size.x * blockSize / 2, 0, toSpawn.size.z * blockSize / 2));
+        }
+
+        if (Physics.CheckBox(pos, toSpawn.size, Quaternion.identity, 1, QueryTriggerInteraction.Collide))
+        {
+            if (toSpawn.containsItem)
+            {
+                deservesItem = true;
+                checkSpawnBlock(searchPos, false);
+            }
+            return;
+        }
+
+        posArray.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
+
+        if (toSpawn.containsItem)
+        {
+            currentItemNum++;
         }
     }
  
@@ -201,14 +219,14 @@ public class PopUpManager : MonoBehaviour
     public void popStarterArea()
     {
 
-        foreach (var obj in posArray)
+        /*foreach (var obj in posArray)
         {
             pastPlatforms.Add(obj);
         }
 
         posArray.Clear();
 
-        posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z - 4)), Quaternion.identity));
+        posArray.Add(Instantiate(getModel(false).prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z - 4)), Quaternion.identity));
         posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z)), Quaternion.identity));
         posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x + 4, -2f, player.position.z + 4)), Quaternion.identity));
         posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x, -2f, player.position.z - 4)), Quaternion.identity));
@@ -218,28 +236,20 @@ public class PopUpManager : MonoBehaviour
         posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z)), Quaternion.identity));
         posArray.Add(Instantiate(getModel().prefab, roundVector3(new Vector3(player.position.x - 4, -2f, player.position.z + 4)), Quaternion.identity));
 
-        tweenerManager();
+        tweenerManager();*/
     }
 
-    void nextItem(TerrainBlock item)
-    {
-        if (currentItemNum < itemTerrain[currentLevel].blocks.Count - 1)
-        {
-            currentItemNum++;
-            currentLevelTerrain.Add(itemTerrain[currentLevel].blocks.ElementAt(currentItemNum));
-        }
-        deservesItem = false;
-        currentLevelTerrain.Remove(item);
-        normalizeProbabilities(ref currentLevelTerrain);
-    }
 
-    TerrainBlock getModel()
+    TerrainBlock getModel(bool canBeItem)
     {
-        if (deservesItem) 
-            return currentLevelTerrain.ElementAt(currentLevelTerrain.Count - 1);
+
+        float result = UnityEngine.Random.Range(0, 1f);
+
+        if (canBeItem && currentItemNum < itemTerrain[currentLevel].blocks.Count) 
+            if (deservesItem || result > itemTerrain[currentLevel].blocks[currentItemNum].probability)
+                return itemTerrain[currentLevel].blocks[currentItemNum];
 
         int index = 0;
-        float result = UnityEngine.Random.Range(0, 1f);
         while (true)
         {
             result -= currentLevelTerrain.ElementAt(index).probability;
@@ -260,19 +270,7 @@ public class PopUpManager : MonoBehaviour
     int nearestMultiple(int num)
     {
 
-        num = num % 2 == 0 ? num : num + 1;
-       
-        if (num < 0)
-        {
-            int remainderNeg = num % 4;
-            return num + remainderNeg;
-        }
-
-
-        int remainder = num % 4;
-      
-
-        return num - remainder;
+        return Mathf.RoundToInt(num / blockSize) * blockSize;
     }
 
 }

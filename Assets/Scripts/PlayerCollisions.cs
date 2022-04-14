@@ -11,6 +11,17 @@ public class PlayerCollisions : MonoBehaviour
     public UIManager uiManager;
     public InventoryManager inventoryManager;
 
+    Door lastDoor;
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && lastDoor)
+        {
+            lastDoor.toggleDoor();
+        }
+    }
+
     private void OnTriggerStay(Collider collider)
     {
         if (Input.GetKeyDown(KeyCode.E)) {
@@ -23,10 +34,23 @@ public class PlayerCollisions : MonoBehaviour
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 Destroy(collider.gameObject);
             }
-            else if (collider.gameObject.GetComponent(typeof(Door)))
-            {
-                StartCoroutine((collider.gameObject.GetComponent(typeof(Door)) as Door).toggleDoor());
-            }
+            
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent(typeof(Door)))
+        {
+            lastDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.GetComponent(typeof(Door)))
+        {
+            lastDoor = null;
         }
     }
 }
