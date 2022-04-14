@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8564364008774322941}
   - component: {fileID: 3471204720154693798}
   - component: {fileID: 7996374772544621645}
+  - component: {fileID: 6761214337414721117}
   m_Layer: 0
   m_Name: Stairs
   m_TagString: Ladder
@@ -97,6 +98,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.008829718, y: 0.04754403, z: 0.19209448}
   m_Center: {x: -0.0020169385, y: -0.020827858, z: 0.026265794}
+--- !u!114 &6761214337414721117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147914675471894850}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e807664ca2acd834291174d19f6638b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: Ladder
+  prefab: {fileID: 0}
+  menuSprite: {fileID: 0}
+  description: 
 --- !u!1 &8991650595775555684
 GameObject:
   m_ObjectHideFlags: 0

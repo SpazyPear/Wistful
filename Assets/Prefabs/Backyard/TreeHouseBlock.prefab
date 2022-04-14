@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 7766394730926186716}
   - component: {fileID: 3256471011050830471}
   - component: {fileID: 8354788492517668139}
-  - component: {fileID: 306682751328060923}
   m_Layer: 0
   m_Name: Stairs
-  m_TagString: ground
+  m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59549999979668323}
-  m_LocalRotation: {x: -0.6729258, y: -0.21718873, z: 0.2171887, w: 0.6729258}
-  m_LocalPosition: {x: -0.18533723, y: 6.8807373, z: 3.2440972}
+  m_LocalRotation: {x: -0.67425495, y: -0.21302645, z: 0.21302642, w: 0.67425495}
+  m_LocalPosition: {x: -0.21034451, y: 6.8598876, z: 3.2440977}
   m_LocalScale: {x: 99.99999, y: 100, z: 99.99999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2491668057300391092}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -54.933, y: -90, z: 90}
 --- !u!33 &7766394730926186716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -98,19 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.008829715, y: 0.04754401, z: 0.19209445}
   m_Center: {x: -0.0020169476, y: -0.020827847, z: 0.02626578}
---- !u!65 &306682751328060923
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59549999979668323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.008829715, y: 0.04754401, z: 0.19209445}
-  m_Center: {x: -0.0020169476, y: -0.020827847, z: 0.02626578}
 --- !u!1 &1667096858417835544
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +111,7 @@ GameObject:
   - component: {fileID: 4399753833144714617}
   m_Layer: 0
   m_Name: Ladder
-  m_TagString: ground
+  m_TagString: VerticalLadder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -933,6 +919,7 @@ GameObject:
   - component: {fileID: 3920458726504158294}
   - component: {fileID: 8274470350684525151}
   - component: {fileID: 2016535105678216596}
+  - component: {fileID: 5186927906719781580}
   m_Layer: 0
   m_Name: PlacementTrigger
   m_TagString: LadderPlacement
@@ -948,8 +935,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4997322222749888366}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 2.04, z: 3.16}
-  m_LocalScale: {x: 45.3, y: 9.3, z: 45.3}
+  m_LocalPosition: {x: 2.14, y: 2.04, z: 3.16}
+  m_LocalScale: {x: 56, y: 12, z: 56}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5377113943704376838}
@@ -1016,8 +1003,21 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.03, z: 0.03}
+  m_Size: {x: 0.08, y: 0.15, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5186927906719781580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997322222749888366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f15f1facbfaf34eb77ccba3ee44d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ladder: {fileID: 59549999979668323}
 --- !u!1 &6169116276881989997
 GameObject:
   m_ObjectHideFlags: 0

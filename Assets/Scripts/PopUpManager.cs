@@ -10,35 +10,36 @@ public class PopUpManager : MonoBehaviour
     public Transform player;
     public GameObject prefab;
     private List<GameObject> posArray = new List<GameObject>();
-    private Vector2 currentPos;
     private float posX;
     private float posZ;
     public float posY;
     public Tweener tweener;
     private List<GameObject> pastPlatforms = new List<GameObject>();
     private List<GameObject> toBeRemoved = new List<GameObject>();
+
     [SerializeField]
     private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
 
-    private Vector3 forward;
-    private Vector3 left;
-    private Vector3 right;
+    [SerializeField]
+    private List<LevelTerrain> itemTerrain = new List<LevelTerrain>();
+
     private bool vaultUp = false;
 
+    public const int width = 4;
+    public const int length = 2;
+    public const int blockSize = 4;
+    public int currentItemNum = 0;
+    public bool deservesItem;
 
-    
     public GameObject vaultPrefab;
     public float[] levelHeights = { 0 };
     public int currentLevel;
-    private Del popMethodGroup;
 
     private List<TerrainBlock> currentLevelTerrain;
 
     public float vaultSpawnProb = 0.01f;
 
     public Movement movement;
-
-    delegate void Del();
 
 
     void Awake()
@@ -49,30 +50,20 @@ public class PopUpManager : MonoBehaviour
     void Start()
     {
         currentLevel = 0;
-        movement.nextBiomeEvent += nextBiome;
         posX = player.position.x;
         posZ = player.position.z;
-        Del builder = posChangedInstantiate;
-        popMethodGroup = builder;
-
     }
 
     void Update()
     {
-        popMethodGroup();
+        posChangedInstantiate();
     }
 
     void instantiateDataStructures()
     {
-
-        for (int x = 0; x < gameTerrain.Count; x++) {
-
-            // Normalise probability values between 0 and 1
-            normalizeProbabilities(ref gameTerrain[x].blocks);
-            
-        }
-
         currentLevelTerrain = gameTerrain[0].blocks;
+        currentLevelTerrain.Add(itemTerrain[currentLevel].blocks[currentItemNum]);
+        normalizeProbabilities(ref currentLevelTerrain);
     }
 
     void normalizeProbabilities(ref List<TerrainBlock> items)
@@ -135,14 +126,6 @@ public class PopUpManager : MonoBehaviour
 
             posArray.Clear();
 
-            forward = roundVector3(player.forward * 5 + player.position);
-            left = roundVector3(player.right * 2 + player.forward * 5 + player.position);
-            right = roundVector3(-player.right * 2 + player.forward * 5 + player.position);
-            /*Destroy(Instantiate(prefab, forward + Vector3.up, Quaternion.identity), 2f);
-            Destroy(Instantiate(prefab, left + Vector3.up, Quaternion.identity), 2f);
-            Destroy(Instantiate(prefab, right + Vector3.up, Quaternion.identity), 2f);*/
-
-
             popBiome();
 
             tweenerManager();
@@ -154,34 +137,8 @@ public class PopUpManager : MonoBehaviour
     {
         foreach (GameObject obj in posArray)
         {
-            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), obj.transform.position.z)), 1.5f);
+            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeights[currentLevel], obj.transform.position.z)), 1.5f);
         }
-
-        /*for (int count = pastPlatforms.Count - 1; count > 0; count--) //Removes blocks you're far from
-        {
-            if (Vector3.Distance(player.transform.position, pastPlatforms.ElementAt(count).transform.position) > 35)
-            {
-
-                GameObject elem = pastPlatforms.ElementAt(count);
-                tweener.AddTween(elem.transform, elem.transform.position, new Vector3(elem.transform.position.x, -20f, elem.transform.position.z), 6f);
-                pastPlatforms.RemoveAt(count);
-                
-            }
-           
-            
-        }*/
-
-        if (vaultPrefab != null && vaultUp == true)
-        {
-            if (Vector3.Distance(player.transform.position, GameObject.FindGameObjectWithTag("puzzle").transform.position) > 60)
-            {
-                tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, -20f + levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
-                vaultUp = false;
-            }
-        }
-
-     
-
     }
 
     void checkIfVaultSpawn()
@@ -189,24 +146,25 @@ public class PopUpManager : MonoBehaviour
 
         if (vaultPrefab != null)
         {
-            if (Physics.CheckBox(new Vector3(forward.x, levelHeights[currentLevel] / 5, forward.z) * 5, new Vector3(12, 1, 12)) == false && vaultUp == false)
+            Vector3 pos = roundVector3(player.position + (player.forward.normalized * 4) + (player.right * 4) + new Vector3(0, -player.position.y - 10, 0)); // doesn't take into account size
+
+            if (Physics.CheckBox(pos, new Vector3(12, 1, 12)) == false && vaultUp == false)
             {
                 if (UnityEngine.Random.Range(0, 1f) < vaultSpawnProb)
                 {
-                    vaultPrefab = Instantiate(vaultPrefab, new Vector3(forward.x, -2f, forward.z) + roundVector3(player.forward * 30), Quaternion.identity);
+                    vaultPrefab = Instantiate(vaultPrefab, new Vector3(pos.x, -2f, pos.z) + roundVector3(player.forward * 30), Quaternion.identity);
                     tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
                     vaultUp = true;
                 }
             }
         }
-      /*  else if (vaultPrefab != null && vaultUp == false)
-        {
-            if (Vector3.Distance(player.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z)) < 35)
-            {
-                tweener.AddTween(vaultPrefab.transform, vaultPrefab.transform.position, new Vector3(vaultPrefab.transform.position.x, levelHeights[currentLevel], vaultPrefab.transform.position.z), 3f);
-                vaultUp = true;
-            }
-        }*/
+    }
+    
+    void createDebugSphere(Vector3 pos, Vector3 scale)
+    {
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+        obj.transform.localScale = scale;
+        Destroy(obj, 2f);
     }
 
     void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
@@ -214,29 +172,29 @@ public class PopUpManager : MonoBehaviour
 
         checkIfVaultSpawn();
 
-        TerrainBlock toSpawn = getModel();
+        TerrainBlock toSpawn;
 
-        if (Physics.CheckBox(new Vector3(forward.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), forward.z + toSpawn.size.z), toSpawn.size) == false)
+        for (int x = -width/2; x < width/2; x++)
         {
-            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(forward.x + toSpawn.size.x, -2f, forward.z + toSpawn.size.z - 1), Quaternion.identity));
-            if (toSpawn.containsItem)
-                toSpawn.canSpawn = false;
+            for (int y = 0; y < length; y++)
+            {
+                toSpawn = getModel();
+                Vector3 pos = roundVector3(player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize) + toSpawn.size);
+
+                if (Physics.CheckBox(roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z) + toSpawn.size), toSpawn.size))
+                {
+                    if (toSpawn.containsItem)
+                        deservesItem = true;
+                    continue;
+                }
+
+                posArray.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
+
+                if (toSpawn.containsItem) 
+                    nextItem(toSpawn);
+
+            }
         }
-        toSpawn = getModel();
-        if (Physics.CheckBox(new Vector3(left.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), left.z + toSpawn.size.z), toSpawn.size) == false)
-        {
-            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(left.x + toSpawn.size.x, -2f, left.z + toSpawn.size.z - 1), Quaternion.identity));
-            if (toSpawn.containsItem)
-                toSpawn.canSpawn = false;
-        }
-        toSpawn = getModel();
-        if (Physics.CheckBox(new Vector3(right.x + toSpawn.size.x, Mathf.Clamp(player.position.y - 3, levelHeights[currentLevel], levelHeights[currentLevel] + 16), right.z + toSpawn.size.z), toSpawn.size) == false)
-        {
-            posArray.Add(Instantiate(toSpawn.prefab, new Vector3(right.x + toSpawn.size.x, -2f, right.z + toSpawn.size.z), Quaternion.identity));
-            if (toSpawn.containsItem)
-                toSpawn.canSpawn = false;
-        }
-        
     }
  
 
@@ -263,20 +221,33 @@ public class PopUpManager : MonoBehaviour
         tweenerManager();
     }
 
+    void nextItem(TerrainBlock item)
+    {
+        if (currentItemNum < itemTerrain[currentLevel].blocks.Count - 1)
+        {
+            currentItemNum++;
+            currentLevelTerrain.Add(itemTerrain[currentLevel].blocks.ElementAt(currentItemNum));
+        }
+        deservesItem = false;
+        currentLevelTerrain.Remove(item);
+        normalizeProbabilities(ref currentLevelTerrain);
+    }
+
     TerrainBlock getModel()
     {
+        if (deservesItem) 
+            return currentLevelTerrain.ElementAt(currentLevelTerrain.Count - 1);
+
         int index = 0;
         float result = UnityEngine.Random.Range(0, 1f);
         while (true)
         {
             result -= currentLevelTerrain.ElementAt(index).probability;
-            if (result < 0)
-                if (currentLevelTerrain.ElementAt(index).canSpawn != false)
-                    return currentLevelTerrain.ElementAt(index);
-                else
-                {
-                    return getModel();
-                }
+            if (result < 0) {
+                TerrainBlock block = currentLevelTerrain.ElementAt(index);
+
+                return block;
+            }
             index++;
         }
     }
