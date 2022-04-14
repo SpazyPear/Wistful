@@ -13,12 +13,20 @@ public class PlayerCollisions : MonoBehaviour
 
     private void OnTriggerStay(Collider collider)
     {
-        if (Input.GetKeyDown(KeyCode.E) && collider.gameObject.GetComponents(typeof(Item)).Length > 0)
-        {
-            inventoryManager.pickUpItem((collider.gameObject.GetComponent(typeof(Item))).GetType());
-            itemsHeld.Add((collider.gameObject.GetComponent(typeof(Item)) as Item).itemID);
-            Debug.Log(itemsHeld[itemsHeld.Count - 1]);
-            Destroy(collider.gameObject);
+        if (Input.GetKeyDown(KeyCode.E)) {
+            if (collider.gameObject.GetComponent(typeof(Item)))
+            {
+                gameObject.AddComponent(collider.gameObject.GetComponent(typeof(Item)).GetType());
+                Item hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+                inventoryManager.pickUpItem(hitItem);
+                itemsHeld.Add(hitItem.itemID);
+                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                Destroy(collider.gameObject);
+            }
+            else if (collider.gameObject.GetComponent(typeof(Door)))
+            {
+                StartCoroutine((collider.gameObject.GetComponent(typeof(Door)) as Door).toggleDoor());
+            }
         }
     }
 }

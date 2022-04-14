@@ -1007,6 +1007,7 @@ MonoBehaviour:
       size: {x: 3, y: 3, z: 3}
       containsItem: 1
   currentItemNum: 0
+  deservesItem: 0
   vaultPrefab: {fileID: 0}
   levelHeights:
   - 0
@@ -10985,7 +10986,9 @@ GameObject:
   - component: {fileID: 1193766979}
   - component: {fileID: 1192439845}
   - component: {fileID: 1191342693}
+  - component: {fileID: 1193766982}
   - component: {fileID: 537557866}
+  - component: {fileID: 1193766980}
   m_Layer: 0
   m_Name: Bedroom107
   m_TagString: Untagged
@@ -14036,14 +14039,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193339939}
-  m_LocalRotation: {x: 0.000000016927478, y: -0.632563, z: 0.000000013825102, w: 0.774509}
+  m_LocalRotation: {x: 0.000000021304682, y: -0.22318481, z: 0.0000000048778848, w: 0.97477615}
   m_LocalPosition: {x: -1.79, y: 1.25, z: 1.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1193767015}
   m_RootOrder: 97
-  m_LocalEulerAnglesHint: {x: 0, y: -78.479, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -25.792, z: 0}
+--- !u!114 &1193766980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193339939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80e2236ca89cb14f953dc11831c4314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 13980495300744388, guid: 74bbb96e3fd75dc4db27cd11364a1cfa, type: 3}
 --- !u!4 &1193766981
 Transform:
   m_ObjectHideFlags: 0
@@ -14059,6 +14075,19 @@ Transform:
   m_Father: {fileID: 1193767015}
   m_RootOrder: 96
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1193766982
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193339939}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.81070155, y: 2.5, z: 0.030010004}
+  m_Center: {x: -0.00000011920929, y: 0, z: -0.00000011920929}
 --- !u!4 &1193766983
 Transform:
   m_ObjectHideFlags: 0
@@ -16175,7 +16204,6 @@ MonoBehaviour:
   popUpManager: {fileID: 356297473}
   statManager: {fileID: 0}
   playerCollisions: {fileID: 1365182999}
-  uiManager: {fileID: 392340027}
 --- !u!54 &1365182994
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -9,11 +9,7 @@ public class Ladder : Item
     public Vector3 endOfLadderPos;
     bool interactDown = false;
 
-    private void Awake()
-    {
-        itemID = "Ladder";
-    }
-    private void Update()
+    void Update()
     {
         checkClimbLadder();
     }
@@ -67,7 +63,7 @@ public class Ladder : Item
         }
         else if (collider.gameObject.CompareTag("VerticalLadder"))
         {
-            float halfLength = Mathf.Sqrt(Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.y, 2) + Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.z, 2)) * 0.9f;
+            float halfLength = collider.gameObject.GetComponent<MeshRenderer>().bounds.size.y;
             endOfLadderPos = collider.transform.position + new Vector3(0, halfLength, 0);
             onLadder = true;
         }
