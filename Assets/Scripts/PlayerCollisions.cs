@@ -11,30 +11,26 @@ public class PlayerCollisions : MonoBehaviour
     public UIManager uiManager;
     public InventoryManager inventoryManager;
 
-    Door lastDoor;
+    Door hitDoor;
+    Item hitItem;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && lastDoor)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            lastDoor.toggleDoor();
-        }
-    }
+            if (hitDoor)
+                hitDoor.toggleDoor();
 
-    private void OnTriggerStay(Collider collider)
-    {
-        if (Input.GetKeyDown(KeyCode.E)) {
-            if (collider.gameObject.GetComponent(typeof(Item)))
+            else if (hitItem)
             {
-                gameObject.AddComponent(collider.gameObject.GetComponent(typeof(Item)).GetType());
-                Item hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
                 inventoryManager.pickUpItem(hitItem);
                 itemsHeld.Add(hitItem.itemID);
+                gameObject.AddComponent(hitItem.GetType());
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                Destroy(collider.gameObject);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
             }
-            
         }
     }
 
@@ -42,7 +38,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (collision.gameObject.GetComponent(typeof(Door)))
         {
-            lastDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
+            hitDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
         }
     }
 
@@ -50,7 +46,23 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (collision.gameObject.GetComponent(typeof(Door)))
         {
-            lastDoor = null;
+            hitDoor = null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.GetComponent(typeof(Item)))
+        {
+            hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.GetComponent(typeof(Item)))
+        {
+            hitItem = null;
         }
     }
 }

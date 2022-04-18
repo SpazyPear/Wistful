@@ -2,13 +2,15 @@ Shader "Unlit/FlashingShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _Color ("Colour", Color) = (0, 0, 0, 0.5)
+
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags {"Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True"}
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
-
         Pass
         {
             CGPROGRAM
@@ -22,7 +24,7 @@ Shader "Unlit/FlashingShader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
             };
 
             struct v2f
@@ -32,24 +34,26 @@ Shader "Unlit/FlashingShader"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
+                o.uv = v.uv;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+
+                float dist = distance(_Time.x, i.uv.y);
+        
+                float4 col = float4(1, 1, 1, ((pow(i.uv.y, 10) * 20)));
+                //(sin(_Time.x * 20) + 1) / 2)
                 // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
+                //float4 col = (1, 1, 1, 1);
+                
+                //UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG

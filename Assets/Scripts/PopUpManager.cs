@@ -63,7 +63,6 @@ public class PopUpManager : MonoBehaviour
     void instantiateDataStructures()
     {
         currentLevelTerrain = gameTerrain[0].blocks;
-        //currentLevelTerrain.Add(itemTerrain[currentLevel].blocks[currentItemNum]);
         normalizeProbabilities(ref currentLevelTerrain);
     }
 
@@ -194,7 +193,7 @@ public class PopUpManager : MonoBehaviour
 
         if (toSpawn.containsItem)
         {
-            pos = roundVector3(pos + new Vector3(toSpawn.size.x * blockSize / 2, 0, toSpawn.size.z * blockSize / 2));
+            pos = roundVector3(pos + new Vector3((toSpawn.size.x * blockSize), 0, toSpawn.size.z * blockSize));
         }
 
         if (Physics.CheckBox(pos, toSpawn.size, Quaternion.identity, 1, QueryTriggerInteraction.Collide))
