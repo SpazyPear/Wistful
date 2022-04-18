@@ -38,6 +38,9 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (collision.gameObject.GetComponent(typeof(Door)))
         {
+            if (collision.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
+                return;
+
             hitDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
         }
     }

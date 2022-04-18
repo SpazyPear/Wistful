@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
     bool isTurning;
     public GameObject prefab;
     Vector3 pivotPoint;
+    public bool isLocked;
 
     // Start is called before the first frame update
     void Start()

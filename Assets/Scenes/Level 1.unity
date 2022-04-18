@@ -912,22 +912,18 @@ MonoBehaviour:
       probability: 0.3
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
-    - prefab: {fileID: 8415186720087221794, guid: 672d173be6f25a247a0e583f5360401f, type: 3}
-      probability: 0.91
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
   itemTerrain:
   - blocks:
     - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
-      probability: 0.002
+      probability: 0.2
       size: {x: 2, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
-      probability: 0.002
+      probability: 0.2
       size: {x: 3, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 6373505620157982065, guid: 5be406ffd29edaf4b8c25a74528b383e, type: 3}
-      probability: 0.002
+      probability: 0.2
       size: {x: 20, y: 5, z: 20}
       containsItem: 1
   currentItemNum: 0
@@ -13654,6 +13650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 13980495300744388, guid: 74bbb96e3fd75dc4db27cd11364a1cfa, type: 3}
+  isLocked: 0
 --- !u!4 &1193766981
 Transform:
   m_ObjectHideFlags: 0
@@ -15759,22 +15756,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8605812191029334078, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
   m_PrefabInstance: {fileID: 8605812191856728616}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1365183004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365182992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cfb70a79ae849e4e89e119ca766e24b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemID: 
-  prefab: {fileID: 0}
-  menuSprite: {fileID: 0}
-  description: 
 --- !u!4 &1406672698 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2045821335944613843, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}

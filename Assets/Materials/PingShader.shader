@@ -1,4 +1,4 @@
-Shader "Unlit/FlashingShader"
+Shader "Unlit/PingShader"
 {
     Properties
     {
@@ -6,6 +6,8 @@ Shader "Unlit/FlashingShader"
         _Power("Power", Float) = 0.5
         _LineThickness("Line Thickness", Float) = 2
         _Speed ("Speed", Float) = 30
+        _Dimmer ("Dimmer", Float) = 2
+        _IsAdditive ("Uses Texture", Integer) = 0
     }
     SubShader
     {
@@ -41,6 +43,8 @@ Shader "Unlit/FlashingShader"
             float _LineThickness;
             float _Power;
             float _Speed;
+            float _Dimmer;
+            int _IsAdditive;
 
             v2f vert (appdata v)
             {
@@ -53,11 +57,10 @@ Shader "Unlit/FlashingShader"
 
             fixed4 frag(v2f i) : SV_Target
             {
-   
-
                 float allowedDistance = ((tan(_Time.x * _Speed) + 1) / 2);
                 float4 col = tex2D(_MainTex, i.uv);
-                col.a = 0;
+                if (_IsAdditive == 0)
+                    col.a = 0;
                 col = col + (clamp((1 - pow(distance(i.uv.y, allowedDistance), _Power) * _LineThickness), 0, 1) * float4(1, 1, 1, 1) / 2);
                 
                 UNITY_APPLY_FOG(i.fogCoord, col);
