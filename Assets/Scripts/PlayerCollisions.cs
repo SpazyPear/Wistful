@@ -11,14 +11,61 @@ public class PlayerCollisions : MonoBehaviour
     public UIManager uiManager;
     public InventoryManager inventoryManager;
 
-    private void OnTriggerStay(Collider collider)
+    Door hitDoor;
+    Item hitItem;
+
+
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && collider.gameObject.GetComponents(typeof(Item)).Length > 0)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            inventoryManager.pickUpItem((collider.gameObject.GetComponent(typeof(Item))).GetType());
-            itemsHeld.Add((collider.gameObject.GetComponent(typeof(Item)) as Item).itemID);
-            Debug.Log(itemsHeld[itemsHeld.Count - 1]);
-            Destroy(collider.gameObject);
+            if (hitDoor)
+                hitDoor.toggleDoor();
+
+            else if (hitItem)
+            {
+                inventoryManager.pickUpItem(hitItem);
+                itemsHeld.Add(hitItem.itemID);
+                gameObject.AddComponent(hitItem.GetType());
+                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent(typeof(Door)))
+        {
+            if (collision.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
+                return;
+
+            hitDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.GetComponent(typeof(Door)))
+        {
+            hitDoor = null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.GetComponent(typeof(Item)))
+        {
+            hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.GetComponent(typeof(Item)))
+        {
+            hitItem = null;
         }
     }
 }

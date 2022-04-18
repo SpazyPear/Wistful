@@ -33,7 +33,6 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //camMove.handleCamMove(target);
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
     }
@@ -87,7 +86,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.tag == "ground")
         { 

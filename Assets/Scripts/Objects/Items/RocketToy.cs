@@ -29,9 +29,9 @@ public class RocketToy : Item
                 mouseDown = !mouseDown;
             }
 
-            if (mouseDown)
+            if (mouseDown && rocketFuel > 0)
             {
-                rb.AddForce(new Vector3(transform.forward.normalized.x, cam.transform.forward.y, transform.forward.normalized.z) * 60 * Time.deltaTime, ForceMode.Impulse);
+                rb.AddForce(new Vector3(transform.forward.x * (1 - cam.transform.forward.y), cam.transform.forward.y, transform.forward.z * (1 - cam.transform.forward.y)).normalized * 60 * Time.deltaTime, ForceMode.Impulse);
                 rocketFuel -= 1.2f * Time.deltaTime;
             }
 

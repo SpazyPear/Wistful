@@ -1,12 +1,16 @@
-Shader "Unlit/FlashingShader"
+Shader "Unlit/S_StatBar"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _Color ("Colour", Color) = (0, 0, 0, 0.5)
+        _Size ("Object Size", Vector) = (1, 1, 1, 0)
+        
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags {"Queue"="Transparent" "RenderType"="Transparent"}
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
         Pass
@@ -16,6 +20,7 @@ Shader "Unlit/FlashingShader"
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
+   
 
             #include "UnityCG.cginc"
 
@@ -32,22 +37,30 @@ Shader "Unlit/FlashingShader"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            float4 _Size;
+            float4 _Color;
+            
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                //o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
+
+                //float2 uv = float2(i.uv.x / _Size.x, i.uv.y / _Size.y) + float2(_Time.x, 0);
+
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float4 col = _Color
+
+               // col.a = clamp(1 - (pow(uv.y, 4) * 20), 0, 1);
+                
+
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

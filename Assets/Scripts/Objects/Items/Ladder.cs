@@ -9,20 +9,20 @@ public class Ladder : Item
     public Vector3 endOfLadderPos;
     bool interactDown = false;
 
-    private void Awake()
-    {
-        itemID = "Ladder";
-    }
-    private void Update()
+    void Update()
     {
         checkClimbLadder();
     }
 
     public void checkClimbLadder()
     {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            interactDown = !interactDown;
+            interactDown = true;
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            interactDown = false;
         }
         if (interactDown && onLadder)
             StartCoroutine(climbLadder());
@@ -40,6 +40,7 @@ public class Ladder : Item
             yield return null;
         }
     }
+
     void OnTriggerStay(Collider collider)
     {
         if (collider.gameObject.CompareTag("LadderPlacement") && Input.GetKeyDown(KeyCode.E) && GetComponent<PlayerCollisions>().itemsHeld.Contains("Ladder"))
@@ -47,6 +48,7 @@ public class Ladder : Item
             collider.gameObject.GetComponent<LadderPlacementTrigger>().ladder.SetActive(true);
         }
     }
+
     public float PosNegAngle(Vector3 a1, Vector3 a2, Vector3 normal)
     {
         float angle = Vector3.Angle(a1, a2);
@@ -62,12 +64,11 @@ public class Ladder : Item
             float halfLength = Mathf.Sqrt(Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.y, 2) + Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.z, 2)) * 0.9f;
             float angle = collider.gameObject.transform.rotation.eulerAngles.x * Mathf.Deg2Rad;
             endOfLadderPos = collider.transform.position - new Vector3(halfLength * Mathf.Cos(angle), halfLength * Mathf.Sin(angle), 0);
-
             onLadder = true;
         }
         else if (collider.gameObject.CompareTag("VerticalLadder"))
         {
-            float halfLength = Mathf.Sqrt(Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.y, 2) + Mathf.Pow(collider.gameObject.GetComponent<MeshRenderer>().bounds.size.z, 2)) * 0.9f;
+            float halfLength = collider.gameObject.GetComponent<MeshRenderer>().bounds.size.y;
             endOfLadderPos = collider.transform.position + new Vector3(0, halfLength, 0);
             onLadder = true;
         }
