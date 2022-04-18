@@ -912,27 +912,34 @@ MonoBehaviour:
       probability: 0.3
       size: {x: 1, y: 1, z: 1}
       containsItem: 0
+    - prefab: {fileID: 8415186720087221794, guid: 672d173be6f25a247a0e583f5360401f, type: 3}
+      probability: 0.91
+      size: {x: 1, y: 1, z: 1}
+      containsItem: 0
   itemTerrain:
   - blocks:
     - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
-      probability: 0.2
+      probability: 0.002
       size: {x: 2, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
-      probability: 0.2
+      probability: 0.002
       size: {x: 3, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 6373505620157982065, guid: 5be406ffd29edaf4b8c25a74528b383e, type: 3}
-      probability: 0.2
+      probability: 0.002
       size: {x: 20, y: 5, z: 20}
       containsItem: 1
   currentItemNum: 0
   deservesItem: 0
-  vaultPrefab: {fileID: 0}
   levelHeights:
   - 0
   currentLevel: 0
-  vaultSpawnProb: 0.01
+  vaultBlock:
+    prefab: {fileID: 1193339921}
+    probability: 0
+    size: {x: 0, y: 0, z: 0}
+    containsItem: 0
   movement: {fileID: 1365182993}
 --- !u!4 &356297474
 Transform:
@@ -13627,7 +13634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193339939}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.386, y: 1.25, z: 1.619}
+  m_LocalPosition: {x: -1.41, y: 1.233, z: 1.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

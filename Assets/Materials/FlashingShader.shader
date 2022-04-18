@@ -2,8 +2,10 @@ Shader "Unlit/FlashingShader"
 {
     Properties
     {
-        _Color ("Colour", Color) = (0, 0, 0, 0.5)
-
+        _MainTex ("Texture", 2D) = "ZeroRGBA" {}
+        _Power("Power", Float) = 0.5
+        _LineThickness("Line Thickness", Float) = 2
+        _Speed ("Speed", Float) = 30
     }
     SubShader
     {
@@ -34,26 +36,31 @@ Shader "Unlit/FlashingShader"
                 float4 vertex : SV_POSITION;
             };
 
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            float _LineThickness;
+            float _Power;
+            float _Speed;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 return o;
             }
 
             fixed4 frag(v2f i) : SV_Target
             {
+   
 
-                float dist = distance(_Time.x, i.uv.y);
-        
-                float4 col = float4(1, 1, 1, ((pow(i.uv.y, 10) * 20)));
-                //(sin(_Time.x * 20) + 1) / 2)
-                // apply fog
-                //float4 col = (1, 1, 1, 1);
+                float allowedDistance = ((tan(_Time.x * _Speed) + 1) / 2);
+                float4 col = tex2D(_MainTex, i.uv);
+                col.a = 0;
+                col = col + (clamp((1 - pow(distance(i.uv.y, allowedDistance), _Power) * _LineThickness), 0, 1) * float4(1, 1, 1, 1) / 2);
                 
-                //UNITY_APPLY_FOG(i.fogCoord, col);
+                UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG
