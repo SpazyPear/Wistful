@@ -1,3 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="height: 50%; width: 50%; left: 25%; top: 25%;" />
+    <Style src="project://database/Assets/loginpage.uss?fileID=7433441132597879392&amp;guid=7edcf38352d55dd458282e7e704e03d6&amp;type=3#loginpage" />
+    <ui:VisualElement style="height: 20%; width: 50%; left: 25%; top: 25%; justify-content: space-around; align-items: stretch; -unity-text-align: upper-center;">
+        <ui:Label text="Welcome back, Mission Director." display-tooltip-when-elided="true" style="align-items: flex-start; -unity-text-align: upper-center; flex-wrap: nowrap; font-size: 25px;" />
+        <ui:TextField label="Text Field" name="pw" password="false" text="Password" readonly="false" style="justify-content: flex-start; align-items: stretch; display: flex; visibility: visible; overflow: hidden; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-basis: auto; max-width: none; width: 50%; -unity-text-align: upper-left; margin-left: 25%; margin-right: 25%;" />
+    </ui:VisualElement>
 </ui:UXML>
