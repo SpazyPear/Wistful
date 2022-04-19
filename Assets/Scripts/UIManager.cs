@@ -9,11 +9,17 @@ public class UIManager : MonoBehaviour
     public Slider rocketFuelBar;
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
+    public Text findObject1Text;
+     public Text findObject2Text;
+      public Text findObject3Text;
+       public Text findObject4Text;
+
+        public Text collectedObjectText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        collectedObjectText.enabled = false;
     }
 
     // Update is called once per frame
@@ -22,6 +28,7 @@ public class UIManager : MonoBehaviour
         
     }
 
+     
     public void UpdateRocketBar(float value)
     {
         rocketFuelBar.value = value;
