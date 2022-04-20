@@ -16,16 +16,32 @@ public class UIManager : MonoBehaviour
 
         public Text collectedObjectText;
 
+        public Text heartRateText;
+
+        [SerializeField]
+        int heartRate;
+
     // Start is called before the first frame update
     void Start()
     {
         collectedObjectText.enabled = false;
+        heartRate = 0;
+        InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(heartRate>120)
+        {
+           Debug.Log("dead");
+        }
+    }
+
+    void UpdateHeartBeat() 
+    {
+        heartRate = UnityEngine.Random.Range(60, 100);
+        heartRateText.text = heartRate.ToString();
     }
 
      
