@@ -7,7 +7,12 @@ public class Ladder : Item
 
     public bool onLadder = false;
     public Vector3 endOfLadderPos;
-    bool interactDown = false;
+    public Controls controls;
+
+    private void Start()
+    {
+        controls = GameObject.FindGameObjectWithTag("Controls").GetComponent<Controls>();
+    }
 
     void Update()
     {
@@ -16,11 +21,8 @@ public class Ladder : Item
 
     public void checkClimbLadder()
     {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyUp(KeyCode.E))
-        {
-            interactDown = !interactDown;
-        }
-        if (interactDown && onLadder)
+
+        if (controls.interactDown && onLadder)
             StartCoroutine(climbLadder());
 
     }
@@ -29,7 +31,7 @@ public class Ladder : Item
     {
         float progress = 0;
         Vector3 startPos = transform.position;
-        while (interactDown && progress < 0.98f)
+        while (controls.interactDown && progress < 0.98f)
         {
             transform.position = Vector3.Lerp(startPos, endOfLadderPos, progress);
             progress += Time.deltaTime;
@@ -38,7 +40,7 @@ public class Ladder : Item
     }
     void OnTriggerStay(Collider collider)
     {
-        if (collider.gameObject.CompareTag("LadderPlacement") && Input.GetKeyDown(KeyCode.E) && GetComponent<PlayerCollisions>().itemsHeld.Contains("Ladder"))
+        if (collider.gameObject.CompareTag("LadderPlacement") && controls.interactDown && GetComponent<PlayerCollisions>().itemsHeld.Contains("Ladder"))
         {
             collider.gameObject.GetComponent<LadderPlacementTrigger>().ladder.SetActive(true);
         }

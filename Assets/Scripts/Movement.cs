@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Movement : MonoBehaviour
 {
@@ -26,8 +27,13 @@ public class Movement : MonoBehaviour
     public PopUpManager popUpManager;
     public StatManger statManager;
     public PlayerCollisions playerCollisions;
+    public Controls controls;
+
 
     public event EventHandler nextBiomeEvent;
+
+
+    
 
 
     // Start is called before the first frame update
@@ -35,6 +41,7 @@ public class Movement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
+        controls = GameObject.FindGameObjectWithTag("Controls").GetComponent<Controls>();
     }
 
     // Update is called once per frame
@@ -49,12 +56,14 @@ public class Movement : MonoBehaviour
 
     void collectInput()
     {
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        controls.LeftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 axisValue);
+        //moveHorizontal = axisValue.x;
+        moveVertical = axisValue.y;
 
-        moveX = Input.GetAxis("Mouse X");
-        moveY = Input.GetAxis("Mouse Y");
-        
+        controls.RightController.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 lookAxisValue);
+        moveX = lookAxisValue.x;
+        //moveY = lookAxisValue.y;
+
     }
 
     public void OnNextBiome()
@@ -72,7 +81,9 @@ public class Movement : MonoBehaviour
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        controls.RightController.TryGetFeatureValue(CommonUsages.triggerButton, out bool buttonPressed);
+
+        if (buttonPressed && isGrounded)
         {
             rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
         }

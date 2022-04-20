@@ -10,13 +10,14 @@ public class PlayerCollisions : MonoBehaviour
 
     public UIManager uiManager;
     public InventoryManager inventoryManager;
+    public Controls controls;
 
     Door lastDoor;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && lastDoor)
+        if (controls.interactDown && lastDoor)
         {
             lastDoor.toggleDoor();
         }
@@ -24,7 +25,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void OnTriggerStay(Collider collider)
     {
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (controls.interactDown) {
             if (collider.gameObject.GetComponent(typeof(Item)))
             {
                 gameObject.AddComponent(collider.gameObject.GetComponent(typeof(Item)).GetType());

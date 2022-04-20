@@ -9,9 +9,12 @@ public class RocketToy : Item
     UIManager uiManager;
     Rigidbody rb;
     Camera cam;
+    Controls controls;
+    
 
     void Start()
     {
+        controls = GameObject.FindGameObjectWithTag("Controls").GetComponent<Controls>();
         rb = GetComponent<Rigidbody>();
         cam = transform.GetChild(0).GetComponent<Camera>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
@@ -26,7 +29,7 @@ public class RocketToy : Item
 
     void useRocket()
     {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
+            if (controls.jumpDown)
             {
                 mouseDown = !mouseDown;
             }
