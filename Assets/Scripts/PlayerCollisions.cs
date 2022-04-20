@@ -34,7 +34,6 @@ public class PlayerCollisions : MonoBehaviour
                 gameObject.AddComponent(hitItem.GetType());
                 CollectLevelOneItems();
                 uiManager.collectedObjectText.enabled = true;
-                 uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name; 
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 Destroy(hitItem.gameObject);
                 hitItem = null;
@@ -83,21 +82,24 @@ public class PlayerCollisions : MonoBehaviour
                 {
                     case "Stairs":
                     uiManager.findObject2Text.enabled = false;
+                    uiManager.collectedObjectText.text = "Collects Ladder"; 
                     foundLadder=true;
                     break;
                     case "Rocket":
                     uiManager.findObject3Text.enabled = false;
+                     uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name; 
                     foundRocket=true;
                     break;
                     case "KitePrefab":
                     uiManager.findObject4Text.enabled = false;
+                    uiManager.collectedObjectText.text = "Collects Kite"; 
                     foundKite = true;
                     break;
                     case "Object029": //should be photo
                     uiManager.findObject1Text.enabled = false;
+                    uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name; 
                     foundPhoto = true;
                     break;
-
                 }
         if(foundKite && foundLadder && foundPhoto && foundRocket)
         {

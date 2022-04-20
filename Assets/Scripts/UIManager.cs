@@ -26,7 +26,14 @@ public class UIManager : MonoBehaviour
     {
         collectedObjectText.enabled = false;
         heartRate = 0;
-        InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
+        if(!findObject3Text.enabled)
+        {
+        InvokeRepeating("UpdateHeartBeat", 2, 0.8f);
+        }
+        else
+        {
+            InvokeRepeating("UpdateHeartBeat", 2, 0.5f); 
+        }
     }
 
     // Update is called once per frame
@@ -40,7 +47,14 @@ public class UIManager : MonoBehaviour
 
     void UpdateHeartBeat() 
     {
-        heartRate = UnityEngine.Random.Range(60, 100);
+        if(!findObject3Text.enabled)
+        {
+            heartRate = UnityEngine.Random.Range(80, 110);
+        }
+        else
+        {
+            heartRate = UnityEngine.Random.Range(60, 100);
+        }
         heartRateText.text = heartRate.ToString();
     }
 
