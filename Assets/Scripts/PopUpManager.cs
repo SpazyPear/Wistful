@@ -17,12 +17,15 @@ public class PopUpManager : MonoBehaviour
     public Tweener tweener;
     private List<GameObject> pastPlatforms = new List<GameObject>();
     private List<GameObject> toBeRemoved = new List<GameObject>();
-   
+
     [SerializeField]
     private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
 
     [SerializeField]
     private List<LevelTerrain> itemTerrain = new List<LevelTerrain>();
+
+    [SerializeField]
+    private List<LevelTerrain> crumbledTiles = new List<LevelTerrain>();
 
     private bool vaultUp = false;
 
@@ -41,6 +44,15 @@ public class PopUpManager : MonoBehaviour
 
     public Movement movement;
 
+    public float obstacleInterval = 20;
+    float obstacleDistanceCleared = 0;
+    bool obstacleTime;
+    bool obstacleWasActive;
+
+    Vector3 obstacleLeft;
+    Vector3 obstacleRight;
+    Vector3 obstacleForward;
+
 
     void Awake()
     {
@@ -50,11 +62,18 @@ public class PopUpManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += instantiateDataStructures;
+        StartCoroutine(obstacleTimer());
     }
 
     void Update()
     {
         posChangedInstantiate();
+    }
+
+    IEnumerator obstacleTimer()
+    {
+        yield return new WaitForSeconds(obstacleInterval);
+        obstacleTime = true;
     }
 
     void instantiateDataStructures(Scene scene, LoadSceneMode mode)
@@ -65,6 +84,7 @@ public class PopUpManager : MonoBehaviour
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
         itemTerrain[0].blocks.Add(vaultBlock);
         normalizeProbabilities(ref currentLevelTerrain);
+        for (int x =)
     }
 
     void normalizeProbabilities(ref List<TerrainBlock> items)
@@ -92,7 +112,7 @@ public class PopUpManager : MonoBehaviour
         double relPosY = Math.Round(player.position.y);
         if (relPosX > posX + 2 || relPosZ > posZ + 2 || relPosX < posX - 2 || relPosZ < posZ - 2)
         {
-            
+
             posX = player.position.x;
             posZ = player.position.z;
 
@@ -104,7 +124,30 @@ public class PopUpManager : MonoBehaviour
 
             posArray.Clear();
 
-            popBiome();
+            if (!obstacleTime)
+            {
+                popBiome();
+                if (obstacleWasActive)
+                {
+                    obstacleWasActive = false;
+                    StartCoroutine(obstacleTimer());
+                }
+            }
+            else
+            {
+                if (!obstacleWasActive)
+                {
+                   
+                    obstacleLeft = player.position - player.right * width / 4 * blockSize;
+                    obstacleRight = player.position + player.right * width / 4 * blockSize;
+                    obstacleForward = player.forward;
+                    createDebugSphere(obstacleLeft, new Vector3(1, 1, 1));
+                    createDebugSphere(obstacleRight, new Vector3(1, 1, 1));
+
+                }
+                popObstacle();
+
+            }
 
             tweenerManager();
 
@@ -118,7 +161,7 @@ public class PopUpManager : MonoBehaviour
             tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeights[currentLevel], obj.transform.position.z)), 1.5f);
         }
     }
-    
+
     void createDebugSphere(Vector3 pos, Vector3 scale)
     {
         GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
@@ -133,13 +176,43 @@ public class PopUpManager : MonoBehaviour
         {
             for (int y = 0; y <= length; y++)
             {
-                float result = UnityEngine.Random.Range(0, 1f);
-                
                 Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
                 pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
                 bool edgeCase = y == length ? true : false;
                 checkSpawnBlock(pos, edgeCase);
 
+            }
+        }
+    }
+
+    List<TerrainBlock> generatePath(int pathSize)
+    {
+        List<TerrainBlock> path = new List<TerrainBlock>();
+        for (int x = 0; x < pathSize; x++)
+        foreach (TerrainBlock block in crumbledTiles[currentLevel].blocks)
+        {
+            
+        }
+    }
+
+    void popObstacle()
+    {
+        obstacleWasActive = true;
+        for (int x = -width / 2; x <= width / 2; x++)
+        {
+            for (int y = 0; y <= length; y++)
+            {
+                Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
+                pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
+                /*float leftAngle = Vector3.SignedAngle(player.transform.position, obstacleLeft, Vector3.up);
+                float rightAngle = Vector3.SignedAngle(player.position, obstacleRight, Vector3.up);
+                Debug.Log("Left: " + leftAngle + " Right: " + rightAngle);
+                if (Vector3.Dot(obstacleRight - obstacleLeft, pos - obstacleLeft) > 0 && Vector3.Dot(obstacleLeft - obstacleRight, pos - obstacleRight) > 0 && Mathf.Abs(obstacleForward.magnitude - player.transform.forward.magnitude) < 0.2)
+                {
+                    Debug.Log("Obstacle");
+                    checkSpawnBlock(pos, false);
+                }*/
+                if ()
             }
         }
     }
@@ -190,7 +263,8 @@ public class PopUpManager : MonoBehaviour
         while (true)
         {
             result -= currentLevelTerrain.ElementAt(index).probability;
-            if (result < 0) {
+            if (result < 0)
+            {
                 TerrainBlock block = currentLevelTerrain.ElementAt(index);
                 return block;
             }
