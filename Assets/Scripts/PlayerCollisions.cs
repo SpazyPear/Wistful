@@ -14,12 +14,7 @@ public class PlayerCollisions : MonoBehaviour
     Door hitDoor;
     Item hitItem;
 
-    bool foundPhoto = false;
-    bool foundLadder = false;
-
-    bool foundRocket = false;
-    bool foundKite = false;
-
+    bool foundPhoto, foundLadder, foundRocket, foundKite = false;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -78,33 +73,42 @@ public class PlayerCollisions : MonoBehaviour
 
     void CollectLevelOneItems()
     {
-        switch(hitItem.gameObject.name)
-                {
-                    case "Stairs":
-                    uiManager.findObject2Text.enabled = false;
-                    uiManager.collectedObjectText.text = "Collects Ladder"; 
-                    foundLadder=true;
-                    break;
-                    case "Rocket":
-                    uiManager.findObject3Text.enabled = false;
-                     uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name; 
-                    foundRocket=true;
-                    break;
-                    case "KitePrefab":
-                    uiManager.findObject4Text.enabled = false;
-                    uiManager.collectedObjectText.text = "Collects Kite"; 
-                    foundKite = true;
-                    break;
-                    case "Object029": //should be photo
-                    uiManager.findObject1Text.enabled = false;
-                    uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name; 
-                    foundPhoto = true;
-                    break;
-                }
-        if(foundKite && foundLadder && foundPhoto && foundRocket)
+        switch (hitItem.gameObject.name)
         {
-             uiManager.collectedObjectText.text = "Go and find the Vault"; 
-              uiManager.collectedObjectText.fontSize = 19;
+            case "Stairs":
+                uiManager.findObject2Text.enabled = false;
+                uiManager.collectedObjectText.text = "Collects Ladder";
+                StartCoroutine(HideText());
+                foundLadder = true;
+                break;
+            case "Rocket":
+                uiManager.findObject3Text.enabled = false;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                foundRocket = true;
+                StartCoroutine(HideText());
+                break;
+            case "KitePrefab":
+                uiManager.findObject4Text.enabled = false;
+                uiManager.collectedObjectText.text = "Collects Kite";
+                foundKite = true;
+                StartCoroutine(HideText());
+                break;
+            case "Object029": //should be photo
+                uiManager.findObject1Text.enabled = false;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                foundPhoto = true;
+                StartCoroutine(HideText());
+                break;
         }
+        if (foundKite && foundLadder && foundPhoto && foundRocket)
+        {
+            uiManager.collectedObjectText.text = "Go to the Vault";
+            uiManager.collectedObjectText.fontSize = 24;
+        }
+    }
+    IEnumerator HideText()
+    {
+        yield return new WaitForSeconds(3);
+        uiManager.HideText();
     }
 }

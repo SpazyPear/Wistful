@@ -10,44 +10,49 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
     public Text findObject1Text;
-     public Text findObject2Text;
-      public Text findObject3Text;
-       public Text findObject4Text;
+    public Text findObject2Text;
+    public Text findObject3Text;
+    public Text findObject4Text;
 
-        public Text collectedObjectText;
+    public Text collectedObjectText;
 
-        public Text heartRateText;
+    public Text heartRateText;
 
-        [SerializeField]
-        int heartRate;
+    [SerializeField]
+    int heartRate;
 
     // Start is called before the first frame update
     void Start()
     {
         collectedObjectText.enabled = false;
         heartRate = 0;
-        if(!findObject3Text.enabled)
+        if (!findObject3Text.enabled)
         {
-        InvokeRepeating("UpdateHeartBeat", 2, 0.8f);
+            InvokeRepeating("UpdateHeartBeat", 2, 0.8f);
         }
         else
         {
-            InvokeRepeating("UpdateHeartBeat", 2, 0.5f); 
+            InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(heartRate>120)
+        if (heartRate > 120)
         {
-           Debug.Log("dead");
+            Debug.Log("dead");
         }
     }
 
-    void UpdateHeartBeat() 
+    public void HideText()
     {
-        if(!findObject3Text.enabled)
+        collectedObjectText.enabled = false;
+    }
+
+    void UpdateHeartBeat()
+    {
+        if (!findObject3Text.enabled)
         {
             heartRate = UnityEngine.Random.Range(80, 110);
         }
@@ -58,7 +63,7 @@ public class UIManager : MonoBehaviour
         heartRateText.text = heartRate.ToString();
     }
 
-     
+
     public void UpdateRocketBar(float value)
     {
         rocketFuelBar.value = value;
