@@ -1177,7 +1177,7 @@ MonoBehaviour:
     prefab: {fileID: 919132149155446097, guid: 2acbd8e25959d2148b6c0f10049d11e0, type: 3}
     probability: 0
     size: {x: 1, y: 1, z: 1}
-    containsItem: 0
+    containsItem: 1
   movement: {fileID: 1365182993}
 --- !u!4 &356297474
 Transform:
@@ -18273,6 +18273,10 @@ PrefabInstance:
     - target: {fileID: 19500893902764967, guid: 01253a14ffffa417e974325ec9657d77, type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 19500893902764967, guid: 01253a14ffffa417e974325ec9657d77, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01253a14ffffa417e974325ec9657d77, type: 3}
