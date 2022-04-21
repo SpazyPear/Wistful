@@ -57,9 +57,6 @@ public class Movement : MonoBehaviour
             moveX = Input.GetAxis("Mouse X");
             moveY = Input.GetAxis("Mouse Y");
         }
-
-        
-        
     }
 
     public void OnNextBiome()
