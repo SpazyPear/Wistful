@@ -926,6 +926,24 @@ MonoBehaviour:
       probability: 0.2
       size: {x: 20, y: 5, z: 20}
       containsItem: 1
+  crumbledTiles:
+  - blocks:
+    - prefab: {fileID: 5520755239173827052, guid: c5a0b8f60b310704da6d26c3d3529d62, type: 3}
+      probability: 0.2
+      size: {x: 3, y: 0, z: 3}
+      containsItem: 0
+    - prefab: {fileID: 5520755239173827052, guid: a1d187593ad456c4fbb4118bb5c98278, type: 3}
+      probability: 0.3
+      size: {x: 3, y: 0, z: 3}
+      containsItem: 0
+    - prefab: {fileID: 5520755239173827052, guid: 2bc00e4b0d19808468a18c2c468285c7, type: 3}
+      probability: 0.2
+      size: {x: 3, y: 0, z: 3}
+      containsItem: 0
+    - prefab: {fileID: 5520755239173827052, guid: a0f8f581989108247a988d199d38f8a0, type: 3}
+      probability: 0.2
+      size: {x: 3, y: 0, z: 3}
+      containsItem: 0
   currentItemNum: 0
   deservesItem: 0
   levelHeights:
