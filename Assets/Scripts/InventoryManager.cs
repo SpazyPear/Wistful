@@ -18,8 +18,8 @@ public class InventoryManager : MonoBehaviour
         
     }
 
-    public void pickUpItem(Type item)
+    public void pickUpItem(Item item)
     {
-        player.AddComponent(item);
+        
     }
 }
