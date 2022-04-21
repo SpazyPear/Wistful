@@ -16,11 +16,11 @@ public class Ladder : Item
 
     public void checkClimbLadder()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             interactDown = true;
         }
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             interactDown = false;
         }

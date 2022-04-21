@@ -192,7 +192,6 @@ public class PopUpManager : MonoBehaviour
             result -= currentLevelTerrain.ElementAt(index).probability;
             if (result < 0) {
                 TerrainBlock block = currentLevelTerrain.ElementAt(index);
-
                 return block;
             }
             index++;
