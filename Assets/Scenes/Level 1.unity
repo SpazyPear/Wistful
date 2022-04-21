@@ -961,7 +961,7 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
     containsItem: 0
   movement: {fileID: 1365182993}
-  obstacleInterval: 0
+  obstacleTime: 0
 --- !u!4 &356297474
 Transform:
   m_ObjectHideFlags: 0
@@ -17958,6 +17958,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8605812191029334073, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: moveSens
+      value: 7.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605812191029334073, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: jumpForce
+      value: 5.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605812191029334073, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: popUpManager
       value: 
       objectReference: {fileID: 356297473}
@@ -18021,6 +18029,10 @@ PrefabInstance:
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 392340027}
+    - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: popUpManager
+      value: 
+      objectReference: {fileID: 356297473}
     - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: inventoryManager
       value: 

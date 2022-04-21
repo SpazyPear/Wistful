@@ -46,7 +46,7 @@ public class PopUpManager : MonoBehaviour
 
     public const float obstacleInterval = 20f;
     bool obstacleTimerRunning = false;
-    bool obstacleTime;
+    public bool obstacleTime;
     bool obstacleWasActive;
 
     List<GameObject> currentPath = new List<GameObject>();
@@ -60,7 +60,7 @@ public class PopUpManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += instantiateDataStructures;
-        StartCoroutine(obstacleTimer());
+       // StartCoroutine(obstacleTimer());
     }
 
     void Update()
@@ -142,14 +142,14 @@ public class PopUpManager : MonoBehaviour
                 if (obstacleWasActive)
                 {
                     obstacleWasActive = false;
-                    StartCoroutine(obstacleTimer());
+                    //StartCoroutine(obstacleTimer());
                 }
             }
             else
             {
                 if (!obstacleWasActive)
                 {
-                    currentPath = generatePath(4);
+                    currentPath = generatePath(5);
                 }
                 popObstacle();
 

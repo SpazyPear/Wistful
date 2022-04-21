@@ -10,6 +10,7 @@ public class PlayerCollisions : MonoBehaviour
 
     public UIManager uiManager;
     public InventoryManager inventoryManager;
+    public PopUpManager popUpManager;
 
     Door hitDoor;
     Item hitItem;
@@ -32,6 +33,7 @@ public class PlayerCollisions : MonoBehaviour
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 Destroy(hitItem.gameObject);
                 hitItem = null;
+                popUpManager.obstacleTime = true;
             }
         }
     }
