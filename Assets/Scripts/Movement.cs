@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     private float moveVertical;
     private float moveX;
     private float moveY;
+    private float height;
 
     public GameObject target;
     public bool canUseJetPack = false;
@@ -35,6 +36,8 @@ public class Movement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
+
+        height = 1.5f;
     }
 
     // Update is called once per frame
@@ -43,23 +46,18 @@ public class Movement : MonoBehaviour
         collectInput();
         movement();
         jump();
+        Debug.Log(CheckGrounded());
     }
 
 
 
     void collectInput()
     {
-        /*if (!GameObject.Find("Canvas").GetComponent<MenuController>().GameisPause)
-        {*/
-            moveHorizontal = Input.GetAxis("Horizontal");
-            moveVertical = Input.GetAxis("Vertical");
+        moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
 
-            moveX = Input.GetAxis("Mouse X");
-            moveY = Input.GetAxis("Mouse Y");
-        /*}*/
-
-        
-        
+        moveX = Input.GetAxis("Mouse X");
+        moveY = Input.GetAxis("Mouse Y");
     }
 
     public void OnNextBiome()
@@ -77,7 +75,7 @@ public class Movement : MonoBehaviour
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && CheckGrounded())
         {
             rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
         }
@@ -97,6 +95,17 @@ public class Movement : MonoBehaviour
         { 
             isGrounded = false;
         }
+    }
+
+    private bool CheckGrounded()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, height))
+        {
+            return true;
+        }
+        return false;
     }
 
 }
