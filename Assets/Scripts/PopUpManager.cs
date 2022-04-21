@@ -10,7 +10,7 @@ public class PopUpManager : MonoBehaviour
 {
     public Transform player;
     public GameObject prefab;
-    private List<GameObject> posArray = new List<GameObject>();
+    private List<GameObject> toRise = new List<GameObject>();
     private float posX;
     private float posZ;
     public float posY;
@@ -44,14 +44,12 @@ public class PopUpManager : MonoBehaviour
 
     public Movement movement;
 
-    public float obstacleInterval = 20;
-    float obstacleDistanceCleared = 0;
+    public const float obstacleInterval = 20f;
+    bool obstacleTimerRunning = false;
     bool obstacleTime;
     bool obstacleWasActive;
 
-    Vector3 obstacleLeft;
-    Vector3 obstacleRight;
-    Vector3 obstacleForward;
+    List<GameObject> currentPath = new List<GameObject>();
 
 
     void Awake()
@@ -72,8 +70,21 @@ public class PopUpManager : MonoBehaviour
 
     IEnumerator obstacleTimer()
     {
-        yield return new WaitForSeconds(obstacleInterval);
-        obstacleTime = true;
+        if (!obstacleTimerRunning)
+        {
+            obstacleTimerRunning = true;
+            float timer = obstacleInterval;
+            while (true)
+            {
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                    break;
+                yield return null;
+            }
+            obstacleTime = true;
+            obstacleTimerRunning = false;
+            
+        }
     }
 
     void instantiateDataStructures(Scene scene, LoadSceneMode mode)
@@ -84,7 +95,7 @@ public class PopUpManager : MonoBehaviour
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
         itemTerrain[0].blocks.Add(vaultBlock);
         normalizeProbabilities(ref currentLevelTerrain);
-        for (int x =)
+        normalizeProbabilities(ref crumbledTiles[currentLevel].blocks);
     }
 
     void normalizeProbabilities(ref List<TerrainBlock> items)
@@ -103,6 +114,7 @@ public class PopUpManager : MonoBehaviour
 
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
         normalizeProbabilities(ref currentLevelTerrain);
+        normalizeProbabilities(ref crumbledTiles[currentLevel].blocks);
     }
 
     void posChangedInstantiate()
@@ -117,12 +129,12 @@ public class PopUpManager : MonoBehaviour
             posZ = player.position.z;
 
 
-            foreach (GameObject obj in posArray)
+            foreach (GameObject obj in toRise)
             {
                 pastPlatforms.Add(obj);
             }
 
-            posArray.Clear();
+            toRise.Clear();
 
             if (!obstacleTime)
             {
@@ -137,13 +149,7 @@ public class PopUpManager : MonoBehaviour
             {
                 if (!obstacleWasActive)
                 {
-                   
-                    obstacleLeft = player.position - player.right * width / 4 * blockSize;
-                    obstacleRight = player.position + player.right * width / 4 * blockSize;
-                    obstacleForward = player.forward;
-                    createDebugSphere(obstacleLeft, new Vector3(1, 1, 1));
-                    createDebugSphere(obstacleRight, new Vector3(1, 1, 1));
-
+                    currentPath = generatePath(4);
                 }
                 popObstacle();
 
@@ -156,7 +162,7 @@ public class PopUpManager : MonoBehaviour
 
     void tweenerManager()
     {
-        foreach (GameObject obj in posArray)
+        foreach (GameObject obj in toRise)
         {
             tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeights[currentLevel], obj.transform.position.z)), 1.5f);
         }
@@ -185,35 +191,82 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    List<TerrainBlock> generatePath(int pathSize)
+    List<GameObject> generatePath(int pathSize)
     {
-        List<TerrainBlock> path = new List<TerrainBlock>();
-        for (int x = 0; x < pathSize; x++)
-        foreach (TerrainBlock block in crumbledTiles[currentLevel].blocks)
+        List<GameObject> path = new List<GameObject>();
+        Vector3 edge = roundVector3(player.position);
+        Vector3 forward = nearestCardinal(player.transform.forward);
+        int index = 0;
+        while (true)
         {
-            
+            if (!Physics.CheckBox(edge + forward * index, new Vector3(4, 4, 4))) {
+                break;
+            }
+            edge = roundVector3(edge + forward * index);
+            index++;
         }
+
+        for (int x = 0; x < pathSize; x++)
+        {
+            float result = UnityEngine.Random.Range(0, 1f);
+
+            int resultIndex = 0;
+            
+            while (true)
+            {
+                result -= crumbledTiles[currentLevel].blocks.ElementAt(resultIndex).probability;
+                if (result < 0)
+                {
+                    TerrainBlock block = crumbledTiles[currentLevel].blocks.ElementAt(resultIndex);
+                    edge += new Vector3(forward.x * block.size.x, 0, forward.z * block.size.z) * blockSize;
+                    Vector3 pos = roundVector3(edge);
+                    pos.y = levelHeights[currentLevel] - 4;
+                    GameObject obj = Instantiate(block.prefab, pos, Quaternion.identity);
+                    for (int i = 0; i < obj.transform.childCount; i++)
+                    {
+                        path.Add(obj.transform.GetChild(i).GetChild(0).gameObject);
+                        obj.transform.GetChild(i).transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    break;
+                }
+                resultIndex++;
+            }
+        }
+        return path;
+    }
+
+    Vector3 nearestCardinal(Vector3 input)
+    {
+        Vector3 output = Vector3.zero;
+        int index = 0;
+        float largest = 0;
+        for (int x = 0; x < 3; x++)
+        {
+            if (largest < Mathf.Abs(input[x]))
+            {
+                largest = input[x];
+                index = x;
+            }
+        }
+        output[index] = 1;
+        return output;
     }
 
     void popObstacle()
     {
         obstacleWasActive = true;
-        for (int x = -width / 2; x <= width / 2; x++)
+        for (int x = currentPath.Count - 1; x >= 0; x--)
         {
-            for (int y = 0; y <= length; y++)
+            if (Vector3.Distance(player.transform.position, currentPath[x].transform.position) < 20f)
             {
-                Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
-                pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
-                /*float leftAngle = Vector3.SignedAngle(player.transform.position, obstacleLeft, Vector3.up);
-                float rightAngle = Vector3.SignedAngle(player.position, obstacleRight, Vector3.up);
-                Debug.Log("Left: " + leftAngle + " Right: " + rightAngle);
-                if (Vector3.Dot(obstacleRight - obstacleLeft, pos - obstacleLeft) > 0 && Vector3.Dot(obstacleLeft - obstacleRight, pos - obstacleRight) > 0 && Mathf.Abs(obstacleForward.magnitude - player.transform.forward.magnitude) < 0.2)
-                {
-                    Debug.Log("Obstacle");
-                    checkSpawnBlock(pos, false);
-                }*/
-                if ()
+                currentPath[x].GetComponent<MeshRenderer>().enabled = true;
+                tweener.AddTween(currentPath[x].transform, currentPath[x].transform.position, currentPath[x].transform.position + new Vector3(0, 4, 0), 1);
+                currentPath.RemoveAt(x);
             }
+        }
+        if (currentPath.Count == 0)
+        {
+            obstacleTime = false;
         }
     }
 
@@ -238,7 +291,7 @@ public class PopUpManager : MonoBehaviour
             return;
         }
 
-        posArray.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
+        toRise.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
 
         if (toSpawn.containsItem)
         {
