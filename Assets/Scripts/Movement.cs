@@ -49,11 +49,16 @@ public class Movement : MonoBehaviour
 
     void collectInput()
     {
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        /*if (!GameObject.Find("Canvas").GetComponent<MenuController>().GameisPause)
+        {*/
+            moveHorizontal = Input.GetAxis("Horizontal");
+            moveVertical = Input.GetAxis("Vertical");
 
-        moveX = Input.GetAxis("Mouse X");
-        moveY = Input.GetAxis("Mouse Y");
+            moveX = Input.GetAxis("Mouse X");
+            moveY = Input.GetAxis("Mouse Y");
+        /*}*/
+
+        
         
     }
 

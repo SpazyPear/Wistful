@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:GroupBox style="background-color: rgb(255, 255, 255); flex-direction: column;">
+        <ui:Label text="No Subject Line" display-tooltip-when-elided="true" style="-unity-font-style: normal; color: rgb(0, 0, 0);" />
+        <ui:Label text="From: JAXA President" display-tooltip-when-elided="true" style="-unity-font-style: bold; color: rgb(0, 0, 0);" />
+        <ui:Label text="CC: RFSA Director, ESA Director General" display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" text="Got results back and they&apos;re worse than we thought. Earth has 10 years left, max. " style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" text="We need to start pouring resources into space exploration and deep space travel. " style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:Label display-tooltip-when-elided="true" text="If we don&apos;t find a habitable planet soon, humanity is screwed." style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+        <ui:GroupBox name="GroupBox" style="position: relative; align-items: flex-end; justify-content: flex-end; visibility: visible; overflow: visible; left: auto; flex-direction: row; flex-wrap: nowrap;">
+            <ui:Button text="&lt;" display-tooltip-when-elided="true" style="flex-direction: row-reverse; width: 3%; flex-wrap: nowrap; align-items: auto; justify-content: space-around; left: auto; overflow: visible;" />
+            <ui:Button text="&gt;" display-tooltip-when-elided="true" style="flex-direction: row; width: 3%; justify-content: space-around; align-items: auto; flex-wrap: wrap-reverse; white-space: nowrap; -unity-text-align: middle-center; overflow: visible;" />
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>
