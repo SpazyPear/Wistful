@@ -15,14 +15,10 @@ public class Crowbar : Item
     // Update is called once per frame
     void Update()
     {
-        // When mouse clicks
         if (Input.GetMouseButtonDown(0))
         {
             Hit();
         }
-        // Raycast in front
-        // Check if glass
-        // Break glass
     }
 
     void Hit()
@@ -31,10 +27,10 @@ public class Crowbar : Item
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range))
         {
-            Glass glass = hit.transform.GetComponent<Glass>();
-            if (glass != null)
+            Debug.Log(hit.transform.gameObject.name);
+            if (hit.transform.gameObject.tag == "Glass")
             {
-                glass.Shatter();
+                hit.transform.gameObject.SetActive(false);
             }
         }
     }
