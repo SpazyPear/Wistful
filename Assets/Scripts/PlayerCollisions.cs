@@ -95,9 +95,9 @@ public class PlayerCollisions : MonoBehaviour
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
-            case "Object029": //should be photo
+            case "Photoframe": //should be photo
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects Photo";
                 foundPhoto = true;
                 StartCoroutine(HideText());
                 break;
