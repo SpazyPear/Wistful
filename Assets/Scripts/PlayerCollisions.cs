@@ -63,6 +63,11 @@ public class PlayerCollisions : MonoBehaviour
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
         }
+        if (collider.gameObject.tag.Equals("pathEdge"))
+        {
+            popUpManager.obstacleTime = false;
+            popUpManager.popBiome();
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -113,4 +118,6 @@ public class PlayerCollisions : MonoBehaviour
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
+
+
 }

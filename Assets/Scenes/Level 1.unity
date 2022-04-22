@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -921,15 +921,15 @@ MonoBehaviour:
   itemTerrain:
   - blocks:
     - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
-      probability: 0.2
+      probability: 0.02
       size: {x: 2, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
-      probability: 0.2
+      probability: 0.002
       size: {x: 3, y: 3, z: 3}
       containsItem: 1
     - prefab: {fileID: 6373505620157982065, guid: 5be406ffd29edaf4b8c25a74528b383e, type: 3}
-      probability: 0.2
+      probability: 0.02
       size: {x: 20, y: 5, z: 20}
       containsItem: 1
   crumbledTiles:

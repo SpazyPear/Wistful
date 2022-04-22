@@ -16,7 +16,6 @@ public class PopUpManager : MonoBehaviour
     public float posY;
     public Tweener tweener;
     private List<GameObject> pastPlatforms = new List<GameObject>();
-    private List<GameObject> toBeRemoved = new List<GameObject>();
 
     [SerializeField]
     private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
@@ -46,10 +45,11 @@ public class PopUpManager : MonoBehaviour
 
     public const float obstacleInterval = 20f;
     bool obstacleTimerRunning = false;
-    bool obstacleTime;
+    public bool obstacleTime;
     bool obstacleWasActive;
+   
 
-    List<GameObject> currentPath = new List<GameObject>();
+    List<List<GameObject>> currentPaths = new List<List<GameObject>>();
 
 
     void Awake()
@@ -60,7 +60,6 @@ public class PopUpManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += instantiateDataStructures;
-        StartCoroutine(obstacleTimer());
     }
 
     void Update()
@@ -138,18 +137,21 @@ public class PopUpManager : MonoBehaviour
 
             if (!obstacleTime)
             {
-                popBiome();
                 if (obstacleWasActive)
                 {
                     obstacleWasActive = false;
-                    StartCoroutine(obstacleTimer());
+                    foreach (GameObject obj in GameObject.FindGameObjectsWithTag("pathEdge"))
+                    {
+                        obj.tag = "Untagged";
+                    }
                 }
+                popBiome(); 
             }
             else
             {
                 if (!obstacleWasActive)
                 {
-                    currentPath = generatePath(4);
+                    currentPaths = generatePath(4);
                 }
                 popObstacle();
 
@@ -175,7 +177,7 @@ public class PopUpManager : MonoBehaviour
         //Destroy(obj, 2f);
     }
 
-    void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
+    public void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
     {
 
         for (int x = -width; x <= width; x++)
@@ -186,53 +188,123 @@ public class PopUpManager : MonoBehaviour
                 pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
                 bool edgeCase = y == length ? true : false;
                 checkSpawnBlock(pos, edgeCase);
-
             }
         }
     }
 
-    List<GameObject> generatePath(int pathSize)
+    List<List<GameObject>> generatePath(int pathSize)
     {
-        List<GameObject> path = new List<GameObject>();
-        Vector3 edge = roundVector3(player.position);
-        Vector3 forward = nearestCardinal(player.transform.forward);
-        int index = 0;
-        while (true)
-        {
-            if (!Physics.CheckBox(edge + forward * index, new Vector3(4, 4, 4))) {
-                break;
-            }
-            edge = roundVector3(edge + forward * index);
-            index++;
-        }
+        List<List<GameObject>> paths = new List<List<GameObject>>();
+        Vector3[] cardinals = new Vector3[4];
+        cardinals[0] = new Vector3(1, 0, 0);
+        cardinals[1] = new Vector3(-1, 0, 0);
+        cardinals[2] = new Vector3(0, 0, 1);
+        cardinals[3] = new Vector3(0, 0, -1);
 
-        for (int x = 0; x < pathSize; x++)
-        {
-            float result = UnityEngine.Random.Range(0, 1f);
+        Vector3[] edges = new Vector3[4];
+        int cardinalsIndex = 0;
 
-            int resultIndex = 0;
-            
+        while (cardinalsIndex < cardinals.Length - 1) // Find edges
+        {
+            Vector3 edge = roundVector3(player.position);
+            edge = new Vector3(edge.x, levelHeights[currentLevel], edge.z);
+
+            Vector3 forward = cardinals[cardinalsIndex];
+            int index = 0;
             while (true)
             {
-                result -= crumbledTiles[currentLevel].blocks.ElementAt(resultIndex).probability;
-                if (result < 0)
-                {
-                    TerrainBlock block = crumbledTiles[currentLevel].blocks.ElementAt(resultIndex);
-                    edge += new Vector3(forward.x * block.size.x, 0, forward.z * block.size.z) * blockSize;
-                    Vector3 pos = roundVector3(edge);
-                    pos.y = levelHeights[currentLevel] - 4;
-                    GameObject obj = Instantiate(block.prefab, pos, Quaternion.identity);
-                    for (int i = 0; i < obj.transform.childCount; i++)
-                    {
-                        path.Add(obj.transform.GetChild(i).GetChild(0).gameObject);
-                        obj.transform.GetChild(i).transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-                    }
+                if (!Physics.CheckBox(edge + forward * index, new Vector3(4, 4, 4)))
                     break;
+
+                edges[cardinalsIndex] = roundVector3(edge + forward * index);
+                index++;
+            }
+            cardinalsIndex++;
+        }
+
+        cardinalsIndex = 0;
+        currentPaths.Clear();
+
+        while (cardinalsIndex < cardinals.Length) // Layout the paths in all cardinal directions
+        {
+            paths.Add(new List<GameObject>());
+            for (int x = 0; x < pathSize; x++)
+            {
+                float result = UnityEngine.Random.Range(0, 1f);
+
+                int resultIndex = 0;
+
+                while (true)
+                {
+                    result -= crumbledTiles[currentLevel].blocks.ElementAt(resultIndex).probability;
+                    if (result < 0)
+                    {
+                        TerrainBlock block = crumbledTiles[currentLevel].blocks.ElementAt(resultIndex);
+                        edges[cardinalsIndex] += new Vector3(cardinals[cardinalsIndex].x * block.size.x, 0, cardinals[cardinalsIndex].z * block.size.z) * blockSize;
+                        Vector3 pos = roundVector3(edges[cardinalsIndex]);
+                        pos.y = levelHeights[currentLevel] - 4;
+                        GameObject obj = Instantiate(block.prefab, pos, Quaternion.identity);
+                        for (int i = 0; i < obj.transform.childCount; i++)
+                        {
+                            paths[cardinalsIndex].Add(obj.transform.GetChild(i).GetChild(0).gameObject);
+                            obj.transform.GetChild(i).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+                        }
+                        break;
+                    }
+                    resultIndex++;
                 }
-                resultIndex++;
+            }
+            cardinalsIndex++;
+        }
+        markPathEdges(paths);
+        return paths;
+
+    }
+
+    void markPathEdges(List<List<GameObject>> paths)
+    {
+        Vector3[] cardinals = new Vector3[4];
+        cardinals[0] = new Vector3(1, 0, 0);
+        cardinals[1] = new Vector3(-1, 0, 0);
+        cardinals[2] = new Vector3(0, 0, 1);
+        cardinals[3] = new Vector3(0, 0, -1);
+
+        int cardinalsIndex = 0;
+        List<List<GameObject>> edges = new List<List<GameObject>>();
+        while (cardinalsIndex < cardinals.Length)
+        {
+            edges.Add(new List<GameObject>());
+            edges[cardinalsIndex].Add(null);
+            foreach (GameObject obj in paths[cardinalsIndex])
+            {
+                if (edges[cardinalsIndex][0] == null || Mathf.Abs(multiplyVector3(obj.transform.position, cardinals[cardinalsIndex]).magnitude) > Mathf.Abs(multiplyVector3(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                {
+                    edges[cardinalsIndex].Clear();
+                    edges[cardinalsIndex].Add(obj);
+                    continue;
+                }
+                else if (Mathf.Abs(multiplyVector3(obj.transform.position, cardinals[cardinalsIndex]).magnitude) == Mathf.Abs(multiplyVector3(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                {
+                    edges[cardinalsIndex].Add(obj);
+                }
+            }
+            cardinalsIndex++;
+        }
+        foreach (List<GameObject> list in edges)
+        {
+            foreach (GameObject obj in list)
+            {
+                obj.transform.parent.gameObject.AddComponent<BoxCollider>().isTrigger = true;
+                obj.transform.parent.GetComponent<BoxCollider>().size = new Vector3(blockSize, blockSize, blockSize);
+                obj.transform.parent.GetComponent<BoxCollider>().center = new Vector3(0, 4, 0);
+                obj.transform.parent.tag = "pathEdge";
             }
         }
-        return path;
+    }
+
+    Vector3 multiplyVector3(Vector3 a, Vector3 b)
+    {
+        return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
 
     Vector3 nearestCardinal(Vector3 input)
@@ -242,6 +314,9 @@ public class PopUpManager : MonoBehaviour
         float largest = 0;
         for (int x = 0; x < 3; x++)
         {
+            if (x == 1)
+                continue;
+
             if (largest < Mathf.Abs(input[x]))
             {
                 largest = input[x];
@@ -255,18 +330,17 @@ public class PopUpManager : MonoBehaviour
     void popObstacle()
     {
         obstacleWasActive = true;
-        for (int x = currentPath.Count - 1; x >= 0; x--)
+        for (int x = currentPaths.Count - 1; x >= 0; x--)
         {
-            if (Vector3.Distance(player.transform.position, currentPath[x].transform.position) < 20f)
+            for (int y = 0; y < currentPaths[x].Count; y++)
             {
-                currentPath[x].GetComponent<MeshRenderer>().enabled = true;
-                tweener.AddTween(currentPath[x].transform, currentPath[x].transform.position, currentPath[x].transform.position + new Vector3(0, 4, 0), 1);
-                currentPath.RemoveAt(x);
+                if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 20f)
+                {
+                    currentPaths[x][y].GetComponent<MeshRenderer>().enabled = true;
+                    tweener.AddTween(currentPaths[x][y].transform, currentPaths[x][y].transform.position, currentPaths[x][y].transform.position + new Vector3(0, 4, 0), 1);
+                    currentPaths[x].RemoveAt(y);
+                }
             }
-        }
-        if (currentPath.Count == 0)
-        {
-            obstacleTime = false;
         }
     }
 
