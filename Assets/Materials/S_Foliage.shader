@@ -1,6 +1,9 @@
 Shader "Custom/S_Foliage" {
 	Properties{
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
+		_Speed("Speed", Float) = 50
+		_YScaling("Y Scaling Factor", Float) = 1
+		_Strength("Strength", Float) = 2
 	}
 
 		SubShader{
@@ -13,6 +16,9 @@ Shader "Custom/S_Foliage" {
 		#pragma target 3.0
 
 		sampler2D _MainTex;
+		float _Speed;
+		float _YScaling;
+		float _Strength;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -26,7 +32,7 @@ Shader "Custom/S_Foliage" {
 
 
 			if (tex2Dlod(_MainTex, float4(v.texcoord.xy, 0,0)).g > 0.4) {
-				v.vertex.x += sin(_Time.x * 50 + v.vertex.y * 2) * .1;
+				v.vertex.x += sin(_Time.x * _Speed + v.vertex.y * _Strength) * .1 * (v.vertex.y * _YScaling);
 			}
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 

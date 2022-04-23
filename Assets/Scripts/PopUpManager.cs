@@ -247,8 +247,12 @@ public class PopUpManager : MonoBehaviour
                         GameObject obj = Instantiate(block.prefab, pos, Quaternion.identity);
                         for (int i = 0; i < obj.transform.childCount; i++)
                         {
-                            paths[cardinalsIndex].Add(obj.transform.GetChild(i).GetChild(0).gameObject);
-                            obj.transform.GetChild(i).GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+     
+                            
+                                paths[cardinalsIndex].Add(obj.transform.GetChild(i).gameObject);
+                                obj.transform.GetChild(i).gameObject.SetActive(false);
+                            
+
                         }
                         break;
                     }
@@ -295,10 +299,10 @@ public class PopUpManager : MonoBehaviour
         {
             foreach (GameObject obj in list)
             {
-                obj.transform.parent.gameObject.AddComponent<BoxCollider>().isTrigger = true;
-                obj.transform.parent.GetComponent<BoxCollider>().size = new Vector3(blockSize, blockSize, blockSize);
-                obj.transform.parent.GetComponent<BoxCollider>().center = new Vector3(0, 4, 0);
-                obj.transform.parent.tag = "pathEdge";
+                obj.transform.gameObject.AddComponent<BoxCollider>().isTrigger = true;
+                obj.transform.GetComponent<BoxCollider>().size = new Vector3(blockSize, blockSize, blockSize);
+                obj.transform.GetComponent<BoxCollider>().center = new Vector3(0, 4, 0);
+                obj.transform.tag = "pathEdge";
             }
         }
     }
@@ -337,7 +341,7 @@ public class PopUpManager : MonoBehaviour
             {
                 if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 20f)
                 {
-                    currentPaths[x][y].GetComponent<MeshRenderer>().enabled = true;
+                    currentPaths[x][y].gameObject.SetActive(true);
                     tweener.AddTween(currentPaths[x][y].transform, currentPaths[x][y].transform.position, currentPaths[x][y].transform.position + new Vector3(0, 4, 0), 1);
                     currentPaths[x].RemoveAt(y);
                 }
