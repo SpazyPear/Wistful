@@ -67,6 +67,7 @@ public class PlayerCollisions : MonoBehaviour
         {
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
+            popUpManager.riseBlocks();
         }
     }
 

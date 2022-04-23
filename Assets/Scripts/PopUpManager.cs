@@ -144,6 +144,7 @@ public class PopUpManager : MonoBehaviour
                     {
                         obj.tag = "Untagged";
                     }
+                    return;
                 }
                 popBiome(); 
             }
@@ -157,12 +158,12 @@ public class PopUpManager : MonoBehaviour
 
             }
 
-            tweenerManager();
+            riseBlocks();
 
         }
     }
 
-    void tweenerManager()
+    public void riseBlocks()
     {
         foreach (GameObject obj in toRise)
         {
