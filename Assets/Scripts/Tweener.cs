@@ -9,6 +9,7 @@ public class Tweener : MonoBehaviour
    // private Tween activeTween;
     public List<Tween> activeTweens;
     private List<Tween> toBeRemoved;
+    public PopUpManager popUpManager;
 
     // Start is called before the first frame update
     void Start()
@@ -56,10 +57,16 @@ public class Tweener : MonoBehaviour
 
         for (int i = toBeRemoved.Count - 1; i > 0; i--)
         {
+            GameObject obj = toBeRemoved[i].Target.gameObject;
             activeTweens.Remove(toBeRemoved.ElementAt(i));
 
             toBeRemoved.RemoveAt(i);
 
+            if (obj.transform.position.y < -10)
+            {
+                popUpManager.pastPlatforms.Remove(obj);
+                Destroy(obj);
+            }
 
         } 
     }
@@ -67,7 +74,7 @@ public class Tweener : MonoBehaviour
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float duration)
     {
        
-            activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
+        activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
         
     }
 
