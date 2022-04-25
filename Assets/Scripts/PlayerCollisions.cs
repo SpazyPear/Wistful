@@ -34,6 +34,8 @@ public class PlayerCollisions : MonoBehaviour
                 Destroy(hitItem.gameObject);
                 hitItem = null;
                 popUpManager.obstacleTime = true;
+                popUpManager.itemPickedUp = true;
+                popUpManager.generatePath(4);
             }
         }
     }
