@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
 {
     //This script is used to manage the menu system.
     //It is attached to the Start menu canvas and the Levels' pause menu canvas.
-
+    
     //-------------Level pres-----------------
     public bool GameisPause = false;
     public GameObject PauseMenu;
@@ -28,6 +28,7 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         GameisPause = false;
+        DontDestroyOnLoad(this.gameObject);
         //
         //get resolutions of the screen
         // Resolution[] resolutions = Screen.resolutions;
@@ -56,7 +57,7 @@ public class MenuController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;        
         }
         //debug the current volumn  
-        Debug.Log(AudioListener.volume);
+        //Debug.Log(AudioListener.volume);
         }
     public void AwakeSettings(){
         if (!SettingisActive)
@@ -87,6 +88,7 @@ public class MenuController : MonoBehaviour
         
     }
     void loadLevel1(){
+        
         SceneManager.LoadScene("Level 1");
     }
     private Vector3 TitleOriginPos;
@@ -137,15 +139,16 @@ public class MenuController : MonoBehaviour
 
     public void ResettheLevel()
     {
-        /*PauseMenu.SetActive(false);
-        Time.timeScale = 1;
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         GameisPause = false;
-        SceneManager.LoadScene("Level 1");*/
+        PauseMenu.SetActive(false);
+        Time.timeScale = 1;
     }
     
     public void ReturntoMain()
     {
-        //
+        //SceneManager.LoadScene("Start Menu");
     }
     public void QuitGame()
     {

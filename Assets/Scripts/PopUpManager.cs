@@ -60,6 +60,7 @@ public class PopUpManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += instantiateDataStructures;
+        
     }
 
     void Update()
