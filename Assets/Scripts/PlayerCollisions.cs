@@ -84,9 +84,9 @@ public class PlayerCollisions : MonoBehaviour
 
     void CollectLevelOneItems()
     {
-        switch (hitItem.gameObject.name)
+        switch (hitItem.itemID)
         {
-            case "Stairs":
+            case "Ladder":
                 uiManager.findObject2Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects Ladder";
                 StartCoroutine(HideText());
@@ -98,15 +98,15 @@ public class PlayerCollisions : MonoBehaviour
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
-            case "KitePrefab":
+            case "Kite":
                 uiManager.findObject4Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects Kite";
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
-            case "Object029": //should be photo
+            case "Photo": //should be photo
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects Photo";
                 foundPhoto = true;
                 StartCoroutine(HideText());
                 break;
