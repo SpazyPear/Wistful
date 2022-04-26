@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System;
 using UnityEngine;
 
@@ -28,7 +29,9 @@ public class PlayerCollisions : MonoBehaviour
                 inventoryManager.pickUpItem(hitItem);
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
+                if (SceneManager.GetActiveScene().name == "Level 1") {
+                    CollectLevelOneItems();
+                }
                 uiManager.collectedObjectText.enabled = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 Destroy(hitItem.gameObject);
@@ -63,6 +66,12 @@ public class PlayerCollisions : MonoBehaviour
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
         }
+        if (collider.gameObject.tag.Equals("pathEdge"))
+        {
+            popUpManager.obstacleTime = false;
+            popUpManager.popBiome();
+            popUpManager.riseBlocks();
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -75,9 +84,9 @@ public class PlayerCollisions : MonoBehaviour
 
     void CollectLevelOneItems()
     {
-        switch (hitItem.gameObject.name)
+        switch (hitItem.itemID)
         {
-            case "Stairs":
+            case "Ladder":
                 uiManager.findObject2Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects Ladder";
                 StartCoroutine(HideText());
@@ -89,15 +98,15 @@ public class PlayerCollisions : MonoBehaviour
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
-            case "KitePrefab":
+            case "Kite":
                 uiManager.findObject4Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects Kite";
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
-            case "Object029": //should be photo
+            case "Photo": //should be photo
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects Photo";
                 foundPhoto = true;
                 StartCoroutine(HideText());
                 break;
@@ -113,4 +122,6 @@ public class PlayerCollisions : MonoBehaviour
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
+
+
 }
