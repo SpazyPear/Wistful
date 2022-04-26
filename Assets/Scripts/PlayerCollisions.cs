@@ -15,26 +15,41 @@ public class PlayerCollisions : MonoBehaviour
     Door hitDoor;
     Item hitItem;
 
+    Camera camera;
+    [SerializeField]
+    private float hitRange;
+
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+    private void Start()
+    {
+        camera = Camera.main;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
             if (hitDoor)
-                hitDoor.toggleDoor();
-
-            else if (hitItem)
             {
-                inventoryManager.pickUpItem(hitItem);
-                itemsHeld.Add(hitItem.itemID);
-                gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
-                uiManager.collectedObjectText.enabled = true;
-                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                Destroy(hitItem.gameObject);
-                hitItem = null;
-                popUpManager.obstacleTime = true;
+                hitDoor.toggleDoor();
             }
+            else if (Physics.Raycast(transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            {
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
+                {
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    inventoryManager.pickUpItem(hitItem);
+                    itemsHeld.Add(hitItem.itemID);
+                    gameObject.AddComponent(hitItem.GetType());
+                    CollectLevelOneItems();
+                    //uiManager.collectedObjectText.enabled = true;
+                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                    Destroy(hitItem.gameObject);
+                    hitItem = null;
+                    popUpManager.obstacleTime = true;
+                }
+            }
+            //else if (hitItem)
         }
     }
 
