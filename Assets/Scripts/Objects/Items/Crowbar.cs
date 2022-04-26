@@ -9,7 +9,7 @@ public class Crowbar : Item
     // Start is called before the first frame update
     void Start()
     {
-        
+        camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -25,7 +25,7 @@ public class Crowbar : Item
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range))
+        if (Physics.Raycast(transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, range))
         {
             Debug.Log(hit.transform.gameObject.name);
             if (hit.transform.gameObject.tag == "Glass")

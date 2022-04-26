@@ -1072,6 +1072,7 @@ MonoBehaviour:
       probability: 0.2
       size: {x: 3, y: 3, z: 3}
       containsItem: 1
+  crumbledTiles: []
   currentItemNum: 0
   deservesItem: 0
   levelHeights:
@@ -1083,6 +1084,7 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
     containsItem: 0
   movement: {fileID: 0}
+  obstacleTime: 0
 --- !u!1 &459240229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,6 +1489,8 @@ MonoBehaviour:
   itemsHeld: []
   uiManager: {fileID: 1232793082}
   inventoryManager: {fileID: 714773064}
+  popUpManager: {fileID: 0}
+  hitRange: 10
 --- !u!114 &941778564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1923,7 +1927,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232793080}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18c4d57a252152a42a75f06b6a46d74e, type: 3}
   m_Name: 

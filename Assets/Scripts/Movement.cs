@@ -46,7 +46,6 @@ public class Movement : MonoBehaviour
         collectInput();
         movement();
         jump();
-        Debug.Log(CheckGrounded());
     }
 
 
