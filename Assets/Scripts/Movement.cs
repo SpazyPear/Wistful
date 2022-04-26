@@ -28,6 +28,8 @@ public class Movement : MonoBehaviour
     public PlayerCollisions playerCollisions;
 
     public event EventHandler nextBiomeEvent;
+    public MenuController menuController;
+    public float newSensitivity;
 
 
     // Start is called before the first frame update
@@ -35,28 +37,38 @@ public class Movement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
+        newSensitivity = 3.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(menuController.GameisPause){
+            sensitivity = 0f;
+        }
+        else{
+            sensitivity = newSensitivity;
+        }
         collectInput();
         movement();
         jump();
+    }
+    public void applyMouseSensitivity(float sensValue){
+        newSensitivity = sensValue;
+        sensitivity = newSensitivity;
     }
 
 
 
     void collectInput()
     {
-        /*if (!GameObject.Find("Canvas").GetComponent<MenuController>().GameisPause)
-        {*/
+        
             moveHorizontal = Input.GetAxis("Horizontal");
             moveVertical = Input.GetAxis("Vertical");
 
             moveX = Input.GetAxis("Mouse X");
             moveY = Input.GetAxis("Mouse Y");
-        /*}*/
+        
 
         
         

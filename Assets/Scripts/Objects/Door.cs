@@ -4,32 +4,26 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-
     float halfLength;
     bool isOpen;
     bool isTurning;
     public GameObject prefab;
     Vector3 pivotPoint;
     public bool isLocked;
+    public bool pivotsFromZero;
 
     // Start is called before the first frame update
     void Start()
     {
-        try 
-        { 
+        try
+        {
             halfLength = gameObject.GetComponent<MeshRenderer>().bounds.size.x / 2f;
         }
         catch (MissingComponentException e)
         {
             halfLength = transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2f;
         }
-        pivotPoint = new Vector3(transform.position.x - halfLength, transform.position.y, transform.position.z);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        pivotPoint = pivotsFromZero ? transform.position : new Vector3(transform.position.x - halfLength, transform.position.y, transform.position.z);
     }
 
     public void toggleDoor()
@@ -39,17 +33,17 @@ public class Door : MonoBehaviour
             
             if (!isOpen)
             {
-                StartCoroutine(spinDoor(true));
+                StartCoroutine(spinDoor(true, pivotsFromZero));
             }
             else
             {
-                StartCoroutine(spinDoor(false));
+                StartCoroutine(spinDoor(false, pivotsFromZero));
             }
             isOpen = !isOpen;
         }
     }
 
-    IEnumerator spinDoor(bool open)
+    IEnumerator spinDoor(bool open, bool pivotsFromZero)
     {
         isTurning = true;
 
@@ -65,5 +59,4 @@ public class Door : MonoBehaviour
         transform.eulerAngles = open ? new Vector3(0, -90, 0) : new Vector3(0, 0, 0);
         isTurning = false;
     }
-
 }
