@@ -43,11 +43,16 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(menuController.GameisPause){
-            sensitivity = 0f;
-        }
-        else{
-            sensitivity = newSensitivity;
+        if (menuController)
+        {
+            if (menuController.GameisPause)
+            {
+                sensitivity = 0f;
+            }
+            else
+            {
+                sensitivity = newSensitivity;
+            }
         }
         collectInput();
         movement();
