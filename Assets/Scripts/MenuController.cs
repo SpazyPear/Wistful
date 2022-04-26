@@ -87,7 +87,7 @@ public class MenuController : MonoBehaviour
         
     }
     void loadLevel1(){
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Level 1");
     }
     private Vector3 TitleOriginPos;
     public void AwakeStartMenu(){
