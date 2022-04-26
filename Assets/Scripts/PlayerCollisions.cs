@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System;
 using UnityEngine;
 
@@ -28,7 +29,9 @@ public class PlayerCollisions : MonoBehaviour
                 inventoryManager.pickUpItem(hitItem);
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
+                if (SceneManager.GetActiveScene().name == "Level 1") {
+                    CollectLevelOneItems();
+                }
                 uiManager.collectedObjectText.enabled = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 Destroy(hitItem.gameObject);
