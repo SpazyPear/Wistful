@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Tweener : MonoBehaviour
@@ -76,6 +77,14 @@ public class Tweener : MonoBehaviour
        
         activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
         
+    }
+
+    public async Task waitForComplete()
+    {
+        while (activeTweens.Count > 0)
+        {
+            await Task.Yield();
+        }
     }
 
    

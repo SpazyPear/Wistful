@@ -40,25 +40,6 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent(typeof(Door)))
-        {
-            if (collision.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
-                return;
-
-            hitDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.GetComponent(typeof(Door)))
-        {
-            hitDoor = null;
-        }
-    }
-
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.GetComponent(typeof(Item)))
@@ -71,6 +52,13 @@ public class PlayerCollisions : MonoBehaviour
             popUpManager.popBiome();
             popUpManager.riseBlocks();
         }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            if (collider.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
+                return;
+
+            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -78,6 +66,14 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = null;
+        }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            hitDoor = null;
+        }
+        if (collider.gameObject.tag.Equals("pathEdge"))
+        {
+            popUpManager.destroyPath();
         }
     }
 

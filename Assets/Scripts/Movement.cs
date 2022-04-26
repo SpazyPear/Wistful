@@ -8,7 +8,6 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Transform pos;
-    private Tweener tweener;
     public Camera cam;
     public bool isGrounded;
     public Rigidbody rb;
@@ -20,11 +19,10 @@ public class Movement : MonoBehaviour
     private float moveVertical;
     private float moveX;
     private float moveY;
+    private float rotationY = 0.0f;
 
     public GameObject target;
-    public bool canUseJetPack = false;
     public PopUpManager popUpManager;
-    public StatManger statManager;
     public PlayerCollisions playerCollisions;
 
     public event EventHandler nextBiomeEvent;
@@ -52,7 +50,19 @@ public class Movement : MonoBehaviour
         collectInput();
         movement();
         jump();
+        checkRespawn();
     }
+
+    void checkRespawn()
+    {
+        if (transform.position.y < -12)
+        {
+            rb.GetComponent<Rigidbody>().isKinematic = true;
+            transform.position = new Vector3(transform.position.x, popUpManager.levelHeights[popUpManager.currentLevel] + 6, transform.position.z);
+            rb.GetComponent<Rigidbody>().isKinematic = false;
+        }
+    }
+
     public void applyMouseSensitivity(float sensValue){
         newSensitivity = sensValue;
         sensitivity = newSensitivity;
@@ -63,15 +73,14 @@ public class Movement : MonoBehaviour
     void collectInput()
     {
         
-            moveHorizontal = Input.GetAxis("Horizontal");
-            moveVertical = Input.GetAxis("Vertical");
+        moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
 
-            moveX = Input.GetAxis("Mouse X");
-            moveY = Input.GetAxis("Mouse Y");
-        
-
-        
-        
+        moveX = Input.GetAxis("Mouse X");
+        moveY = Input.GetAxis("Mouse Y");
+        rotationY -= moveY * sensitivity;
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+       
     }
 
     public void OnNextBiome()
@@ -82,7 +91,7 @@ public class Movement : MonoBehaviour
     private void movement()
     {
         target.transform.Rotate(0, moveX * sensitivity, 0);
-        cam.transform.Rotate(-moveY * sensitivity, 0, 0);
+        cam.transform.localRotation = Quaternion.Euler(rotationY, 0, 0);
         target.transform.Translate(Vector3.right * moveHorizontal * moveSens * Time.deltaTime, Space.Self);
         target.transform.Translate(Vector3.forward * moveVertical * moveSens * Time.deltaTime, Space.Self);
     }

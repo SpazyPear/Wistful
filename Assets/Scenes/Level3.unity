@@ -623,6 +623,7 @@ Transform:
   - {fileID: 128218114}
   - {fileID: 913135990}
   - {fileID: 946201046}
+  - {fileID: 697088364}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -670,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d565aa5679687f41bdc1b890f827945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUpManager: {fileID: 0}
 --- !u!1 &139491468
 GameObject:
   m_ObjectHideFlags: 0
@@ -3705,6 +3707,84 @@ Transform:
   m_Father: {fileID: 329500722}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &697088363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 697088364}
+  - component: {fileID: 697088365}
+  m_Layer: 0
+  m_Name: PopUpManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &697088364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697088363}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 102782188}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &697088365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697088363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ca598fb92fe3545969350e5bf53186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  prefab: {fileID: 0}
+  posY: 0
+  tweener: {fileID: 128218115}
+  pastPlatforms: []
+  gameTerrain:
+  - blocks:
+    - prefab: {fileID: 0}
+      probability: 0
+      size: {x: 0, y: 0, z: 0}
+      containsItem: 0
+    - prefab: {fileID: 0}
+      probability: 0
+      size: {x: 0, y: 0, z: 0}
+      containsItem: 0
+    - prefab: {fileID: 0}
+      probability: 0
+      size: {x: 0, y: 0, z: 0}
+      containsItem: 0
+  itemTerrain: []
+  crumbledTiles: []
+  currentItemNum: 0
+  deservesItem: 0
+  levelHeights:
+  - 0
+  currentLevel: 0
+  vaultBlock:
+    prefab: {fileID: 0}
+    probability: 0
+    size: {x: 0, y: 0, z: 0}
+    containsItem: 0
+  movement: {fileID: 0}
+  obstacleTime: 0
+  itemPickedUp: 1
 --- !u!1 &706100375
 GameObject:
   m_ObjectHideFlags: 0
@@ -12429,6 +12509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cubicles
       objectReference: {fileID: 0}
+    - target: {fileID: 1518870365464854546, guid: 0b33b6dcb49317d47bcf558fb4ca1d6d, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7766708380643321818, guid: 0b33b6dcb49317d47bcf558fb4ca1d6d, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -12489,6 +12573,10 @@ PrefabInstance:
     - target: {fileID: 881384051025123974, guid: 146b38580a50e7d4fb029c67d5eba033, type: 3}
       propertyPath: m_Name
       value: Modern Shelves
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542696413456653856, guid: 146b38580a50e7d4fb029c67d5eba033, type: 3}
+      propertyPath: m_Size.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7760892540080339432, guid: 146b38580a50e7d4fb029c67d5eba033, type: 3}
       propertyPath: m_RootOrder

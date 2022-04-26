@@ -55,6 +55,7 @@ public class PopUpManager : MonoBehaviour
    
 
     List<List<GameObject>> currentPaths = new List<List<GameObject>>();
+    List<List<GameObject>> fullCurrentPaths = new List<List<GameObject>>();
 
 
     void Awake()
@@ -131,12 +132,12 @@ public class PopUpManager : MonoBehaviour
         normalizeProbabilities(ref crumbledTiles[currentLevel].pathTiles);
     }
 
-    async void posChangedInstantiate()
+    void posChangedInstantiate()
     {
         double relPosX = Math.Round(player.position.x);
         double relPosZ = Math.Round(player.position.z);
         double relPosY = Math.Round(player.position.y);
-        if (relPosX > posX + 2 || relPosZ > posZ + 2 || relPosX < posX - 2 || relPosZ < posZ - 2)
+        if ((relPosX > posX + 2 || relPosZ > posZ + 2 || relPosX < posX - 2 || relPosZ < posZ - 2) && tweener.activeTweens.Count == 0)
         {
 
             posX = player.position.x;
@@ -155,15 +156,8 @@ public class PopUpManager : MonoBehaviour
                 if (obstacleWasActive)
                 {
                     obstacleWasActive = false;
-                    foreach (GameObject obj in GameObject.FindGameObjectsWithTag("pathEdge"))
-                    {
-                        obj.tag = "Untagged";
-                    }
+                    
                     return;
-                }
-                while (tweener.activeTweens.Count > 0)
-                {
-                    await Task.Yield();
                 }
                 popBiome(); 
             }
@@ -216,10 +210,12 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    public List<List<GameObject>> generatePath(int pathSize)
+    public async void generatePath(int pathSize)
     {
 
         dropBlocks();
+
+        await tweener.waitForComplete();
 
         List<List<GameObject>> paths = new List<List<GameObject>>();
         Vector3[] cardinals = new Vector3[4];
@@ -244,7 +240,7 @@ public class PopUpManager : MonoBehaviour
                 if (!Physics.CheckBox(edge + (forward * blockSize) * index, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                     break;
 
-                edges[cardinalsIndex] = roundVector3(edge + (forward * blockSize) * index);
+                edges[cardinalsIndex] = roundVector3(edge + (forward * blockSize) * (index - 1));
                 index++;
             }
             cardinalsIndex++;
@@ -284,15 +280,27 @@ public class PopUpManager : MonoBehaviour
                     paths[cardinalsIndex].Add(obj.transform.GetChild(i).gameObject);
                     obj.transform.GetChild(i).gameObject.SetActive(false);
                 }
-
-                //break;
                              
             }
             cardinalsIndex++;
         }
         markPathEdges(paths);
         currentPaths = paths;
-        return paths;
+        fullCurrentPaths = copyPaths(paths);
+
+        List<List<GameObject>> copyPaths (List<List<GameObject>> paths)
+        {
+            List<List<GameObject>> copy = new List<List<GameObject>>();
+            for (int x = 0; x < paths.Count; x++)
+            {
+                copy.Add(new List<GameObject>());
+                for (int y = 0; y < paths[x].Count; y++)
+                {
+                    copy[x].Add(paths[x][y]);
+                }
+            }
+            return copy;
+        }
 
         PathTile getTile()
         {
@@ -327,13 +335,13 @@ public class PopUpManager : MonoBehaviour
                 edges[cardinalsIndex].Add(null);
                 foreach (GameObject obj in paths[cardinalsIndex])
                 {
-                    if (edges[cardinalsIndex][0] == null || Mathf.Abs(multiplyVector3(obj.transform.position, cardinals[cardinalsIndex]).magnitude) > Mathf.Abs(multiplyVector3(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                    if (edges[cardinalsIndex][0] == null || Mathf.Abs(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex]).magnitude) > Mathf.Abs(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
                     {
                         edges[cardinalsIndex].Clear();
                         edges[cardinalsIndex].Add(obj);
                         continue;
                     }
-                    else if (Mathf.Abs(multiplyVector3(obj.transform.position, cardinals[cardinalsIndex]).magnitude) == Mathf.Abs(multiplyVector3(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                    else if (Mathf.Abs(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex]).magnitude) == Mathf.Abs(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
                     {
                         edges[cardinalsIndex].Add(obj);
                     }
@@ -346,39 +354,10 @@ public class PopUpManager : MonoBehaviour
                 {
                     obj.transform.gameObject.AddComponent<BoxCollider>().isTrigger = true;
                     obj.transform.GetComponent<BoxCollider>().size = new Vector3(blockSize, blockSize, blockSize);
-                    obj.transform.GetComponent<BoxCollider>().center = new Vector3(0, 4, 0);
                     obj.transform.tag = "pathEdge";
                 }
             }
         }
-
-    }
-
-    
-
-    Vector3 multiplyVector3(Vector3 a, Vector3 b)
-    {
-        return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
-    }
-
-    Vector3 nearestCardinal(Vector3 input)
-    {
-        Vector3 output = Vector3.zero;
-        int index = 0;
-        float largest = 0;
-        for (int x = 0; x < 3; x++)
-        {
-            if (x == 1)
-                continue;
-
-            if (largest < Mathf.Abs(input[x]))
-            {
-                largest = input[x];
-                index = x;
-            }
-        }
-        output[index] = 1;
-        return output;
     }
 
     void popObstacle()
@@ -386,13 +365,32 @@ public class PopUpManager : MonoBehaviour
         obstacleWasActive = true;
         for (int x = currentPaths.Count - 1; x >= 0; x--)
         {
-            for (int y = 0; y < currentPaths[x].Count; y++)
+            for (int y = currentPaths[x].Count - 1; y >= 0; y--)
             {
                 if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 20f)
                 {
                     currentPaths[x][y].gameObject.SetActive(true);
                     tweener.AddTween(currentPaths[x][y].transform, currentPaths[x][y].transform.position, new Vector3(currentPaths[x][y].transform.position.x, currentPaths[x][y].transform.position.y + 3, currentPaths[x][y].transform.position.z), 1);
                     currentPaths[x].RemoveAt(y);
+                }
+            }
+        }
+    }
+
+    public async void destroyPath()
+    {
+        await Task.Delay(2000);
+        for (int x = fullCurrentPaths.Count - 1; x >= 0; x--)
+        {
+            for (int y = fullCurrentPaths[x].Count - 1; y >= 0 ; y--)
+            {
+                try
+                {
+                    tweener.AddTween(fullCurrentPaths[x][y].transform, fullCurrentPaths[x][y].transform.position, new Vector3(fullCurrentPaths[x][y].transform.position.x, -12, fullCurrentPaths[x][y].transform.position.z), 2f);
+                }
+                catch (MissingReferenceException e)
+                {
+
                 }
             }
         }
@@ -408,7 +406,6 @@ public class PopUpManager : MonoBehaviour
         {
             pos = roundVector3(pos + new Vector3((toSpawn.size.x * blockSize), 0, toSpawn.size.z * blockSize));
         }
-        //createDebugSphere(pos, new Vector3(1, 1, 1));
         if (Physics.CheckBox(pos, toSpawn.size, Quaternion.identity, 1, QueryTriggerInteraction.Collide))
         {
             if (toSpawn.containsItem)
