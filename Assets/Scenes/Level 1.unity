@@ -2522,6 +2522,7 @@ MonoBehaviour:
   prefab: {fileID: 13980495300744388, guid: 74bbb96e3fd75dc4db27cd11364a1cfa, type: 3}
   posY: 0
   tweener: {fileID: 493531343}
+  pastPlatforms: []
   gameTerrain:
   - blocks:
     - prefab: {fileID: 2143867172880832163, guid: 65a80ac784e3d654dab5846b04a3f4ee, type: 3}
@@ -2559,23 +2560,7 @@ MonoBehaviour:
       size: {x: 20, y: 5, z: 20}
       containsItem: 1
   crumbledTiles:
-  - blocks:
-    - prefab: {fileID: 5520755239173827052, guid: c5a0b8f60b310704da6d26c3d3529d62, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      containsItem: 0
-    - prefab: {fileID: 5520755239173827052, guid: a1d187593ad456c4fbb4118bb5c98278, type: 3}
-      probability: 0.3
-      size: {x: 3, y: 0, z: 3}
-      containsItem: 0
-    - prefab: {fileID: 5520755239173827052, guid: 2bc00e4b0d19808468a18c2c468285c7, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      containsItem: 0
-    - prefab: {fileID: 5520755239173827052, guid: a0f8f581989108247a988d199d38f8a0, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      containsItem: 0
+  - pathTiles: []
   currentItemNum: 0
   deservesItem: 0
   levelHeights:
@@ -2589,6 +2574,7 @@ MonoBehaviour:
     containsItem: 0
   movement: {fileID: 1365182993}
   obstacleTime: 0
+  itemPickedUp: 1
 --- !u!4 &356297474
 Transform:
   m_ObjectHideFlags: 0
@@ -3952,6 +3938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d565aa5679687f41bdc1b890f827945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUpManager: {fileID: 0}
 --- !u!4 &493531344
 Transform:
   m_ObjectHideFlags: 0
@@ -27084,7 +27071,7 @@ PrefabInstance:
     - target: {fileID: 8605812191029334073, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: menuController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1158626501}
     - target: {fileID: 8605812191029334076, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
