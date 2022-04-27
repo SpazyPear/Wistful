@@ -124,29 +124,29 @@ public class PlayerCollisions : MonoBehaviour
 
     void CollectLevelOneItems()
     {
-        switch (hitItem.gameObject.name)
+        switch (hitItem.itemID)
         {
-            case "Stairs":
+            case "Ladder":
                 uiManager.findObject2Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects Ladder";
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 StartCoroutine(HideText());
                 foundLadder = true;
                 break;
             case "Rocket":
                 uiManager.findObject3Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
-            case "KitePrefab":
+            case "Kite":
                 uiManager.findObject4Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects Kite";
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
-            case "Object029": //should be photo
+            case "Photo": //should be photo
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
                 StartCoroutine(HideText());
                 break;
