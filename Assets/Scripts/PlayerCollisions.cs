@@ -15,60 +15,28 @@ public class PlayerCollisions : MonoBehaviour
     Door hitDoor;
     Item hitItem;
 
-    Camera camera;
-    [SerializeField]
-    private float hitRange;
-
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
-    private void Start()
-    {
-        camera = Camera.main;
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
             if (hitDoor)
-            {
                 hitDoor.toggleDoor();
-            }
-            else if (Physics.Raycast(transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+
+            else if (hitItem)
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Item)))
-                {
-                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
-                    inventoryManager.pickUpItem(hitItem);
-                    itemsHeld.Add(hitItem.itemID);
-                    gameObject.AddComponent(hitItem.GetType());
-                    CollectLevelOneItems();
-                    //uiManager.collectedObjectText.enabled = true;
-                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                    Destroy(hitItem.gameObject);
-                    hitItem = null;
-                    popUpManager.obstacleTime = true;
-                }
+                inventoryManager.pickUpItem(hitItem);
+                itemsHeld.Add(hitItem.itemID);
+                gameObject.AddComponent(hitItem.GetType());
+                CollectLevelOneItems();
+                uiManager.collectedObjectText.enabled = true;
+                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
+                popUpManager.obstacleTime = true;
+                popUpManager.itemPickedUp = true;
+                popUpManager.generatePath(4);
             }
-            //else if (hitItem)
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent(typeof(Door)))
-        {
-            if (collision.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
-                return;
-
-            hitDoor = collision.gameObject.GetComponent(typeof(Door)) as Door;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.GetComponent(typeof(Door)))
-        {
-            hitDoor = null;
         }
     }
 
@@ -78,6 +46,19 @@ public class PlayerCollisions : MonoBehaviour
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
         }
+        if (collider.gameObject.tag.Equals("pathEdge"))
+        {
+            popUpManager.obstacleTime = false;
+            popUpManager.popBiome();
+            popUpManager.riseBlocks();
+        }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            if (collider.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
+                return;
+
+            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -85,6 +66,14 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = null;
+        }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            hitDoor = null;
+        }
+        if (collider.gameObject.tag.Equals("pathEdge"))
+        {
+            popUpManager.destroyPath();
         }
     }
 
@@ -128,4 +117,6 @@ public class PlayerCollisions : MonoBehaviour
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
+
+
 }
