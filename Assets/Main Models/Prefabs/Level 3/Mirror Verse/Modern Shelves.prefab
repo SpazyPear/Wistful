@@ -101,6 +101,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6908534475068870220, guid: d195a41259893f240aca188348f80cdb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3bfa02221df284c46823825aca38088d, type: 2}
     - target: {fileID: 7740609794394188519, guid: d195a41259893f240aca188348f80cdb, type: 3}
       propertyPath: m_Name
       value: Key
@@ -141,6 +145,7 @@ MonoBehaviour:
   prefab: {fileID: 4998648401678664283}
   menuSprite: {fileID: 0}
   description: Square key found in an office.
+  triggersPath: 1
   door: {fileID: 0}
 --- !u!4 &9018942450032692401 stripped
 Transform:

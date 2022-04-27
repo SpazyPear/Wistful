@@ -481,7 +481,7 @@ public class PopUpManager : MonoBehaviour
             if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                 break;
 
-            edge = roundVector3(edge + (forward * blockSize) * (blockDist - 1));
+            edge = roundVector3(edge + (forward * blockSize) * (blockDist));
             blockDist++;
         }
 
