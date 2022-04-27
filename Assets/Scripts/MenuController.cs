@@ -28,7 +28,7 @@ public class MenuController : MonoBehaviour
     //-------------Start pres---------------------------
     public TMPro.TMP_Dropdown dropdown;
     public GameObject PlayerPrefab;
-
+    public bool OnStartScene;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,12 +36,14 @@ public class MenuController : MonoBehaviour
         sens = PlayerPrefab.GetComponent<Movement>().sensitivity;
         if(SceneManager.GetActiveScene().name == "Level 1")
         {
+            OnStartScene = true;
             StartScene.SetActive(true);
             Cursor.lockState = CursorLockMode.None; 
             
         }
         else{
             StartScene.SetActive(false);
+            OnStartScene = false;
         }
         
         //DontDestroyOnLoad(this.gameObject);
@@ -66,7 +68,10 @@ public class MenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PausetheGame();
+            if(OnStartScene == false)
+            {
+                PausetheGame();
+            }
         }
         if (GameisPause)
         {
@@ -104,11 +109,12 @@ public class MenuController : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject Title;
     public void GameStart(){
-
+        OnStartScene = false;
         LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
         Cursor.lockState = CursorLockMode.Locked;
         //load level 1 after 1 second
         Invoke("loadLevel1", 2f);
+        
         
     }
     public void applyMouseSenstivity(float value){
@@ -155,9 +161,12 @@ public class MenuController : MonoBehaviour
         Time.timeScale = 0;
         GameisPause = true;
         PlayerPrefab.gameObject.GetComponent<Movement>().sensitivity = 0;
+
+        
     }
     public void ResumetheGame()
     {
+        
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
         GameisPause = false;
