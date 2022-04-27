@@ -29,6 +29,9 @@ public class PopUpManager : MonoBehaviour
     [SerializeField]
     private List<GamePathTiles> crumbledTiles = new List<GamePathTiles>();
 
+    [SerializeField]
+    private List<GameObject> platformLinks = new List<GameObject>();
+
     private bool vaultUp = false;
 
     public const int width = 3;
@@ -52,7 +55,7 @@ public class PopUpManager : MonoBehaviour
     bool obstacleWasActive;
 
     public bool itemPickedUp = true;
-   
+
 
     List<List<GameObject>> currentPaths = new List<List<GameObject>>();
     List<List<GameObject>> fullCurrentPaths = new List<List<GameObject>>();
@@ -65,8 +68,7 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
-        SceneManager.sceneLoaded += instantiateDataStructures;
-        
+
     }
 
     void Update()
@@ -89,7 +91,7 @@ public class PopUpManager : MonoBehaviour
             }
             obstacleTime = true;
             obstacleTimerRunning = false;
-            
+
         }
     }
 
@@ -101,7 +103,7 @@ public class PopUpManager : MonoBehaviour
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
         itemTerrain[0].blocks.Add(vaultBlock);
         normalizeProbabilities(ref currentLevelTerrain);
-        normalizeProbabilities(ref crumbledTiles[currentLevel].pathTiles);
+        normalizeProbabilities(ref crumbledTiles[0].pathTiles);
     }
 
     void normalizeProbabilities(ref List<TerrainBlock> items)
@@ -124,13 +126,13 @@ public class PopUpManager : MonoBehaviour
         items.OrderByDescending(x => x.probability);
     }
 
-    void nextBiome(object sender, EventArgs e)
+    public void incrementDataStructures(object sender, EventArgs e)
     {
         currentLevel++;
-
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
+        currentItemNum = 0;
         normalizeProbabilities(ref currentLevelTerrain);
-        normalizeProbabilities(ref crumbledTiles[currentLevel].pathTiles);
+        normalizeProbabilities(ref crumbledTiles[0].pathTiles);
     }
 
     void posChangedInstantiate()
@@ -158,10 +160,10 @@ public class PopUpManager : MonoBehaviour
                 if (obstacleWasActive)
                 {
                     obstacleWasActive = false;
-                    
+
                     return;
                 }
-                popBiome(); 
+                popBiome();
             }
             else
             {
@@ -183,7 +185,7 @@ public class PopUpManager : MonoBehaviour
 
     void dropBlocks()
     {
-        foreach(GameObject obj in pastPlatforms)
+        foreach (GameObject obj in pastPlatforms)
         {
             if (Vector3.Distance(new Vector3(player.position.x, levelHeights[currentLevel], player.position.z), obj.transform.position) > 10f)
                 tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, obj.transform.position.y - 12, obj.transform.position.z)), 3f);
@@ -252,7 +254,7 @@ public class PopUpManager : MonoBehaviour
         currentPaths.Clear();
 
         // Layout the paths in all cardinal directions
-        while (cardinalsIndex < cardinals.Length) 
+        while (cardinalsIndex < cardinals.Length)
         {
             paths.Add(new List<GameObject>());
             List<Direction> directions = new List<Direction>();
@@ -261,11 +263,11 @@ public class PopUpManager : MonoBehaviour
                 PathTile tile = getTile();
                 while (true)
                 {
-                     if (tile.tileDirection != Direction.Forward && directions.Contains(tile.tileDirection))
-                     {
+                    if (tile.tileDirection != Direction.Forward && directions.Contains(tile.tileDirection))
+                    {
                         tile = getTile();
-                     }
-                     else
+                    }
+                    else
                         break;
                 }
 
@@ -282,27 +284,13 @@ public class PopUpManager : MonoBehaviour
                     paths[cardinalsIndex].Add(obj.transform.GetChild(i).gameObject);
                     obj.transform.GetChild(i).gameObject.SetActive(false);
                 }
-                             
+
             }
             cardinalsIndex++;
         }
         markPathEdges(paths);
         currentPaths = paths;
         fullCurrentPaths = copyPaths(paths);
-
-        List<List<GameObject>> copyPaths (List<List<GameObject>> paths)
-        {
-            List<List<GameObject>> copy = new List<List<GameObject>>();
-            for (int x = 0; x < paths.Count; x++)
-            {
-                copy.Add(new List<GameObject>());
-                for (int y = 0; y < paths[x].Count; y++)
-                {
-                    copy[x].Add(paths[x][y]);
-                }
-            }
-            return copy;
-        }
 
         PathTile getTile()
         {
@@ -312,10 +300,10 @@ public class PopUpManager : MonoBehaviour
 
             while (true)
             {
-                result -= crumbledTiles[currentLevel].pathTiles.ElementAt(resultIndex).probability;
+                result -= crumbledTiles[0].pathTiles.ElementAt(resultIndex).probability;
                 if (result < 0)
                 {
-                    return crumbledTiles[currentLevel].pathTiles.ElementAt(resultIndex);
+                    return crumbledTiles[0].pathTiles.ElementAt(resultIndex);
                 }
                 resultIndex++;
             }
@@ -362,6 +350,20 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
+    List<List<GameObject>> copyPaths(List<List<GameObject>> paths)
+    {
+        List<List<GameObject>> copy = new List<List<GameObject>>();
+        for (int x = 0; x < paths.Count; x++)
+        {
+            copy.Add(new List<GameObject>());
+            for (int y = 0; y < paths[x].Count; y++)
+            {
+                copy[x].Add(paths[x][y]);
+            }
+        }
+        return copy;
+    }
+
     void popObstacle()
     {
         obstacleWasActive = true;
@@ -369,7 +371,7 @@ public class PopUpManager : MonoBehaviour
         {
             for (int y = currentPaths[x].Count - 1; y >= 0; y--)
             {
-                if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 20f)
+                if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 28f)
                 {
                     currentPaths[x][y].gameObject.SetActive(true);
                     tweener.AddTween(currentPaths[x][y].transform, currentPaths[x][y].transform.position, new Vector3(currentPaths[x][y].transform.position.x, currentPaths[x][y].transform.position.y + 3, currentPaths[x][y].transform.position.z), 1);
@@ -393,7 +395,7 @@ public class PopUpManager : MonoBehaviour
         }
         for (int x = fullCurrentPaths.Count - 1; x >= 0; x--)
         {
-            for (int y = fullCurrentPaths[x].Count - 1; y >= 0 ; y--)
+            for (int y = fullCurrentPaths[x].Count - 1; y >= 0; y--)
             {
                 try
                 {
@@ -462,6 +464,61 @@ public class PopUpManager : MonoBehaviour
             index++;
         }
     }
+
+    public void spawnPlatformLink(object sender, EventArgs e)
+    {
+        currentPaths.Clear();
+        currentPaths.Add(new List<GameObject>());
+
+        Vector3 edge = roundVector3(player.position);
+        edge = new Vector3(edge.x, levelHeights[currentLevel], edge.z);
+
+        Vector3 forward = nearestCardinal(player.forward);
+
+        int blockDist = 0;
+        while (true)
+        {
+            if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
+                break;
+
+            edge = roundVector3(edge + (forward * blockSize) * (blockDist - 1));
+            blockDist++;
+        }
+
+        edge = new Vector3(edge.x, levelHeights[currentLevel] - 3, edge.z);
+        GameObject obj = Instantiate(platformLinks[currentLevel], edge, Quaternion.identity);
+        var angle = Vector3.Angle(transform.forward, Vector3.Scale(transform.InverseTransformPoint(forward), new Vector3(1, 0, 1)));
+        angle = Vector3.Dot(Vector3.right, transform.InverseTransformPoint(forward)) > 0.0f ? angle : -angle;
+        obj.transform.eulerAngles = new Vector3(0, angle, 0);
+
+        for (int i = 0; i < obj.transform.childCount; i++)
+        {
+            currentPaths[0].Add(obj.transform.GetChild(i).gameObject);
+            obj.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        fullCurrentPaths = copyPaths(currentPaths);
+
+        obstacleTime = true;
+
+        Vector3 nearestCardinal(Vector3 input)
+        {
+            Vector3 output = Vector3.zero;
+            int index = 0;
+            float largest = 0;
+            for (int x = 0; x < 3; x++)
+            {
+                if (largest < Mathf.Abs(input[x]))
+                {
+                    largest = input[x];
+                    index = x;
+                }
+            }
+            output[index] = 1;
+            return output;
+        }
+    }
+    
 
     Vector3 roundVector3(Vector3 pos)
     {

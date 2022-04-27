@@ -25,7 +25,6 @@ public class Movement : MonoBehaviour
     public PopUpManager popUpManager;
     public PlayerCollisions playerCollisions;
 
-    public event EventHandler nextBiomeEvent;
     public MenuController menuController;
     public float newSensitivity;
 
@@ -79,11 +78,6 @@ public class Movement : MonoBehaviour
         rotationY -= moveY * sensitivity;
         rotationY = Mathf.Clamp(rotationY, -90f, 90f);
        
-    }
-
-    public void OnNextBiome()
-    {
-        nextBiomeEvent?.Invoke(this, EventArgs.Empty);
     }
 
     private void movement()

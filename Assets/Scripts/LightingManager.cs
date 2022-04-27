@@ -13,7 +13,7 @@ public class LightingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        movement.nextBiomeEvent += setLighting;
+        //movement.nextBiomeEvent += setLighting;
     }
 
     // Update is called once per frame

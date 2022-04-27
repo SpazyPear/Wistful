@@ -18,7 +18,17 @@ public class PlayerCollisions : MonoBehaviour
     Door hitDoor;
     Item hitItem;
 
+    public event EventHandler onNextLevel;
+
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+
+    private void Start()
+    {
+        onNextLevel += popUpManager.spawnPlatformLink;
+
+        onNextLevel += popUpManager.incrementDataStructures;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -46,6 +56,8 @@ public class PlayerCollisions : MonoBehaviour
                 Destroy(hitItem.gameObject);
                 hitItem = null;
             }
+
+            
         }
     }
 
@@ -91,6 +103,17 @@ public class PlayerCollisions : MonoBehaviour
             destroyPathTokenSource = new CancellationTokenSource();
             var destroyPathToken = destroyPathTokenSource.Token;
             popUpManager.destroyPath(destroyPathToken);
+        }
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (collider.tag.Equals("Vault Door"))
+        {
+            if (Input.GetKeyDown(KeyCode.E)) {
+                onNextLevel.Invoke(this, new EventArgs());
+                collider.tag = "Untagged";
+            }
         }
     }
 
