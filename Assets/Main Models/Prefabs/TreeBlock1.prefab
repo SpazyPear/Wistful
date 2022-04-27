@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1381107178339412369}
   - component: {fileID: 3474665482144989163}
   - component: {fileID: 8977193119257150300}
+  - component: {fileID: 3353115912382973641}
   m_Layer: 0
   m_Name: ForestGround01
   m_TagString: Untagged
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3353115912382973641
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3258110710297477125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20000, y: 20000.008, z: 20000.004}
+  m_Center: {x: 0.009277344, y: -1.6699315e-16, z: -1.3183898e-16}
 --- !u!1 &3858047900585952351
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +108,7 @@ GameObject:
   - component: {fileID: 4036234596803940790}
   - component: {fileID: 3158366823876121763}
   - component: {fileID: 1217529841047005862}
+  - component: {fileID: 5464443160807707301}
   m_Layer: 0
   m_Name: rpgpp_lt_tree_01
   m_TagString: Untagged
@@ -166,6 +181,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5464443160807707301
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3858047900585952351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0410877, y: 7.444212, z: 0.9886185}
+  m_Center: {x: -0.036323965, y: -3.722106, z: -0.033210456}
 --- !u!1 &8207323495464759769
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +203,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8839886091542899555}
-  - component: {fileID: 5733543583835070012}
   m_Layer: 0
   m_Name: TreeBlock1
   m_TagString: ground
@@ -191,7 +218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8207323495464759769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.415096, y: 0, z: 20.569674}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -200,16 +227,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5733543583835070012
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8207323495464759769}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}

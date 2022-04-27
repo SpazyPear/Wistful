@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Tweener : MonoBehaviour
 {
    // private Tween activeTween;
-    private List<Tween> activeTweens;
+    public List<Tween> activeTweens;
     private List<Tween> toBeRemoved;
+    public PopUpManager popUpManager;
 
     // Start is called before the first frame update
     void Start()
@@ -56,20 +58,33 @@ public class Tweener : MonoBehaviour
 
         for (int i = toBeRemoved.Count - 1; i > 0; i--)
         {
+            GameObject obj = toBeRemoved[i].Target.gameObject;
             activeTweens.Remove(toBeRemoved.ElementAt(i));
-            if (toBeRemoved.ElementAt(i).EndPos.y == -20f && toBeRemoved.ElementAt(i).Target.gameObject.tag != "puzzle")
-            {
-                Destroy(toBeRemoved.ElementAt(i).Target.gameObject);
-            }
+
             toBeRemoved.RemoveAt(i);
+
+            if (obj.transform.position.y < -10)
+            {
+                popUpManager.pastPlatforms.Remove(obj);
+                Destroy(obj);
+            }
+
         } 
     }
 
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float duration)
     {
        
-            activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
+        activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
         
+    }
+
+    public async Task waitForComplete()
+    {
+        while (activeTweens.Count > 0)
+        {
+            await Task.Yield();
+        }
     }
 
    

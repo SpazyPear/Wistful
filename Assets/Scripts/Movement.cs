@@ -8,7 +8,6 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Transform pos;
-    private Tweener tweener;
     public Camera cam;
     public bool isGrounded;
     public Rigidbody rb;
@@ -20,15 +19,15 @@ public class Movement : MonoBehaviour
     private float moveVertical;
     private float moveX;
     private float moveY;
-    private float height;
+    private float rotationY = 0.0f;
 
     public GameObject target;
-    public bool canUseJetPack = false;
     public PopUpManager popUpManager;
-    public StatManger statManager;
     public PlayerCollisions playerCollisions;
 
     public event EventHandler nextBiomeEvent;
+    public MenuController menuController;
+    public float newSensitivity;
 
 
     // Start is called before the first frame update
@@ -36,27 +35,52 @@ public class Movement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
-
-        height = 1.5f;
+        newSensitivity = 3.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(menuController.GameisPause){
+            sensitivity = 0f;
+        }
+        else{
+            sensitivity = newSensitivity;
+        }
         collectInput();
         movement();
         jump();
+        checkRespawn();
+    }
+
+    void checkRespawn()
+    {
+        if (transform.position.y < -12)
+        {
+            rb.GetComponent<Rigidbody>().isKinematic = true;
+            transform.position = new Vector3(transform.position.x, popUpManager.levelHeights[popUpManager.currentLevel] + 6, transform.position.z);
+            rb.GetComponent<Rigidbody>().isKinematic = false;
+        }
+    }
+
+    public void applyMouseSensitivity(float sensValue){
+        newSensitivity = sensValue;
+        sensitivity = newSensitivity;
     }
 
 
 
     void collectInput()
     {
+        
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
         moveX = Input.GetAxis("Mouse X");
         moveY = Input.GetAxis("Mouse Y");
+        rotationY -= moveY * sensitivity;
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+       
     }
 
     public void OnNextBiome()
@@ -67,14 +91,14 @@ public class Movement : MonoBehaviour
     private void movement()
     {
         target.transform.Rotate(0, moveX * sensitivity, 0);
-        cam.transform.Rotate(-moveY * sensitivity, 0, 0);
+        cam.transform.localRotation = Quaternion.Euler(rotationY, 0, 0);
         target.transform.Translate(Vector3.right * moveHorizontal * moveSens * Time.deltaTime, Space.Self);
         target.transform.Translate(Vector3.forward * moveVertical * moveSens * Time.deltaTime, Space.Self);
     }
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && CheckGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
         }
@@ -94,17 +118,6 @@ public class Movement : MonoBehaviour
         { 
             isGrounded = false;
         }
-    }
-
-    private bool CheckGrounded()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, height))
-        {
-            return true;
-        }
-        return false;
     }
 
 }
