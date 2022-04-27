@@ -121,7 +121,7 @@ public class MenuController : MonoBehaviour
         sens = value;
     }
     void loadLevel1(){
-        GameObject.Find("StartMenu").SetActive(false);
+        StartScene.SetActive(false);
         //SceneManager.LoadScene("Level 1");
     }
     public void AwakeStartMenu(){
