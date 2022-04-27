@@ -26,26 +26,19 @@ public class Movement : MonoBehaviour
     public PlayerCollisions playerCollisions;
 
     public MenuController menuController;
-    public float newSensitivity;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
-        newSensitivity = 3.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(menuController.GameisPause){
-            sensitivity = 0f;
-        }
-        else{
-            sensitivity = newSensitivity;
-        }
         collectInput();
         movement();
         jump();
@@ -60,11 +53,6 @@ public class Movement : MonoBehaviour
             transform.position = new Vector3(transform.position.x, popUpManager.levelHeights[popUpManager.currentLevel] + 6, transform.position.z);
             rb.GetComponent<Rigidbody>().isKinematic = false;
         }
-    }
-
-    public void applyMouseSensitivity(float sensValue){
-        newSensitivity = sensValue;
-        sensitivity = newSensitivity;
     }
 
     void collectInput()
