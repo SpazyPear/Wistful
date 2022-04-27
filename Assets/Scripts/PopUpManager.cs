@@ -133,7 +133,6 @@ public class PopUpManager : MonoBehaviour
         currentItemNum = 0;
         itemPickedUp = true;
         normalizeProbabilities(ref currentLevelTerrain);
-        normalizeProbabilities(ref itemTerrain[currentLevel].blocks);
         normalizeProbabilities(ref crumbledTiles[0].pathTiles);
     }
 
@@ -228,7 +227,7 @@ public class PopUpManager : MonoBehaviour
         cardinals[0] = new Vector3(1, 0, 0);
         cardinals[1] = new Vector3(-1, 0, 0);
         cardinals[2] = new Vector3(0, 0, 1);
-        cardinals[3] = new Vector3(0, 0, -1);
+        //cardinals[3] = new Vector3(0, 0, -1);
 
         Vector3[] edges = new Vector3[4];
         int cardinalsIndex = 0;
@@ -317,7 +316,7 @@ public class PopUpManager : MonoBehaviour
             cardinals[0] = new Vector3(1, 0, 0);
             cardinals[1] = new Vector3(-1, 0, 0);
             cardinals[2] = new Vector3(0, 0, 1);
-            cardinals[3] = new Vector3(0, 0, -1);
+            //cardinals[3] = new Vector3(0, 0, -1);
 
             int cardinalsIndex = 0;
             List<List<GameObject>> edges = new List<List<GameObject>>();
@@ -447,7 +446,7 @@ public class PopUpManager : MonoBehaviour
         float result = UnityEngine.Random.Range(0, 1f);
 
         if (canBeItem && currentItemNum < itemTerrain[currentLevel].blocks.Count)
-            if (deservesItem || result > itemTerrain[currentLevel].blocks[currentItemNum].probability)
+            if (deservesItem || result < itemTerrain[currentLevel].blocks[currentItemNum].probability)
             {
                 deservesItem = false;
                 return itemTerrain[currentLevel].blocks[currentItemNum];
