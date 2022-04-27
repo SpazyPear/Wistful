@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    Animator anim;
+
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
@@ -24,6 +26,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void Start()
     {
+        anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnPlatformLink;
 
         onNextLevel += popUpManager.incrementDataStructures;
@@ -113,7 +116,7 @@ public class PlayerCollisions : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) {
                 onNextLevel.Invoke(this, new EventArgs());
                 collider.tag = "Untagged";
-                //Make animation play
+                anim.SetBool("isOpening", true);
                 //And trigger "Ascend blocks" UI
             }
         }
