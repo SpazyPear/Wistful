@@ -68,8 +68,6 @@ public class Movement : MonoBehaviour
         sensitivity = newSensitivity;
     }
 
-
-
     void collectInput()
     {
         
