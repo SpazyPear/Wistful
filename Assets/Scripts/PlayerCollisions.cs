@@ -48,11 +48,11 @@ public class PlayerCollisions : MonoBehaviour
                 if (hitItem.triggersPath)
                 {
                     popUpManager.obstacleTime = true;
-                    popUpManager.itemPickedUp = true;
                     popUpManager.generatePath(4);
-                    inventoryManager.pickUpItem(hitItem);
                 }
 
+                inventoryManager.pickUpItem(hitItem);
+                popUpManager.itemPickedUp = true;
                 Destroy(hitItem.gameObject);
                 hitItem = null;
             }
@@ -113,6 +113,8 @@ public class PlayerCollisions : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) {
                 onNextLevel.Invoke(this, new EventArgs());
                 collider.tag = "Untagged";
+                //Make animation play
+                //And trigger "Ascend blocks" UI
             }
         }
     }

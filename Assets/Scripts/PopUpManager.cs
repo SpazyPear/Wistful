@@ -131,7 +131,9 @@ public class PopUpManager : MonoBehaviour
         currentLevel++;
         currentLevelTerrain = gameTerrain[currentLevel].blocks;
         currentItemNum = 0;
+        itemPickedUp = true;
         normalizeProbabilities(ref currentLevelTerrain);
+        normalizeProbabilities(ref itemTerrain[currentLevel].blocks);
         normalizeProbabilities(ref crumbledTiles[0].pathTiles);
     }
 
@@ -478,7 +480,7 @@ public class PopUpManager : MonoBehaviour
         int blockDist = 0;
         while (true)
         {
-            if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
+            if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4)))
                 break;
 
             edge = roundVector3(edge + (forward * blockSize) * (blockDist));
