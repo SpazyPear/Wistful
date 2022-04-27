@@ -116,11 +116,12 @@ public class PlayerCollisions : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) {
                 onNextLevel.Invoke(this, new EventArgs());
                 collider.tag = "Untagged";
-                anim.SetBool("isOpening", true);
+                //anim.SetBool("isOpening", true);
                 //And trigger "Ascend blocks" UI
             }
         }
     }
+
 
     void CollectLevelOneItems()
     {
