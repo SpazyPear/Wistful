@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
@@ -11,6 +13,7 @@ public class PlayerCollisions : MonoBehaviour
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
+    CancellationTokenSource destroyPathTokenSource;
 
     Door hitDoor;
     Item hitItem;
@@ -31,11 +34,17 @@ public class PlayerCollisions : MonoBehaviour
                 CollectLevelOneItems();
                 uiManager.collectedObjectText.enabled = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+
+                if (hitItem.triggersPath)
+                {
+                    popUpManager.obstacleTime = true;
+                    popUpManager.itemPickedUp = true;
+                    popUpManager.generatePath(4);
+                    inventoryManager.pickUpItem(hitItem);
+                }
+
                 Destroy(hitItem.gameObject);
                 hitItem = null;
-                popUpManager.obstacleTime = true;
-                popUpManager.itemPickedUp = true;
-                popUpManager.generatePath(4);
             }
         }
     }
@@ -48,6 +57,9 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
+            if (destroyPathTokenSource != null)
+                destroyPathTokenSource.Cancel();
+
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
@@ -73,7 +85,12 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
-            popUpManager.destroyPath();
+            if (destroyPathTokenSource != null)
+                destroyPathTokenSource.Cancel();
+            
+            destroyPathTokenSource = new CancellationTokenSource();
+            var destroyPathToken = destroyPathTokenSource.Token;
+            popUpManager.destroyPath(destroyPathToken);
         }
     }
 

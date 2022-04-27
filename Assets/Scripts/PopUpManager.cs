@@ -135,6 +135,7 @@ public class PopUpManager : MonoBehaviour
 
     void posChangedInstantiate()
     {
+        Debug.Log(obstacleTime);
         double relPosX = Math.Round(player.position.x);
         double relPosZ = Math.Round(player.position.z);
         double relPosY = Math.Round(player.position.y);
@@ -378,9 +379,18 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    public async void destroyPath()
+    public async void destroyPath(CancellationToken token)
     {
-        await Task.Delay(2000);
+        float timer = 0;
+        while (timer < 2f)
+        {
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+            timer += Time.deltaTime;
+            await Task.Yield();
+        }
         for (int x = fullCurrentPaths.Count - 1; x >= 0; x--)
         {
             for (int y = fullCurrentPaths[x].Count - 1; y >= 0 ; y--)

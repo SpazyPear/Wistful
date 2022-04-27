@@ -20,6 +20,5 @@ public class InventoryManager : MonoBehaviour
 
     public void pickUpItem(Item item)
     {
-        
     }
 }
