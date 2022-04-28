@@ -1812,126 +1812,65 @@ MonoBehaviour:
   posY: 0
   tweener: {fileID: 493531343}
   pastPlatforms: []
-  gameTerrain:
-  - blocks:
-    - prefab: {fileID: 2143867172880832163, guid: 65a80ac784e3d654dab5846b04a3f4ee, type: 3}
-      probability: 0.3
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 7598352972760363846, guid: f651faacff99ff94ea266fc9387dd9c1, type: 3}
-      probability: 0.3
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 8207323495464759769, guid: aaf5cba8eb56cbb4b813abd064b0a09f, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 6449496569103519405, guid: 6f9c563fe6060b142b589b558e0b1159, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-  - blocks:
-    - prefab: {fileID: 4902853462943922020, guid: 00a7558510bd7ed4a88ff9076fb325aa, type: 3}
-      probability: 0.03
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 590233663341949472, guid: dab8496a418e35b41ba7c3800aded4fc, type: 3}
-      probability: 0.03
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 3061342643595772397, guid: e8224e262eef2674e9eec0cfc901cd48, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 4222718044302314802, guid: a24bb733511febe42b409cd7ac254cb0, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 3194437313121216966, guid: 65e08972ff3464c45a28c84fb4ed7607, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 4815900674492115827, guid: f485e23c976d5884aaf6408ee01a1dc1, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 2794322146763424222, guid: 9849f1923b9a2434aa3ed3d4ab349f2c, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 884834893655229620, guid: 0b33b6dcb49317d47bcf558fb4ca1d6d, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 1181096526396223986, guid: 354f2e693c4e2214ca02ab58d96f536e, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
-    - prefab: {fileID: 918886382525752824, guid: 21d9691e6182b8045b9cb6f896be7d92, type: 3}
-      probability: 0.65
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 0
+  currentLevelTerrain:
+  - prefab: {fileID: 7995298249158147278, guid: 36906cf48ca61d64a96f3338b434b184, type: 3}
+    probability: 0.2
+    size: {x: 0, y: 0, z: 0}
+    containsItem: 0
+  - prefab: {fileID: 2144333697972489470, guid: 86d2a110c8a1abf41b5b4844031f05d8, type: 3}
+    probability: 0.2
+    size: {x: 0, y: 0, z: 0}
+    containsItem: 0
+  - prefab: {fileID: 8207323495464759769, guid: aaf5cba8eb56cbb4b813abd064b0a09f, type: 3}
+    probability: 0.02
+    size: {x: 0, y: 0, z: 0}
+    containsItem: 0
+  - prefab: {fileID: 6449496569103519405, guid: 6f9c563fe6060b142b589b558e0b1159, type: 3}
+    probability: 0.02
+    size: {x: 1, y: 0, z: 1}
+    containsItem: 0
   itemTerrain:
-  - blocks:
-    - prefab: {fileID: 8431326224938614262, guid: 6c7f8dd0e68a0b442bf829dbea1c54bf, type: 3}
-      probability: 0.1
-      size: {x: 5, y: 3, z: 6}
-      containsItem: 1
-    - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
-      probability: 0.1
-      size: {x: 2, y: 3, z: 3}
-      containsItem: 1
-    - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
-      probability: 0.1
-      size: {x: 3, y: 3, z: 3}
-      containsItem: 1
-    - prefab: {fileID: 6373505620157982065, guid: 5be406ffd29edaf4b8c25a74528b383e, type: 3}
-      probability: 0.1
-      size: {x: 20, y: 5, z: 20}
-      containsItem: 1
-    - prefab: {fileID: 4634668504059992644, guid: 222d830e2aaf38f45b625620b0f43806, type: 3}
-      probability: 0.1
-      size: {x: 3, y: 5, z: 4}
-      containsItem: 1
-  - blocks:
-    - prefab: {fileID: 1132961255377616898, guid: 316408b9f6448ec418a6771fd2d5129c, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 1
-    - prefab: {fileID: 881384051025123974, guid: 146b38580a50e7d4fb029c67d5eba033, type: 3}
-      probability: 0.02
-      size: {x: 1, y: 1, z: 1}
-      containsItem: 1
-    - prefab: {fileID: 8704150584748484146, guid: 8494ae60eb9f1004e8c02f1145f1a52b, type: 3}
-      probability: 0.02
-      size: {x: 7, y: 1, z: 5}
-      containsItem: 1
+  - prefab: {fileID: 8431326224938614262, guid: 6c7f8dd0e68a0b442bf829dbea1c54bf, type: 3}
+    probability: 0.2
+    size: {x: 6, y: 0, z: 5}
+    containsItem: 1
+  - prefab: {fileID: 8991650595775555684, guid: 6dc08ffdeac017e43927ca8663c22366, type: 3}
+    probability: 0.2
+    size: {x: 2, y: 0, z: 3}
+    containsItem: 1
+  - prefab: {fileID: 4183651740996154235, guid: b78083910f968b2409b69838909a5595, type: 3}
+    probability: 0.2
+    size: {x: 3, y: 0, z: 3}
+    containsItem: 1
+  - prefab: {fileID: 6373505620157982065, guid: 5be406ffd29edaf4b8c25a74528b383e, type: 3}
+    probability: 0.2
+    size: {x: 20, y: 0, z: 20}
+    containsItem: 1
+  - prefab: {fileID: 4634668504059992644, guid: 222d830e2aaf38f45b625620b0f43806, type: 3}
+    probability: 0.2
+    size: {x: 5, y: 0, z: 6}
+    containsItem: 1
   crumbledTiles:
-  - pathTiles:
-    - prefab: {fileID: 5520755239173827052, guid: c5a0b8f60b310704da6d26c3d3529d62, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      tileDirection: 0
-    - prefab: {fileID: 5520755239173827052, guid: a1d187593ad456c4fbb4118bb5c98278, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      tileDirection: 0
-    - prefab: {fileID: 5520755239173827052, guid: 2bc00e4b0d19808468a18c2c468285c7, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      tileDirection: 0
-    - prefab: {fileID: 5520755239173827052, guid: a0f8f581989108247a988d199d38f8a0, type: 3}
-      probability: 0.2
-      size: {x: 3, y: 0, z: 3}
-      tileDirection: 0
-  platformLinks:
-  - {fileID: 6559213848720791111, guid: b71479e6d0ab64c54aa0f0d3ed5808a4, type: 3}
+  - prefab: {fileID: 5520755239173827052, guid: c5a0b8f60b310704da6d26c3d3529d62, type: 3}
+    probability: 0.2
+    size: {x: 3, y: 3, z: 3}
+    tileDirection: 0
+  - prefab: {fileID: 5520755239173827052, guid: a1d187593ad456c4fbb4118bb5c98278, type: 3}
+    probability: 0.2
+    size: {x: 3, y: 3, z: 3}
+    tileDirection: 0
+  - prefab: {fileID: 5520755239173827052, guid: 2bc00e4b0d19808468a18c2c468285c7, type: 3}
+    probability: 0.2
+    size: {x: 3, y: 3, z: 3}
+    tileDirection: 0
+  - prefab: {fileID: 5520755239173827052, guid: a0f8f581989108247a988d199d38f8a0, type: 3}
+    probability: 0.2
+    size: {x: 3, y: 3, z: 3}
+    tileDirection: 0
+  platformLink: {fileID: 6559213848720791111, guid: b71479e6d0ab64c54aa0f0d3ed5808a4, type: 3}
   currentItemNum: 0
   deservesItem: 0
-  levelHeights:
-  - 0
-  - 80
-  currentLevel: 0
+  levelHeight: 0
   vaultBlock:
     prefab: {fileID: 0}
     probability: 0

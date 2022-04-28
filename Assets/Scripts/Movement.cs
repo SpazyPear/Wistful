@@ -50,7 +50,7 @@ public class Movement : MonoBehaviour
         if (transform.position.y < -12)
         {
             rb.GetComponent<Rigidbody>().isKinematic = true;
-            transform.position = new Vector3(transform.position.x, popUpManager.levelHeights[popUpManager.currentLevel] + 6, transform.position.z);
+            transform.position = new Vector3(transform.position.x, popUpManager.levelHeight + 6, transform.position.z);
             rb.GetComponent<Rigidbody>().isKinematic = false;
         }
     }

@@ -21,16 +21,16 @@ public class PopUpManager : MonoBehaviour
     public List<GameObject> pastPlatforms = new List<GameObject>();
 
     [SerializeField]
-    private List<LevelTerrain> gameTerrain = new List<LevelTerrain>();
+    private List<TerrainBlock> currentLevelTerrain = new List<TerrainBlock>();
 
     [SerializeField]
-    private List<LevelTerrain> itemTerrain = new List<LevelTerrain>();
+    private List<TerrainBlock> itemTerrain = new List<TerrainBlock>();
 
     [SerializeField]
-    private List<GamePathTiles> crumbledTiles = new List<GamePathTiles>();
+    private List<PathTile> crumbledTiles = new List<PathTile>();
 
     [SerializeField]
-    private List<GameObject> platformLinks = new List<GameObject>();
+    private GameObject platformLink;
 
     private bool vaultUp = false;
 
@@ -40,10 +40,7 @@ public class PopUpManager : MonoBehaviour
     public int currentItemNum = 0;
     public bool deservesItem;
 
-    public float[] levelHeights = { 0 };
-    public int currentLevel;
-
-    private List<TerrainBlock> currentLevelTerrain;
+    public float levelHeight = 0;
 
     public TerrainBlock vaultBlock;
 
@@ -99,11 +96,8 @@ public class PopUpManager : MonoBehaviour
     {
         posX = player.position.x;
         posZ = player.position.z;
-        currentLevel = scene.buildIndex;
-        currentLevelTerrain = gameTerrain[currentLevel].blocks;
-        itemTerrain[0].blocks.Add(vaultBlock);
         normalizeProbabilities(ref currentLevelTerrain);
-        normalizeProbabilities(ref crumbledTiles[0].pathTiles);
+        normalizeProbabilities(ref crumbledTiles);
     }
 
     void normalizeProbabilities(ref List<TerrainBlock> items)
@@ -124,16 +118,6 @@ public class PopUpManager : MonoBehaviour
             items.ElementAt(index).probability /= sum;
         }
         items.OrderByDescending(x => x.probability);
-    }
-
-    public void incrementDataStructures(object sender, EventArgs e)
-    {
-        currentLevel++;
-        currentLevelTerrain = gameTerrain[currentLevel].blocks;
-        currentItemNum = 0;
-        itemPickedUp = true;
-        normalizeProbabilities(ref currentLevelTerrain);
-        normalizeProbabilities(ref crumbledTiles[0].pathTiles);
     }
 
     void posChangedInstantiate()
@@ -179,7 +163,7 @@ public class PopUpManager : MonoBehaviour
     {
         foreach (GameObject obj in toRise)
         {
-            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeights[currentLevel], obj.transform.position.z)), 1.5f);
+            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeight, obj.transform.position.z)), 1.5f);
         }
     }
 
@@ -187,7 +171,7 @@ public class PopUpManager : MonoBehaviour
     {
         foreach (GameObject obj in pastPlatforms)
         {
-            if (Vector3.Distance(new Vector3(player.position.x, levelHeights[currentLevel], player.position.z), obj.transform.position) > 10f)
+            if (Vector3.Distance(new Vector3(player.position.x, levelHeight, player.position.z), obj.transform.position) > 10f)
                 tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, obj.transform.position.y - 12, obj.transform.position.z)), 3f);
         }
     }
@@ -207,7 +191,7 @@ public class PopUpManager : MonoBehaviour
             for (int y = 0; y <= length; y++)
             {
                 Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
-                pos = roundVector3(new Vector3(pos.x, levelHeights[currentLevel], pos.z));
+                pos = roundVector3(new Vector3(pos.x, levelHeight, pos.z));
                 bool edgeCase = y == length ? true : false;
                 checkSpawnBlock(pos, edgeCase && itemPickedUp);
             }
@@ -235,7 +219,7 @@ public class PopUpManager : MonoBehaviour
         while (cardinalsIndex < cardinals.Length)
         {
             Vector3 edge = roundVector3(player.position);
-            edge = new Vector3(edge.x, levelHeights[currentLevel], edge.z);
+            edge = new Vector3(edge.x, levelHeight, edge.z);
             Vector3 forward = cardinals[cardinalsIndex];
             int index = 0;
             while (true)
@@ -271,7 +255,7 @@ public class PopUpManager : MonoBehaviour
                 }
                 edges[cardinalsIndex] += new Vector3(cardinals[cardinalsIndex].x * tile.size.x, 0, cardinals[cardinalsIndex].z * tile.size.z) * blockSize;
                 Vector3 pos = roundVector3(edges[cardinalsIndex]);
-                pos.y = levelHeights[currentLevel] - 3;
+                pos.y = levelHeight - 3;
                 GameObject obj = Instantiate(tile.prefab, pos, Quaternion.identity);
                 var angle = Vector3.Angle(transform.forward, Vector3.Scale(transform.InverseTransformPoint(cardinals[cardinalsIndex]), new Vector3(1, 0, 1)));
                 angle = Vector3.Dot(Vector3.right, transform.InverseTransformPoint(cardinals[cardinalsIndex])) > 0.0f ? angle : -angle;
@@ -298,10 +282,10 @@ public class PopUpManager : MonoBehaviour
 
             while (true)
             {
-                result -= crumbledTiles[0].pathTiles.ElementAt(resultIndex).probability;
+                result -= crumbledTiles.ElementAt(resultIndex).probability;
                 if (result < 0)
                 {
-                    return crumbledTiles[0].pathTiles.ElementAt(resultIndex);
+                    return crumbledTiles.ElementAt(resultIndex);
                 }
                 resultIndex++;
             }
@@ -443,7 +427,7 @@ public class PopUpManager : MonoBehaviour
             return;
         }
 
-        toRise.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeights[currentLevel] - 4, pos.z), Quaternion.identity));
+        toRise.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeight - 4, pos.z), Quaternion.identity));
 
         if (toSpawn.containsItem)
         {
@@ -458,11 +442,11 @@ public class PopUpManager : MonoBehaviour
 
         float result = UnityEngine.Random.Range(0, 1f);
 
-        if (canBeItem && currentItemNum < itemTerrain[currentLevel].blocks.Count)
-            if (deservesItem || result < itemTerrain[currentLevel].blocks[currentItemNum].probability)
+        if (canBeItem && currentItemNum < itemTerrain.Count)
+            if (deservesItem || result < itemTerrain[currentItemNum].probability)
             {
                 deservesItem = false;
-                return itemTerrain[currentLevel].blocks[currentItemNum];
+                return itemTerrain[currentItemNum];
             }
 
         int index = 0;
@@ -486,7 +470,7 @@ public class PopUpManager : MonoBehaviour
         currentPaths.Add(new List<GameObject>());
 
         Vector3 edge = roundVector3(player.position);
-        edge = new Vector3(edge.x, levelHeights[currentLevel], edge.z);
+        edge = new Vector3(edge.x, levelHeight, edge.z);
 
         Vector3 forward = nearestCardinal(player.forward);
 
@@ -500,8 +484,8 @@ public class PopUpManager : MonoBehaviour
             blockDist++;
         }
 
-        edge = new Vector3(edge.x, levelHeights[currentLevel] - 3, edge.z);
-        GameObject obj = Instantiate(platformLinks[currentLevel], edge, Quaternion.identity);
+        edge = new Vector3(edge.x, levelHeight - 3, edge.z);
+        GameObject obj = Instantiate(platformLink, edge, Quaternion.identity);
         var angle = Vector3.Angle(transform.forward, Vector3.Scale(transform.InverseTransformPoint(forward), new Vector3(1, 0, 1)));
         angle = Vector3.Dot(Vector3.right, transform.InverseTransformPoint(forward)) > 0.0f ? angle : -angle;
         obj.transform.eulerAngles = new Vector3(0, angle, 0);

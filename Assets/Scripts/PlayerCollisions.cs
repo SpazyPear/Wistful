@@ -31,7 +31,6 @@ public class PlayerCollisions : MonoBehaviour
     {
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnPlatformLink;
-        onNextLevel += popUpManager.incrementDataStructures;
         startCalled = true;
     }
 
