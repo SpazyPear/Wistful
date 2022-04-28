@@ -9,6 +9,7 @@ public class PlayerCollisions : MonoBehaviour
 {
     Animator anim;
 
+
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
@@ -20,20 +21,27 @@ public class PlayerCollisions : MonoBehaviour
     Door hitDoor;
     Item hitItem;
 
+    bool startCalled = false;
+
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
     private void Start()
     {
-        anim = this.transform.parent.GetComponent<Animator>();
+        //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnPlatformLink;
-
         onNextLevel += popUpManager.incrementDataStructures;
+        startCalled = true;
     }
 
     private void Update()
     {
+        if (startCalled == false)
+        {
+            Start();
+            startCalled = true;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (hitDoor)
@@ -74,6 +82,8 @@ public class PlayerCollisions : MonoBehaviour
         {
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
+
+            Debug.Log("hit");
 
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();

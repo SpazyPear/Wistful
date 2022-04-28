@@ -138,7 +138,6 @@ public class PopUpManager : MonoBehaviour
 
     void posChangedInstantiate()
     {
-        Debug.Log(obstacleTime);
         double relPosX = Math.Round(player.position.x);
         double relPosZ = Math.Round(player.position.z);
         double relPosY = Math.Round(player.position.y);
@@ -227,17 +226,16 @@ public class PopUpManager : MonoBehaviour
         cardinals[0] = new Vector3(1, 0, 0);
         cardinals[1] = new Vector3(-1, 0, 0);
         cardinals[2] = new Vector3(0, 0, 1);
-        //cardinals[3] = new Vector3(0, 0, -1);
+        cardinals[3] = new Vector3(0, 0, -1);
 
         Vector3[] edges = new Vector3[4];
         int cardinalsIndex = 0;
 
         // Find edges
-        while (cardinalsIndex < cardinals.Length - 1)
+        while (cardinalsIndex < cardinals.Length)
         {
             Vector3 edge = roundVector3(player.position);
             edge = new Vector3(edge.x, levelHeights[currentLevel], edge.z);
-
             Vector3 forward = cardinals[cardinalsIndex];
             int index = 0;
             while (true)
@@ -271,7 +269,6 @@ public class PopUpManager : MonoBehaviour
                     else
                         break;
                 }
-
                 edges[cardinalsIndex] += new Vector3(cardinals[cardinalsIndex].x * tile.size.x, 0, cardinals[cardinalsIndex].z * tile.size.z) * blockSize;
                 Vector3 pos = roundVector3(edges[cardinalsIndex]);
                 pos.y = levelHeights[currentLevel] - 3;
@@ -283,7 +280,7 @@ public class PopUpManager : MonoBehaviour
                 for (int i = 0; i < obj.transform.childCount; i++)
                 {
                     paths[cardinalsIndex].Add(obj.transform.GetChild(i).gameObject);
-                    obj.transform.GetChild(i).gameObject.SetActive(false);
+                        obj.transform.GetChild(i).gameObject.SetActive(false);
                 }
 
             }
@@ -316,7 +313,7 @@ public class PopUpManager : MonoBehaviour
             cardinals[0] = new Vector3(1, 0, 0);
             cardinals[1] = new Vector3(-1, 0, 0);
             cardinals[2] = new Vector3(0, 0, 1);
-            //cardinals[3] = new Vector3(0, 0, -1);
+            cardinals[3] = new Vector3(0, 0, -1);
 
             int cardinalsIndex = 0;
             List<List<GameObject>> edges = new List<List<GameObject>>();
@@ -324,15 +321,16 @@ public class PopUpManager : MonoBehaviour
             {
                 edges.Add(new List<GameObject>());
                 edges[cardinalsIndex].Add(null);
+                
                 foreach (GameObject obj in paths[cardinalsIndex])
                 {
-                    if (edges[cardinalsIndex][0] == null || Mathf.Abs(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex]).magnitude) > Mathf.Abs(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                    if (edges[cardinalsIndex][0] == null || (signedCardinalMagnitude(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex])) > signedCardinalMagnitude(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]))))
                     {
                         edges[cardinalsIndex].Clear();
                         edges[cardinalsIndex].Add(obj);
                         continue;
                     }
-                    else if (Mathf.Abs(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex]).magnitude) == Mathf.Abs(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex]).magnitude))
+                    else if (signedCardinalMagnitude(Vector3.Scale(obj.transform.position, cardinals[cardinalsIndex])) == signedCardinalMagnitude(Vector3.Scale(edges[cardinalsIndex][0].transform.position, cardinals[cardinalsIndex])))
                     {
                         edges[cardinalsIndex].Add(obj);
                     }
@@ -349,6 +347,21 @@ public class PopUpManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    int signedCardinalMagnitude(Vector3 input)
+    {
+       
+            float extremity = 0;
+            for (int x = 0; x < 3; x++)
+            {
+                if (Mathf.Abs(extremity) < Mathf.Abs(input[x]))
+                {
+                    extremity = input[x];
+                }
+            }
+            return (int)extremity;
+        
     }
 
     List<List<GameObject>> copyPaths(List<List<GameObject>> paths)
@@ -372,7 +385,7 @@ public class PopUpManager : MonoBehaviour
         {
             for (int y = currentPaths[x].Count - 1; y >= 0; y--)
             {
-                if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 28f)
+                if (Vector3.Distance(player.transform.position, currentPaths[x][y].transform.position) < 35f)
                 {
                     currentPaths[x][y].gameObject.SetActive(true);
                     tweener.AddTween(currentPaths[x][y].transform, currentPaths[x][y].transform.position, new Vector3(currentPaths[x][y].transform.position.x, currentPaths[x][y].transform.position.y + 3, currentPaths[x][y].transform.position.z), 1);
@@ -468,6 +481,7 @@ public class PopUpManager : MonoBehaviour
 
     public void spawnPlatformLink(object sender, EventArgs e)
     {
+        obstacleTime = true;
         currentPaths.Clear();
         currentPaths.Add(new List<GameObject>());
 
