@@ -16,6 +16,7 @@ public class PlayerCollisions : MonoBehaviour
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
+    public LevelManager levelManager;
     CancellationTokenSource destroyPathTokenSource;
 
     Door hitDoor;
@@ -27,9 +28,15 @@ public class PlayerCollisions : MonoBehaviour
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
         //anim = this.transform.parent.GetComponent<Animator>();
+        onNextLevel += popUpManager.dropBlocks;
         onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
     }
@@ -71,7 +78,7 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private async void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
@@ -82,11 +89,14 @@ public class PlayerCollisions : MonoBehaviour
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
 
-            Debug.Log("hit");
-
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
+        }
+        if (collider.gameObject.tag.Equals("levelEnd"))
+        {
+            Debug.Log("hit");
+            int level = await levelManager.nextLevel();
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
@@ -125,6 +135,7 @@ public class PlayerCollisions : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E)) {
                 onNextLevel.Invoke(this, new EventArgs());
                 collider.tag = "Untagged";
+
                 //anim.SetBool("isOpening", true);
                 //And trigger "Ascend blocks" UI
             }

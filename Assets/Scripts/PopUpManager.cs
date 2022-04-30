@@ -30,6 +30,9 @@ public class PopUpManager : MonoBehaviour
     private List<PathTile> crumbledTiles = new List<PathTile>();
 
     [SerializeField]
+    private GameObject startingPlatforms;
+
+    [SerializeField]
     private GameObject platformLink;
 
     private bool vaultUp = false;
@@ -65,31 +68,14 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
-
+        for (int x = 0; x < startingPlatforms.transform.childCount; x++)
+            pastPlatforms.Add(startingPlatforms.transform.GetChild(x).gameObject);
+        
     }
 
     void Update()
     {
         posChangedInstantiate();
-    }
-
-    IEnumerator obstacleTimer()
-    {
-        if (!obstacleTimerRunning)
-        {
-            obstacleTimerRunning = true;
-            float timer = obstacleInterval;
-            while (true)
-            {
-                timer -= Time.deltaTime;
-                if (timer < 0)
-                    break;
-                yield return null;
-            }
-            obstacleTime = true;
-            obstacleTimerRunning = false;
-
-        }
     }
 
     void instantiateDataStructures(Scene scene, LoadSceneMode mode)
@@ -167,7 +153,7 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    void dropBlocks()
+    public void dropBlocks(object sender = null, EventArgs e = null)
     {
         foreach (GameObject obj in pastPlatforms)
         {
@@ -180,7 +166,7 @@ public class PopUpManager : MonoBehaviour
     {
         GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
         obj.transform.localScale = scale;
-        Destroy(obj, 2f);
+        //Destroy(obj, 2f);
     }
 
     public void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
@@ -218,16 +204,15 @@ public class PopUpManager : MonoBehaviour
         // Find edges
         while (cardinalsIndex < cardinals.Length)
         {
-            Vector3 edge = roundVector3(player.position);
-            edge = new Vector3(edge.x, levelHeight, edge.z);
+            edges[cardinalsIndex] = roundVector3(new Vector3(player.position.x, levelHeight, player.position.z));
             Vector3 forward = cardinals[cardinalsIndex];
             int index = 0;
             while (true)
             {
-                if (!Physics.CheckBox(edge + (forward * blockSize) * index, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
+                if (!Physics.CheckBox(edges[cardinalsIndex] + (forward * blockSize), new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                     break;
 
-                edges[cardinalsIndex] = roundVector3(edge + (forward * blockSize) * (index - 1));
+                edges[cardinalsIndex] = roundVector3(edges[cardinalsIndex] + (forward * blockSize));
                 index++;
             }
             cardinalsIndex++;
@@ -472,15 +457,17 @@ public class PopUpManager : MonoBehaviour
         Vector3 edge = roundVector3(player.position);
         edge = new Vector3(edge.x, levelHeight, edge.z);
 
-        Vector3 forward = nearestCardinal(player.forward);
+        Vector3 forward = -Vector3.forward;
 
         int blockDist = 0;
         while (true)
         {
-            if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4)))
+            if (!Physics.CheckBox(edge + (forward * blockSize), new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                 break;
 
-            edge = roundVector3(edge + (forward * blockSize) * (blockDist));
+            edge = roundVector3(edge + (forward * blockSize));
+            //createDebugSphere(edge, new Vector3(1, 1, 1));
+            Debug.Log(edge);
             blockDist++;
         }
 

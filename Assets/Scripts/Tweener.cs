@@ -63,7 +63,7 @@ public class Tweener : MonoBehaviour
 
             toBeRemoved.RemoveAt(i);
 
-            if (obj.transform.position.y < -10)
+            if (obj.transform.position.y <= -8)
             {
                 popUpManager.pastPlatforms.Remove(obj);
                 Destroy(obj);

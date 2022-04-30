@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ public class UIManager : MonoBehaviour
     public Text collectedObjectText;
 
     public Text heartRateText;
+
+    public Image faderImage;
 
     [SerializeField]
     int heartRate;
@@ -73,5 +76,34 @@ public class UIManager : MonoBehaviour
     public void toggleRocketBar(bool on)
     {
         rocketFuelContainer.SetActive(on);
+    }
+
+    public async Task fadeIn(float duration)
+    {
+        float timer = duration;
+        while (timer > 0)
+        {
+            faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, timer / duration);
+            timer -= Time.deltaTime;
+            await Task.Yield();
+        }
+        faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, 0);
+    }
+
+    public async Task fadeOut(float duration)
+    {
+        float timer = 0;
+        while (timer < duration)
+        {
+            faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, timer / duration);
+            timer += Time.deltaTime;
+            await Task.Yield();
+        }
+        faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, 1);
+    }
+
+    public void setFade(float value)
+    {
+       faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, value);
     }
 }
