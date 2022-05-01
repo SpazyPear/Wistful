@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4558091008232794760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1247776129026366164}
+  m_Layer: 0
+  m_Name: DeskOne
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1247776129026366164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4558091008232794760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 769776388005243318}
+  - {fileID: 2779199825191805802}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &966607262723459768
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1247776129026366164}
+    m_Modifications:
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 904958578682018228, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+      propertyPath: m_Name
+      value: Desk A Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+--- !u!4 &769776388005243318 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 559818152397562638, guid: 7ed50b19d7f1c334db32d43b270f2e11, type: 3}
+  m_PrefabInstance: {fileID: 966607262723459768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5557658660687883018
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1247776129026366164}
+    m_Modifications:
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192704197165514958, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+      propertyPath: m_Name
+      value: Floor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+--- !u!4 &2779199825191805802 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7760114058364061792, guid: 6b5df0fa09af48d448cad3da68900af9, type: 3}
+  m_PrefabInstance: {fileID: 5557658660687883018}
+  m_PrefabAsset: {fileID: 0}
