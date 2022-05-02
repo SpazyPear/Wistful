@@ -9,7 +9,6 @@ public class PlayerCollisions : MonoBehaviour
 {
     Animator anim;
 
-
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
@@ -131,7 +130,6 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-
     void CollectLevelOneItems()
     {
         switch (hitItem.itemID)
@@ -167,11 +165,10 @@ public class PlayerCollisions : MonoBehaviour
             uiManager.collectedObjectText.fontSize = 24;
         }
     }
+
     IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
-
-
 }

@@ -36,7 +36,7 @@ public class PopUpManager : MonoBehaviour
 
     public const int width = 3;
     public const int length = 3;
-    public const int blockSize = 4;
+    public int blockSize = 4;
     public int currentItemNum = 0;
     public bool deservesItem;
 
@@ -518,7 +518,6 @@ public class PopUpManager : MonoBehaviour
         }
     }
     
-
     Vector3 roundVector3(Vector3 pos)
     {
         return new Vector3(nearestMultiple(Convert.ToInt32(Mathf.Round(pos.x))), nearestMultiple(Convert.ToInt32(Mathf.Round(pos.y))), nearestMultiple(Convert.ToInt32(Mathf.Round(pos.z))));
@@ -528,5 +527,4 @@ public class PopUpManager : MonoBehaviour
     {
         return Mathf.RoundToInt(num / blockSize) * blockSize;
     }
-
 }
