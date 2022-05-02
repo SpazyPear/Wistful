@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VaultDoor : MonoBehaviour
+public class VaultDoor : Door
 {
-    // Start is called before the first frame update
-    void Start()
+
+    LevelManager levelManager;
+                
+
+
+    public void Start()
     {
-        
+        levelManager = GameObject.FindGameObjectWithTag("Level Manager").GetComponent<LevelManager>();
+    }
+    override public void toggleDoor()
+    {
+        levelManager.invokeVaultOpened();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     
 }

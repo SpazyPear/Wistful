@@ -7,10 +7,7 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-    Animator anim;
 
-
-    [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
@@ -24,20 +21,18 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
-    public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         //anim = this.transform.parent.GetComponent<Animator>();
-        onNextLevel += popUpManager.dropBlocks;
-        onNextLevel += popUpManager.spawnPlatformLink;
+        
         startCalled = true;
     }
 
@@ -95,7 +90,6 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (collider.gameObject.tag.Equals("levelEnd"))
         {
-            Debug.Log("hit");
             int level = await levelManager.nextLevel();
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
@@ -125,20 +119,6 @@ public class PlayerCollisions : MonoBehaviour
             destroyPathTokenSource = new CancellationTokenSource();
             var destroyPathToken = destroyPathTokenSource.Token;
             popUpManager.destroyPath(destroyPathToken);
-        }
-    }
-
-    private void OnTriggerStay(Collider collider)
-    {
-        if (collider.tag.Equals("Vault Door"))
-        {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                onNextLevel.Invoke(this, new EventArgs());
-                collider.tag = "Untagged";
-
-                //anim.SetBool("isOpening", true);
-                //And trigger "Ascend blocks" UI
-            }
         }
     }
 

@@ -47,12 +47,28 @@ public class Movement : MonoBehaviour
 
     void checkRespawn()
     {
-        if (transform.position.y < -12)
+        if (transform.position.y < -16)
         {
-            rb.GetComponent<Rigidbody>().isKinematic = true;
-            transform.position = new Vector3(transform.position.x, popUpManager.levelHeight + 6, transform.position.z);
-            rb.GetComponent<Rigidbody>().isKinematic = false;
+            Vector3 pos = Vector3.positiveInfinity;
+            for (int x = -12; x <= 12; x += 4)
+            {
+                for (int y = -12; y <= 12; y += 4)
+                {
+                    if (Vector3.Distance(new Vector3(transform.position.x, popUpManager.levelHeight, transform.position.z), VectorUtil.roundVector3(new Vector3(transform.position.x + x, popUpManager.levelHeight, transform.position.z + y))) < Vector3.Distance(new Vector3(transform.position.x, popUpManager.levelHeight, transform.position.z), pos) && Physics.CheckBox(VectorUtil.roundVector3(new Vector3(transform.position.x + x, popUpManager.levelHeight, transform.position.z + y)), new Vector3(1, 1, 1)))
+                    {
+                        pos = VectorUtil.roundVector3(new Vector3(transform.position.x + x - 3, popUpManager.levelHeight + 4, transform.position.z + y - 3));
+                    }
+                }
+            }
+            transform.position = pos;
         }
+    }
+
+    void createDebugSphere(Vector3 pos, Vector3 scale)
+    {
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+        obj.transform.localScale = scale;
+        //Destroy(obj, 2f);
     }
 
     void collectInput()

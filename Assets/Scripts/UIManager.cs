@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
         {
             InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
         }
+        fadeIn(2f);
     }
 
     // Update is called once per frame
