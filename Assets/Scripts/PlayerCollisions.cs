@@ -17,6 +17,10 @@ public class PlayerCollisions : MonoBehaviour
     public PopUpManager popUpManager;
     CancellationTokenSource destroyPathTokenSource;
 
+    Camera camera;
+    [SerializeField]
+    private float hitRange;
+
     Door hitDoor;
     Item hitItem;
 
@@ -28,6 +32,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void Start()
     {
+        camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
@@ -42,28 +47,35 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
+            
             if (hitDoor)
-                hitDoor.toggleDoor();
-
-            else if (hitItem)
             {
-                inventoryManager.pickUpItem(hitItem);
-                itemsHeld.Add(hitItem.itemID);
-                gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
-                uiManager.collectedObjectText.enabled = true;
-                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-
-                if (hitItem.triggersPath)
+                hitDoor.toggleDoor();
+            }
+            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            {
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
                 {
-                    popUpManager.obstacleTime = true;
-                    popUpManager.generatePath(4);
-                }
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    inventoryManager.pickUpItem(hitItem);
+                    itemsHeld.Add(hitItem.itemID);
+                    gameObject.AddComponent(hitItem.GetType());
+                    CollectLevelOneItems();
+                    uiManager.collectedObjectText.enabled = true;
+                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
 
-                inventoryManager.pickUpItem(hitItem);
-                popUpManager.itemPickedUp = true;
-                Destroy(hitItem.gameObject);
-                hitItem = null;
+                    if (hitItem.triggersPath)
+                    {
+                        popUpManager.obstacleTime = true;
+                        popUpManager.generatePath(4);
+                    }
+
+                    inventoryManager.pickUpItem(hitItem);
+                    popUpManager.itemPickedUp = true;
+                    Destroy(hitItem.gameObject);
+                    hitItem = null;
+                }
             }
 
             

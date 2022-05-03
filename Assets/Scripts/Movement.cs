@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     private float moveX;
     private float moveY;
     private float rotationY = 0.0f;
+    private float height;
 
     public GameObject target;
     public PopUpManager popUpManager;
@@ -32,6 +33,7 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        height = 2.0f;
         //Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
     }
@@ -78,10 +80,21 @@ public class Movement : MonoBehaviour
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && checkGrounded())
         {
             rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
         }
+    }
+
+    private bool checkGrounded()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, height))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void OnCollisionStay(Collision collision)
