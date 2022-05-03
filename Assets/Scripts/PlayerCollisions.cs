@@ -50,7 +50,7 @@ public class PlayerCollisions : MonoBehaviour
 
             else if (hitItem)
             {
-                inventoryManager.pickUpItem(hitItem);
+               // inventoryManager.pickUpItem(hitItem);
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
                 CollectLevelOneItems();
@@ -63,7 +63,6 @@ public class PlayerCollisions : MonoBehaviour
                     popUpManager.generatePath(4);
                 }
 
-                inventoryManager.pickUpItem(hitItem);
                 popUpManager.itemPickedUp = true;
                 Destroy(hitItem.gameObject);
                 hitItem = null;

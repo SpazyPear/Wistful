@@ -107,6 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 28988372876901351}
   - component: {fileID: 7076564404781462502}
+  - component: {fileID: 1973568452042296525}
   m_Layer: 0
   m_Name: Glass Pane
   m_TagString: Glass
@@ -142,3 +143,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484632238f7c694eb40356b8d31fe09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shatteredPrefab: {fileID: 0}
+--- !u!65 &1973568452042296525
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180091725107794335}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 4, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}

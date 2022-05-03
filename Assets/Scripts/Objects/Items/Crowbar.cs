@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Crowbar : Item
 {
-    Camera camera;
-    float range = 2.0f;
+    GameObject shatteredPrefab;
 
     GameObject hitPane;
 
     // Start is called before the first frame update
     void Start()
     {
-        camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -20,17 +18,21 @@ public class Crowbar : Item
     {
         if (Input.GetKeyDown(KeyCode.E) && hitPane)
         {
-            hitPane.tag = "Untagged";
-            
-            for (int x = 0; x < hitPane.transform.childCount; x++)
-            {
-                hitPane.transform.GetChild(x).gameObject.layer = 3;
-                hitPane.transform.GetChild(x).gameObject.AddComponent<Rigidbody>();
-                hitPane.transform.GetChild(x).gameObject.AddComponent<BoxCollider>();  
-                Destroy(hitPane.transform.GetChild(x).gameObject, 2f);
-            }
+            shatteredPrefab = hitPane.GetComponent<Glass>().shatteredPrefab;
+            GameObject shatteredPane = Instantiate(shatteredPrefab, hitPane.transform.position, Quaternion.identity);
+            shatteredPane.transform.localScale = new Vector3(2, 2, 2);
+            Destroy(hitPane);
 
             hitPane = null;
+
+            for (int x = 0; x < shatteredPane.transform.childCount; x++)
+            {
+                shatteredPane.transform.GetChild(x).gameObject.layer = 3;
+                shatteredPane.transform.GetChild(x).gameObject.AddComponent<Rigidbody>();
+                shatteredPane.transform.GetChild(x).gameObject.AddComponent<BoxCollider>();  
+                Destroy(shatteredPane.transform.GetChild(x).gameObject, 2f);
+            }
+
         }
     }
 

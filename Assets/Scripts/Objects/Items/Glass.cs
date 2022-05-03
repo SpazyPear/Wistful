@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Glass : MonoBehaviour
 {
+    public GameObject shatteredPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +20,6 @@ public class Glass : MonoBehaviour
     public void Shatter()
     {
         gameObject.SetActive(false);
+        Instantiate(shatteredPrefab);
     }
 }
