@@ -158,11 +158,10 @@ public class PlayerCollisions : MonoBehaviour
             uiManager.collectedObjectText.fontSize = 24;
         }
     }
+
     IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
-
-
 }
