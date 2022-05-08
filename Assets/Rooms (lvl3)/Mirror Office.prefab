@@ -366,8 +366,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15082343, y: 0.29532325, z: 0.082457535}
-  m_Center: {x: -0.024013435, y: -0.0034596329, z: -0.017820481}
+  m_Size: {x: 0.028693983, y: 0.2648434, z: 0.16448705}
+  m_Center: {x: -0.0016867484, y: -0.020413013, z: -0.058835756}
 --- !u!1 &3209453297837631846
 GameObject:
   m_ObjectHideFlags: 0
@@ -3481,6 +3481,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5683105592441635591}
     m_Modifications:
+    - target: {fileID: 1741175771813888763, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d3abbf23107295848845ef2c6069fd45, type: 3}
     - target: {fileID: 3066865981865329471, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3541,9 +3545,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror Office Door
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3066865981865329468, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
+--- !u!82 &6266640471701899492 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1741175771813888763, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
+  m_PrefabInstance: {fileID: 5683105593214831135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7228770195962432922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3066865982520592261, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
+  m_PrefabInstance: {fileID: 5683105593214831135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1795115817713908630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228770195962432922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80e2236ca89cb14f953dc11831c4314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  isLocked: 0
+  pivotsFromZero: 0
+  audioSource: {fileID: 6266640471701899492}
 --- !u!4 &7228770196650658080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3066865981865329471, guid: c2d8e88c3e987e9449bdfefa2e18853f, type: 3}
