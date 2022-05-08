@@ -108,14 +108,27 @@ public class MenuController : MonoBehaviour
     public GameObject StartMenu;
     public GameObject OptionsMenu;
     public GameObject Title;
+    public GameObject SCutscene;
+    public GameObject BG;
     public void GameStart(){
         OnStartScene = false;
-        LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
+        //LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
         Cursor.lockState = CursorLockMode.Locked;
         //load level 1 after 1 second
-        Invoke("loadLevel1", 2f);
-        
-        
+        //Invoke("loadLevel1", 3f);
+        LeanTween.moveLocalX(SCutscene,0,1.5f).setEase(LeanTweenType.easeOutQuad);
+        Invoke("transitionAnimation", 1.5f);
+        Invoke("loadLevel1", 3f);
+    }
+    public void disablethings(){
+        BG.SetActive(false);
+        StartMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+        Title.SetActive(false);
+    }
+    public void transitionAnimation(){
+        disablethings();
+        LeanTween.moveLocalX(SCutscene, -1920, 1.5f).setEase(LeanTweenType.easeOutQuad);
     }
     public void applyMouseSenstivity(float value){
         sens = value;
