@@ -1,42 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    Animator anim;
+
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
+    CancellationTokenSource destroyPathTokenSource;
+
+    Camera camera;
+    [SerializeField]
+    private float hitRange;
 
     Door hitDoor;
     Item hitItem;
 
+    bool startCalled = false;
+
+    public event EventHandler onNextLevel;
+
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+
+    private void Start()
+    {
+        camera = Camera.main;
+        //anim = this.transform.parent.GetComponent<Animator>();
+        onNextLevel += popUpManager.spawnPlatformLink;
+        startCalled = true;
+    }
+
     private void Update()
     {
+        if (startCalled == false)
+        {
+            Start();
+            startCalled = true;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
+            
             if (hitDoor)
-                hitDoor.toggleDoor();
-
-            else if (hitItem)
             {
-                inventoryManager.pickUpItem(hitItem);
-                itemsHeld.Add(hitItem.itemID);
-                gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
-                uiManager.collectedObjectText.enabled = true;
-                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                Destroy(hitItem.gameObject);
-                hitItem = null;
-                popUpManager.obstacleTime = true;
-                popUpManager.itemPickedUp = true;
-                popUpManager.generatePath(4);
+                hitDoor.toggleDoor();
             }
+            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            {
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
+                {
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    inventoryManager.pickUpItem(hitItem);
+                    itemsHeld.Add(hitItem.itemID);
+                    gameObject.AddComponent(hitItem.GetType());
+                    CollectLevelOneItems();
+                    uiManager.collectedObjectText.enabled = true;
+                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+
+                    if (hitItem.triggersPath)
+                    {
+                        popUpManager.obstacleTime = true;
+                        popUpManager.generatePath(4);
+                    }
+
+                    inventoryManager.pickUpItem(hitItem);
+                    popUpManager.itemPickedUp = true;
+                    Destroy(hitItem.gameObject);
+                    hitItem = null;
+                }
+            }
+
+            
         }
     }
 
@@ -48,6 +90,11 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
+            if (destroyPathTokenSource != null)
+                destroyPathTokenSource.Cancel();
+
+            Debug.Log("hit");
+
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
@@ -73,35 +120,53 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
-            popUpManager.destroyPath();
+            if (destroyPathTokenSource != null)
+                destroyPathTokenSource.Cancel();
+            
+            destroyPathTokenSource = new CancellationTokenSource();
+            var destroyPathToken = destroyPathTokenSource.Token;
+            popUpManager.destroyPath(destroyPathToken);
+        }
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (collider.tag.Equals("Vault Door"))
+        {
+            if (Input.GetKeyDown(KeyCode.E)) {
+                onNextLevel.Invoke(this, new EventArgs());
+                collider.tag = "Untagged";
+                //anim.SetBool("isOpening", true);
+                //And trigger "Ascend blocks" UI
+            }
         }
     }
 
     void CollectLevelOneItems()
     {
-        switch (hitItem.gameObject.name)
+        switch (hitItem.itemID)
         {
-            case "Stairs":
+            case "Ladder":
                 uiManager.findObject2Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects Ladder";
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 StartCoroutine(HideText());
                 foundLadder = true;
                 break;
             case "Rocket":
                 uiManager.findObject3Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
-            case "KitePrefab":
+            case "Kite":
                 uiManager.findObject4Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects Kite";
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
-            case "Object029": //should be photo
+            case "Photo": //should be photo
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.gameObject.name;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
                 StartCoroutine(HideText());
                 break;
@@ -112,11 +177,10 @@ public class PlayerCollisions : MonoBehaviour
             uiManager.collectedObjectText.fontSize = 24;
         }
     }
+
     IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
-
-
 }

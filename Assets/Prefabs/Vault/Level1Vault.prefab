@@ -260,9 +260,11 @@ GameObject:
   - component: {fileID: 3539715511889217103}
   - component: {fileID: 5251981187253383377}
   - component: {fileID: 4459906116307512334}
+  - component: {fileID: 7963725311108694412}
+  - component: {fileID: 4570222155850883489}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Vault Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +312,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1fc0aced93edff84e9fdf105235d2721, type: 2}
+  - {fileID: 2100000, guid: 271a67b03e52a5742bea8cb02ac2273b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -332,6 +334,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7963725311108694412
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 160.04106, y: 200.001, z: 200.00005}
+  m_Center: {x: 1.7005433, y: 2.3199515e-12, z: 1}
+--- !u!65 &4570222155850883489
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 160.04108, y: 2348.03, z: 200.00005}
+  m_Center: {x: 1.7005439, y: 654.7738, z: 1}
 --- !u!1 &711302185251628059
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +678,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711302186799680698}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.07, y: 3.41, z: 2.03}
+  m_LocalPosition: {x: 7.07, y: 3.41, z: 1.9}
   m_LocalScale: {x: 8.08, y: 4.75, z: -0.16}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1763,7 +1791,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1fc0aced93edff84e9fdf105235d2721, type: 2}
+  - {fileID: -6549791444760185758, guid: 1165439037047764c8a1082d62436e65, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3501,7 +3529,7 @@ GameObject:
   - component: {fileID: 2219946951167943198}
   - component: {fileID: 147693117944422984}
   - component: {fileID: 2378462226718959644}
-  - component: {fileID: 7633959405599609749}
+  - component: {fileID: 374994540909595420}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -3586,7 +3614,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &7633959405599609749
+--- !u!95 &374994540909595420
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -3596,7 +3624,7 @@ Animator:
   m_GameObject: {fileID: 6619773287683121609}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1475bd9d5e1a70143a16860768a3ed42, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

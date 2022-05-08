@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
     public GameObject prefab;
     public Sprite menuSprite;
     public string description;
+    public bool triggersPath = true;
 
     public void setItemProperties(string itemID, GameObject prefab = null, Sprite menuSprite = null, string description = "")
     {
