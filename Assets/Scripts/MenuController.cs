@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour
     //This script is used to manage the menu system.
     //It is attached to the Start menu canvas and the Levels' pause menu canvas.
     
-    //-------------Level pres-----------------
+    #region Variables
     public bool GameisPause = false;
     public GameObject PauseMenu;
     public Camera cam;
@@ -24,12 +24,17 @@ public class MenuController : MonoBehaviour
     public AudioMixer audioMixer;
     public bool SettingisActive;
     public TMPro.TMP_Text SettingText;
-
-    //-------------Start pres---------------------------
     public TMPro.TMP_Dropdown dropdown;
     public GameObject PlayerPrefab;
     public bool OnStartScene;
-    // Start is called before the first frame update
+    private float sens;
+    public GameObject StartMenu;
+    public GameObject OptionsMenu;
+    public GameObject Title;
+    public GameObject StartScene;
+    public GameObject PromptMenu;
+    #endregion
+    #region Start&Update
     void Start()
     {
         GameisPause = false;
@@ -62,8 +67,7 @@ public class MenuController : MonoBehaviour
         // Dropdown resolutionDropdown = GameObject.Find("Resolution Dropdown").GetComponent<Dropdown>();
     }
 
-    // Update is called once per frame
-    private float sens;
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -83,8 +87,21 @@ public class MenuController : MonoBehaviour
         //debug the current volumn  
         //Debug.Log(AudioListener.volume);
         }
-
-    
+    #endregion
+    #region Menu functions
+    public void GameStart(){
+        OnStartScene = false;
+        LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
+        Cursor.lockState = CursorLockMode.Locked;
+        //load level 1 after 1 second
+        Invoke("transitionAnimation", 1.5f);
+        Invoke("loadLevel1", 3f);
+    }
+    public void disablethings(){
+        StartMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+        Title.SetActive(false);
+    }
     public void AwakeSettings(){
         if (!SettingisActive)
         {
@@ -105,30 +122,9 @@ public class MenuController : MonoBehaviour
         }
         
     }
-    public GameObject StartMenu;
-    public GameObject OptionsMenu;
-    public GameObject Title;
-    public GameObject SCutscene;
-    public GameObject BG;
-    public void GameStart(){
-        OnStartScene = false;
-        //LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
-        Cursor.lockState = CursorLockMode.Locked;
-        //load level 1 after 1 second
-        //Invoke("loadLevel1", 3f);
-        LeanTween.moveLocalX(SCutscene,0,1.5f).setEase(LeanTweenType.easeOutQuad);
-        Invoke("transitionAnimation", 1.5f);
-        Invoke("loadLevel1", 3f);
-    }
-    public void disablethings(){
-        BG.SetActive(false);
-        StartMenu.SetActive(false);
-        OptionsMenu.SetActive(false);
-        Title.SetActive(false);
-    }
     public void transitionAnimation(){
         disablethings();
-        LeanTween.moveLocalX(SCutscene, -1920, 1.5f).setEase(LeanTweenType.easeOutQuad);
+        Invoke("activatePrompt", 0.5f);
     }
     public void applyMouseSenstivity(float value){
         sens = value;
@@ -177,6 +173,8 @@ public class MenuController : MonoBehaviour
 
         
     }
+    #endregion
+    #region Button Functions
     public void ResumetheGame()
     {
         
@@ -186,7 +184,6 @@ public class MenuController : MonoBehaviour
         PlayerPrefab.gameObject.GetComponent<Movement>().sensitivity = sens;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    public GameObject StartScene;
     public void ResettheLevel()
     {
         
@@ -207,5 +204,10 @@ public class MenuController : MonoBehaviour
     {
         Application.Quit();
     }
-
+    #endregion
+    #region prompt Functions
+    void activatePrompt(){
+        LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutQuad);
+    }
+    #endregion
 }
