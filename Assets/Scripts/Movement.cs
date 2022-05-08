@@ -9,17 +9,22 @@ public class Movement : MonoBehaviour
 {
     public Transform pos;
     public Camera cam;
-    public bool isGrounded;
     public Rigidbody rb;
     public GameObject prefab;
     public float jumpForce;
     public float sensitivity;
     public float moveSens;
+    public float wallJumpForce;
+    private bool wallJumpCheck;
+    private Vector3 wallPos;
+    private float xDiff;
+    private float zDiff;
     private float moveHorizontal;
     private float moveVertical;
     private float moveX;
     private float moveY;
     private float rotationY = 0.0f;
+    private float height;
 
     public GameObject target;
     public PopUpManager popUpManager;
@@ -32,6 +37,7 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        height = 2.0f;
         //Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
     }
@@ -94,26 +100,49 @@ public class Movement : MonoBehaviour
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
+            if (checkGrounded())
+            {
+                rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
+            }
+            else if (wallJumpCheck)
+            {
+                rb.AddForce(new Vector3(wallJumpForce * xDiff, 2, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
+            }
         }
+    }
+
+    private bool checkGrounded()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, height))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "ground")
+        if (!checkGrounded())
         {
-            isGrounded = true;
+            wallJumpCheck = true;
+            var collider = collision.transform.GetComponent<Collider>();
+            wallPos = collider.ClosestPoint(target.transform.position);
+            xDiff = target.transform.position.x - wallPos.x;
+            zDiff = target.transform.position.z - wallPos.z;
+        }
+        else
+        {
+            wallJumpCheck = false;
         }
     }
 
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.tag == "ground")
-        { 
-            isGrounded = false;
-        }
+        wallJumpCheck = false;
     }
 
 }

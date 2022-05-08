@@ -7,32 +7,34 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    Animator anim;
 
+    [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
-    public LevelManager levelManager;
     CancellationTokenSource destroyPathTokenSource;
+
+    Camera camera;
+    [SerializeField]
+    private float hitRange;
 
     Door hitDoor;
     Item hitItem;
 
     bool startCalled = false;
 
+    public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
-    private void Awake()
-    {
-       // DontDestroyOnLoad(gameObject);
-    }
-
     private void Start()
     {
+        camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
-        
+        onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
     }
 
@@ -45,32 +47,42 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
+            
             if (hitDoor)
-                hitDoor.toggleDoor();
-
-            else if (hitItem)
             {
-               // inventoryManager.pickUpItem(hitItem);
-                itemsHeld.Add(hitItem.itemID);
-                gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
-                uiManager.collectedObjectText.enabled = true;
-                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-
-                if (hitItem.triggersPath)
+                hitDoor.toggleDoor();
+            }
+            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            {
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
                 {
-                    popUpManager.obstacleTime = true;
-                    popUpManager.generatePath(4);
-                }
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    inventoryManager.pickUpItem(hitItem);
+                    itemsHeld.Add(hitItem.itemID);
+                    gameObject.AddComponent(hitItem.GetType());
+                    CollectLevelOneItems();
+                    uiManager.collectedObjectText.enabled = true;
+                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
 
-                popUpManager.itemPickedUp = true;
-                Destroy(hitItem.gameObject);
-                hitItem = null;
-            }      
+                    if (hitItem.triggersPath)
+                    {
+                        popUpManager.obstacleTime = true;
+                        popUpManager.generatePath(4);
+                    }
+
+                    inventoryManager.pickUpItem(hitItem);
+                    popUpManager.itemPickedUp = true;
+                    Destroy(hitItem.gameObject);
+                    hitItem = null;
+                }
+            }
+
+            
         }
     }
 
-    private async void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
@@ -81,13 +93,11 @@ public class PlayerCollisions : MonoBehaviour
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
 
+            Debug.Log("hit");
+
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
-        }
-        if (collider.gameObject.tag.Equals("levelEnd"))
-        {
-            int level = await levelManager.nextLevel();
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
@@ -119,6 +129,18 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider collider)
+    {
+        if (collider.tag.Equals("Vault Door"))
+        {
+            if (Input.GetKeyDown(KeyCode.E)) {
+                onNextLevel.Invoke(this, new EventArgs());
+                collider.tag = "Untagged";
+                //anim.SetBool("isOpening", true);
+                //And trigger "Ascend blocks" UI
+            }
+        }
+    }
 
     void CollectLevelOneItems()
     {
