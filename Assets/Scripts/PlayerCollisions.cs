@@ -47,17 +47,14 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
             
             if (hitDoor)
             {
                 hitDoor.toggleDoor();
             }
-            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            else if (hitItem)
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Item)))
-                {
-                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+              
                     inventoryManager.pickUpItem(hitItem);
                     itemsHeld.Add(hitItem.itemID);
                     gameObject.AddComponent(hitItem.GetType());
@@ -75,7 +72,7 @@ public class PlayerCollisions : MonoBehaviour
                     popUpManager.itemPickedUp = true;
                     Destroy(hitItem.gameObject);
                     hitItem = null;
-                }
+                
             }
 
             
