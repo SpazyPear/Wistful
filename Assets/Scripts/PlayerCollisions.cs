@@ -66,9 +66,7 @@ public class PlayerCollisions : MonoBehaviour
                 popUpManager.itemPickedUp = true;
                 Destroy(hitItem.gameObject);
                 hitItem = null;
-            }
-
-            
+            }      
         }
     }
 
