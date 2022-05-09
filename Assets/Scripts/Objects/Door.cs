@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
     public bool isLocked;
     public bool pivotsFromZero;
 
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +31,11 @@ public class Door : MonoBehaviour
     {
         if (!isTurning)
         {
-            
+            if (audioSource)
+            {
+                audioSource.Play();
+            }
+
             if (!isOpen)
             {
                 StartCoroutine(spinDoor(true, pivotsFromZero));

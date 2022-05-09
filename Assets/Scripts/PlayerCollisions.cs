@@ -30,6 +30,10 @@ public class PlayerCollisions : MonoBehaviour
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
+    public AudioSource audioSource;
+    public AudioClip positiveSound;
+    public AudioClip negativeSound;
+
     private void Start()
     {
         camera = Camera.main;
@@ -61,9 +65,12 @@ public class PlayerCollisions : MonoBehaviour
                     inventoryManager.pickUpItem(hitItem);
                     itemsHeld.Add(hitItem.itemID);
                     gameObject.AddComponent(hitItem.GetType());
+                    audioSource.clip = positiveSound;
+                    audioSource.Play();
                     CollectLevelOneItems();
                     uiManager.collectedObjectText.enabled = true;
                     (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                    audioSource.Play();
 
                     if (hitItem.triggersPath)
                     {
@@ -76,6 +83,9 @@ public class PlayerCollisions : MonoBehaviour
                     Destroy(hitItem.gameObject);
                     hitItem = null;
                 }
+            } else {
+                audioSource.clip = negativeSound;
+                audioSource.Play();
             }
 
             
