@@ -9,6 +9,7 @@ public class Ladder : Item
     public Vector3 endOfLadderPos;
     bool interactDown = false;
 
+
     void Update()
     {
         checkClimbLadder();
@@ -46,6 +47,20 @@ public class Ladder : Item
         if (collider.gameObject.CompareTag("LadderPlacement") && Input.GetKeyDown(KeyCode.E) && GetComponent<PlayerCollisions>().itemsHeld.Contains("Ladder"))
         {
             collider.gameObject.GetComponent<LadderPlacementTrigger>().ladder.SetActive(true);
+        }
+    }
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag("LadderPlacement"))
+        {
+            MenuController.isPromptActive = true;
+            MenuController.NewPromptText = "Press E to place the ladder";
+        }
+    }
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("LadderPlacement"))
+        {
+            MenuController.isPromptActive = false;
         }
     }
 
