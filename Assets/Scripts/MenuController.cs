@@ -13,9 +13,10 @@ public class MenuController : MonoBehaviour
     
     #region Variables
     public bool GameisPause = false;
+    public static bool isPromptActive = false;
     public GameObject PauseMenu;
     public Camera cam;
-
+    public static string NewPromptText = "";
     public GameObject Resume;
     public GameObject Quit;
     public GameObject Reset;
@@ -33,6 +34,7 @@ public class MenuController : MonoBehaviour
     public GameObject Title;
     public GameObject StartScene;
     public GameObject PromptMenu;
+    public TMPro.TMP_Text PromptText;
     #endregion
     #region Start&Update
     void Start()
@@ -70,7 +72,7 @@ public class MenuController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if(OnStartScene == false)
             {
@@ -79,14 +81,21 @@ public class MenuController : MonoBehaviour
         }
         if (GameisPause)
         {
-
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;        
         }
-        
-        //debug the current volumn  
-        //Debug.Log(AudioListener.volume);
+        if(isPromptActive){
+            SetPromptText(NewPromptText);
+            activatePrompt();
         }
+        else{
+            deactivatePrompt();
+        }
+        if(isPromptActive && Input.GetKeyDown(KeyCode.Return)){
+            isPromptActive = false;
+        }
+        
+    }
     #endregion
     #region Menu functions
     public void GameStart(){
@@ -124,7 +133,9 @@ public class MenuController : MonoBehaviour
     }
     public void transitionAnimation(){
         disablethings();
-        Invoke("activatePrompt", 0.5f);
+        NewPromptText = "Block generation is now active";
+        isPromptActive = true;
+        SetPromptText("Block generation is in progress...test text");
     }
     public void applyMouseSenstivity(float value){
         sens = value;
@@ -208,6 +219,12 @@ public class MenuController : MonoBehaviour
     #region prompt Functions
     void activatePrompt(){
         LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutQuad);
+    }
+    void deactivatePrompt(){
+        LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutQuad);
+    }
+    public void SetPromptText(string text){
+        PromptText.text = text;
     }
     #endregion
 }
