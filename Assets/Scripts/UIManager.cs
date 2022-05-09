@@ -18,30 +18,46 @@ public class UIManager : MonoBehaviour
 
     public Text heartRateText;
 
+    GameObject player;
+
     [SerializeField]
     int heartRate;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
         collectedObjectText.enabled = false;
         heartRate = 0;
-        if (!findObject3Text.enabled)
+        InvokeRepeating("UpdateHeartBeat", 2, 5f);
+        if(heartRate > 250)
         {
-            InvokeRepeating("UpdateHeartBeat", 2, 0.8f);
-        }
-        else
-        {
-            InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
+        InvokeRepeating("UpdateHeartBeat", 2, 2.5f);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (heartRate > 120)
+        if ((heartRate % 5 == 0 || heartRate % 10 == 0))
         {
-            Debug.Log("dead");
+            if (heartRate > 0 && heartRate < 120)
+            {
+                //spawn a falling object
+            }
+            if (heartRate >= 120)
+            {
+                //spawn a falling object but quicker
+            }
+            /*if(cutscene is on)
+            {
+                stop spawning
+            }*/
+        }
+        if (heartRate > 500)
+        {
+            player.SetActive(false); //temporary death placeholder
+            Debug.Log("Dead");
         }
     }
 
@@ -52,14 +68,7 @@ public class UIManager : MonoBehaviour
 
     void UpdateHeartBeat()
     {
-        if (!findObject3Text.enabled)
-        {
-            heartRate = UnityEngine.Random.Range(80, 110);
-        }
-        else
-        {
-            heartRate = UnityEngine.Random.Range(60, 100);
-        }
+        heartRate++;
         heartRateText.text = heartRate.ToString();
     }
 
