@@ -48,7 +48,7 @@ public class PopUpManager : MonoBehaviour
     public bool obstacleTime;
     bool obstacleWasActive;
 
-    public bool itemPickedUp = true;
+    public bool readyForNextItemSpawn = true;
 
 
     List<List<GameObject>> currentPaths = new List<List<GameObject>>();
@@ -398,7 +398,7 @@ public class PopUpManager : MonoBehaviour
         if (toSpawn.containsItem)
         {
             currentItemNum++;
-            itemPickedUp = false;
+            readyForNextItemSpawn = false;
         }
     }
 
@@ -412,7 +412,7 @@ public class PopUpManager : MonoBehaviour
                 Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
                 pos = VectorUtil.roundVector3(new Vector3(pos.x, levelHeight, pos.z));
                 bool edgeCase = y == length ? true : false;
-                checkSpawnBlock(pos, edgeCase && itemPickedUp);
+                checkSpawnBlock(pos, edgeCase && readyForNextItemSpawn);
             }
         }
     }
@@ -443,7 +443,7 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    public async void spawnPlatformLink(object sender, EventArgs e)
+    public async void spawnLevelLink(object sender, EventArgs e)
     {
         obstacleTime = true;
         currentPaths.Clear();

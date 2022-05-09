@@ -1631,6 +1631,7 @@ Transform:
   - {fileID: 1458918621}
   - {fileID: 1706001142}
   - {fileID: 1844994682}
+  - {fileID: 1301804220}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2006,6 +2007,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2045821335944613843, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
   m_PrefabInstance: {fileID: 18024459}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1301804219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301804220}
+  - component: {fileID: 1301804221}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Level Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1301804220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301804219}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 50.995773, y: -30.79741, z: -102.914856}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 892390192}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1301804221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301804219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3edfd44fe199b4c8106ad11eec80e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 1458918622}
+  popUpManager: {fileID: 1844994683}
 --- !u!1001 &1337047573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3078,7 +3125,7 @@ MonoBehaviour:
   deservesItem: 0
   levelHeight: 0
   obstacleTime: 0
-  itemPickedUp: 1
+  readyForNextItemSpawn: 1
 --- !u!4 &1864055411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2045821335944613843, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
@@ -3345,7 +3392,7 @@ MonoBehaviour:
   - {fileID: 391546354, guid: 8e415133b18b4f14eb15f506c5550656, type: 3}
   - {fileID: -2117484520, guid: 8e415133b18b4f14eb15f506c5550656, type: 3}
   XSprite: {fileID: 686269341, guid: 8e415133b18b4f14eb15f506c5550656, type: 3}
-  correctRots: 000000000000000000000000000000000000000000000000000000000000000000000000
+  correctRots: 010000000300000004000000040000000000000001000000020000000300000002000000
 --- !u!4 &2018079245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2045821335944613843, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}

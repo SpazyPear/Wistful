@@ -30,6 +30,8 @@ public class Movement : MonoBehaviour
     public PopUpManager popUpManager;
     public PlayerCollisions playerCollisions;
 
+    public bool canMove = true;
+
     public MenuController menuController;
 
 
@@ -45,9 +47,12 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        collectInput();
-        movement();
-        jump();
+        if (canMove)
+        {
+            collectInput();
+            movement();
+            jump();
+        }
         checkRespawn();
     }
 

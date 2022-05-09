@@ -7,7 +7,6 @@ public class Door : MonoBehaviour
     float halfLength;
     bool isOpen;
     bool isTurning;
-    public GameObject prefab;
     Vector3 pivotPoint;
     public bool isLocked;
     public bool pivotsFromZero;
@@ -30,15 +29,9 @@ public class Door : MonoBehaviour
     {
         if (!isTurning)
         {
-            
-            if (!isOpen)
-            {
-                StartCoroutine(spinDoor(true, pivotsFromZero));
-            }
-            else
-            {
-                StartCoroutine(spinDoor(false, pivotsFromZero));
-            }
+
+            StartCoroutine(spinDoor(!isOpen, pivotsFromZero));
+
             isOpen = !isOpen;
         }
     }

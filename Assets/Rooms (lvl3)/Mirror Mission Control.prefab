@@ -4953,6 +4953,18 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 0.24
       objectReference: {fileID: 0}
+    - target: {fileID: 3209453297653180245, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+      propertyPath: triggersPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209453297653180245, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+      propertyPath: triggersNextItem
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209453297653180246, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+      propertyPath: m_TagString
+      value: StickyNote
+      objectReference: {fileID: 0}
     - target: {fileID: 5683105592441635590, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
       propertyPath: m_Name
       value: Mirror Office
@@ -5013,8 +5025,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8638261686840993034, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+      propertyPath: m_TagString
+      value: Key
+      objectReference: {fileID: 0}
     - target: {fileID: 8638261686840993036, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
       propertyPath: triggersPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638261686840993036, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+      propertyPath: triggersNextItem
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8638261686840993037, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
@@ -5029,8 +5049,32 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3209453297653180245, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+--- !u!1 &2469937230176760846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3209453297653180246, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}
+  m_PrefabInstance: {fileID: 1066436213610664792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &184559909099853705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2469937230176760846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97dd624064014541ae2c7c1360d0d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: StickyNote
+  prefab: {fileID: 0}
+  menuSprite: {fileID: 0}
+  description: Note that says "W8pvXi0m"
+  triggersPath: 0
+  triggersNextItem: 0
 --- !u!4 &4616977396885966943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5683105592441635591, guid: 4639261ce4a8e38428dfb018153f24a5, type: 3}

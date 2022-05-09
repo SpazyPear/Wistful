@@ -453,6 +453,7 @@ Transform:
   - {fileID: 913135990}
   - {fileID: 946201046}
   - {fileID: 631434370}
+  - {fileID: 662428944}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1028,29 +1029,71 @@ MonoBehaviour:
     containsItem: 0
   itemTerrain:
   - prefab: {fileID: 6759986780267919369, guid: caaf85d4f770f7d4a90cda8f4cc42bff, type: 3}
-    probability: 0.333
+    probability: 0.1
     size: {x: 6, y: 0, z: 6}
     containsItem: 1
   - prefab: {fileID: 5741989825353673771, guid: fe1df7b0e4584454da4fa7869e40db74, type: 3}
+    probability: 0.1
+    size: {x: 6, y: 0, z: 6}
+    containsItem: 1
+  - prefab: {fileID: 4634668504059992644, guid: 05ea577e44272e040b67ee5da2e00c65, type: 3}
     probability: 0.333
     size: {x: 6, y: 0, z: 6}
     containsItem: 1
-  crumbledTiles:
-  - prefab: {fileID: 2119222700936243171, guid: 8b325365453051d4bbac903301ea3443, type: 3}
-    probability: 0.333
-    size: {x: 3, y: 3, z: 3}
-    tileDirection: 0
-  - prefab: {fileID: 4499116300469222774, guid: 5b1d111ba2933dd44a98e83c11d6d8bd, type: 3}
-    probability: 0.334
-    size: {x: 3, y: 3, z: 3}
-    tileDirection: 0
+  crumbledTiles: []
   startingPlatforms: {fileID: 613144235}
-  platformLink: {fileID: 4217332145475047355, guid: 87dcce45d34a03a4e974f4ba10287639, type: 3}
+  platformLink: {fileID: 6868894420821067660, guid: 73fc5c3ede04249ad8c180c639ae3a6a, type: 3}
   currentItemNum: 0
   deservesItem: 0
   levelHeight: 0
   obstacleTime: 0
-  itemPickedUp: 1
+  readyForNextItemSpawn: 1
+--- !u!1 &662428943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 662428944}
+  - component: {fileID: 662428945}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Level Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &662428944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662428943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 102782188}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &662428945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662428943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3edfd44fe199b4c8106ad11eec80e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 913135991}
+  popUpManager: {fileID: 631434371}
 --- !u!1001 &821331522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2508,6 +2551,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8605812191029334072, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605812191029334072, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8605812191029334073, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}

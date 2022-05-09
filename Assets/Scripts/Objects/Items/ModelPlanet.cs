@@ -12,12 +12,13 @@ public class ModelPlanet : Item
     int currentPlanetIndex = 0;
     bool beingHeld;
     bool turning;
+    Movement movement;
     // Start is called before the first frame update
     void Start()
     {
         modelObj = Instantiate((Resources.Load("planetInHand") as GameObject), Vector3.zero, Quaternion.identity);
         modelObj.transform.localEulerAngles += new Vector3(0, 90, 0);
-        modelObj.transform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+        modelObj.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         modelObj.transform.SetParent(transform, true);
         modelObj.transform.localPosition = new Vector3(0, 0.5f, 3);
 
@@ -29,7 +30,7 @@ public class ModelPlanet : Item
             planetPositions.Add(0);
         }
 
-
+        movement = GetComponent<Movement>();
         skyManager = GameObject.FindGameObjectWithTag("SkyManager").GetComponent<SkyManager>();
 
     }
@@ -42,7 +43,14 @@ public class ModelPlanet : Item
             modelObj.SetActive(!beingHeld);
             beingHeld = !beingHeld;
             if (beingHeld)
+            {
                 StartCoroutine(flashSelectedPlanet());
+                movement.canMove = false;
+            }
+            else
+            {
+                movement.canMove = true;
+            }
 
         }
         if (beingHeld && !turning)

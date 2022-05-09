@@ -13,8 +13,8 @@ public class PlayerCollisions : MonoBehaviour
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
-    public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
+    public LevelManager levelManager;
     CancellationTokenSource destroyPathTokenSource;
 
     Camera camera;
@@ -26,7 +26,6 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
-    public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
 
@@ -34,7 +33,6 @@ public class PlayerCollisions : MonoBehaviour
     {
         camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
-        onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
     }
 
@@ -55,7 +53,6 @@ public class PlayerCollisions : MonoBehaviour
             else if (hitItem)
             {
               
-                    inventoryManager.pickUpItem(hitItem);
                     itemsHeld.Add(hitItem.itemID);
                     gameObject.AddComponent(hitItem.GetType());
                     CollectLevelOneItems();
@@ -68,8 +65,8 @@ public class PlayerCollisions : MonoBehaviour
                         popUpManager.generatePath(4);
                     }
 
-                    inventoryManager.pickUpItem(hitItem);
-                    popUpManager.itemPickedUp = true;
+                    
+                    popUpManager.readyForNextItemSpawn = hitItem.triggersNextItem;
                     Destroy(hitItem.gameObject);
                     hitItem = null;
                 
@@ -90,8 +87,6 @@ public class PlayerCollisions : MonoBehaviour
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
 
-            Debug.Log("hit");
-
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
@@ -102,6 +97,10 @@ public class PlayerCollisions : MonoBehaviour
                 return;
 
             hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
+        }
+        if (collider.gameObject.tag.Equals("levelEnd"))
+        {
+            levelManager.nextLevel();
         }
     }
 
@@ -123,19 +122,6 @@ public class PlayerCollisions : MonoBehaviour
             destroyPathTokenSource = new CancellationTokenSource();
             var destroyPathToken = destroyPathTokenSource.Token;
             popUpManager.destroyPath(destroyPathToken);
-        }
-    }
-
-    private void OnTriggerStay(Collider collider)
-    {
-        if (collider.tag.Equals("Vault Door"))
-        {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                onNextLevel.Invoke(this, new EventArgs());
-                collider.tag = "Untagged";
-                //anim.SetBool("isOpening", true);
-                //And trigger "Ascend blocks" UI
-            }
         }
     }
 
