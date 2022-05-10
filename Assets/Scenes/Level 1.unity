@@ -1075,6 +1075,7 @@ GameObject:
   - component: {fileID: 201371028}
   - component: {fileID: 201371030}
   - component: {fileID: 201371029}
+  - component: {fileID: 201371031}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1140,6 +1141,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201371027}
   m_CullTransparentMesh: 1
+--- !u!114 &201371031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201371027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a42bf84501178c47aa7e37608f64113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 201371029}
 --- !u!1 &204821903
 GameObject:
   m_ObjectHideFlags: 0
@@ -10616,6 +10630,10 @@ PrefabInstance:
       propertyPath: menuController
       value: 
       objectReference: {fileID: 1889461099}
+    - target: {fileID: 8605812191029334074, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8605812191029334075, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_Radius
       value: 1.49
