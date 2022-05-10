@@ -7,10 +7,12 @@ public class Door : MonoBehaviour
     float halfLength;
     bool isOpen;
     bool isTurning;
+    public GameObject prefab;
     Vector3 pivotPoint;
     public bool isLocked;
     public bool pivotsFromZero;
 
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +27,23 @@ public class Door : MonoBehaviour
         pivotPoint = pivotsFromZero ? transform.position : new Vector3(transform.position.x - halfLength, transform.position.y, transform.position.z);
     }
 
-    virtual public void toggleDoor()
+    public void toggleDoor()
     {
         if (!isTurning)
         {
+            if (audioSource)
+            {
+                audioSource.Play();
+            }
 
-            StartCoroutine(spinDoor(!isOpen, pivotsFromZero));
-
+            if (!isOpen)
+            {
+                StartCoroutine(spinDoor(true, pivotsFromZero));
+            }
+            else
+            {
+                StartCoroutine(spinDoor(false, pivotsFromZero));
+            }
             isOpen = !isOpen;
         }
     }

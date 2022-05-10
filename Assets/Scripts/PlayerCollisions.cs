@@ -13,8 +13,8 @@ public class PlayerCollisions : MonoBehaviour
     public List<string> itemsHeld = new List<string>();
 
     public UIManager uiManager;
+    public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
-    public LevelManager levelManager;
     CancellationTokenSource destroyPathTokenSource;
 
     Camera camera;
@@ -26,13 +26,19 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
+    public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+
+    public AudioSource audioSource;
+    public AudioClip positiveSound;
+    public AudioClip negativeSound;
 
     private void Start()
     {
         camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
+        onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
     }
 
@@ -45,19 +51,26 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
             
             if (hitDoor)
             {
                 hitDoor.toggleDoor();
             }
-            else if (hitItem)
+            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
             {
-              
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
+                {
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    inventoryManager.pickUpItem(hitItem);
                     itemsHeld.Add(hitItem.itemID);
                     gameObject.AddComponent(hitItem.GetType());
+                    audioSource.clip = positiveSound;
+                    audioSource.Play();
                     CollectLevelOneItems();
                     uiManager.collectedObjectText.enabled = true;
                     (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                    audioSource.Play();
 
                     if (hitItem.triggersPath)
                     {
@@ -65,11 +78,14 @@ public class PlayerCollisions : MonoBehaviour
                         popUpManager.generatePath(4);
                     }
 
-                    
-                    popUpManager.readyForNextItemSpawn = hitItem.triggersNextItem;
+                    inventoryManager.pickUpItem(hitItem);
+                    popUpManager.itemPickedUp = true;
                     Destroy(hitItem.gameObject);
                     hitItem = null;
-                
+                }
+            } else {
+                audioSource.clip = negativeSound;
+                audioSource.Play();
             }
 
             
@@ -98,10 +114,6 @@ public class PlayerCollisions : MonoBehaviour
 
             hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
         }
-        if (collider.gameObject.tag.Equals("levelEnd"))
-        {
-            levelManager.nextLevel();
-        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -122,6 +134,19 @@ public class PlayerCollisions : MonoBehaviour
             destroyPathTokenSource = new CancellationTokenSource();
             var destroyPathToken = destroyPathTokenSource.Token;
             popUpManager.destroyPath(destroyPathToken);
+        }
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (collider.tag.Equals("Vault Door"))
+        {
+            if (Input.GetKeyDown(KeyCode.E)) {
+                onNextLevel.Invoke(this, new EventArgs());
+                collider.tag = "Untagged";
+                //anim.SetBool("isOpening", true);
+                //And trigger "Ascend blocks" UI
+            }
         }
     }
 

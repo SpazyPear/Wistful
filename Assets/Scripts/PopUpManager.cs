@@ -54,6 +54,7 @@ public class PopUpManager : MonoBehaviour
     List<List<GameObject>> currentPaths = new List<List<GameObject>>();
     List<List<GameObject>> fullCurrentPaths = new List<List<GameObject>>();
 
+    public AudioSource rumbleSource;
 
     void Awake()
     {
@@ -364,6 +365,7 @@ public class PopUpManager : MonoBehaviour
                 try
                 {
                     tweener.AddTween(fullCurrentPaths[x][y].transform, fullCurrentPaths[x][y].transform.position, new Vector3(fullCurrentPaths[x][y].transform.position.x, -12, fullCurrentPaths[x][y].transform.position.z), 2f);
+                    rumbleSource.Play();
                 }
                 catch (MissingReferenceException e)
                 {
