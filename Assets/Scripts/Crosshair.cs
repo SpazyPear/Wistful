@@ -20,7 +20,9 @@ public class Crosshair : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 3.0f))
         {
-            if (hit.transform.gameObject.GetComponent(typeof(Item)))
+            Debug.Log("Item" + hit.transform.gameObject.GetComponent(typeof(Item)));
+            Debug.Log("Door" + hit.transform.gameObject.GetComponent(typeof(Door)));
+            if (hit.transform.gameObject.GetComponent(typeof(Item)) || hit.transform.gameObject.GetComponent(typeof(Door)))
             {
                 image.color = Color.green;
             }
