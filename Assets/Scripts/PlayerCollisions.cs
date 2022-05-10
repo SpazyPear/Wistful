@@ -103,8 +103,6 @@ public class PlayerCollisions : MonoBehaviour
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
 
-            Debug.Log("hit");
-
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();

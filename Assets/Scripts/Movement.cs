@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     public float jumpForce;
     public float sensitivity;
     public float moveSens;
+    public float sprintMultiplier;
     public float wallJumpForce;
     private bool wallJumpCheck;
     private Vector3 wallPos;
@@ -25,6 +26,7 @@ public class Movement : MonoBehaviour
     private float moveY;
     private float rotationY = 0.0f;
     private float height;
+    private bool sprint;
 
     public GameObject target;
     public PopUpManager popUpManager;
@@ -38,6 +40,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         height = 2.0f;
+        sprintMultiplier = 1.5f;
         //Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
     }
@@ -71,15 +74,16 @@ public class Movement : MonoBehaviour
         moveY = Input.GetAxis("Mouse Y");
         rotationY -= moveY * sensitivity;
         rotationY = Mathf.Clamp(rotationY, -90f, 90f);
-       
+
+        sprint = (Input.GetKey(KeyCode.LeftShift));
     }
 
     private void movement()
     {
         target.transform.Rotate(0, moveX * sensitivity, 0);
         cam.transform.localRotation = Quaternion.Euler(rotationY, 0, 0);
-        target.transform.Translate(Vector3.right * moveHorizontal * moveSens * Time.deltaTime, Space.Self);
-        target.transform.Translate(Vector3.forward * moveVertical * moveSens * Time.deltaTime, Space.Self);
+        target.transform.Translate(Vector3.right * moveHorizontal * moveSens * ((sprint) ? sprintMultiplier : 1) * Time.deltaTime, Space.Self);
+        target.transform.Translate(Vector3.forward * moveVertical * moveSens * ((sprint) ? sprintMultiplier : 1) * Time.deltaTime, Space.Self);
     }
 
     private void jump()
@@ -88,7 +92,7 @@ public class Movement : MonoBehaviour
         {
             if (checkGrounded())
             {
-                rb.AddForce(new Vector3(0, 2.0f, 0) * jumpForce, ForceMode.Impulse);
+                rb.AddForce(new Vector3(0, 4.0f, 0) * jumpForce, ForceMode.Impulse);
             }
             else if (wallJumpCheck)
             {
