@@ -37,7 +37,8 @@ public class PasswordedVaultDoor : VaultDoor
                 {
                     audioSource.clip = successChime;
                     audioSource.Play();
-                    anim.SetBool("isOpening", true);
+                    Destroy(currentPasswordUI);
+                    base.toggleDoor();
                 } else
                 {
                     audioSource.clip = negativeTone;

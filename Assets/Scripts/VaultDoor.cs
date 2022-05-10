@@ -8,7 +8,7 @@ public class VaultDoor : Door
     [SerializeField]
     private Animator vaultDoor;
     [SerializeField]
-    private string doorOpen = "VaultDoor";
+    private string doorAnim = "VaultDoor";
 
     LevelManager levelManager;
                 
@@ -20,9 +20,10 @@ public class VaultDoor : Door
     }
     override public void toggleDoor()
     {
-        levelManager.invokeVaultOpened();
-        vaultDoor.Play(doorOpen, 0, 0.0f);
+        levelManager = GameObject.FindGameObjectWithTag("Level Manager").GetComponent<LevelManager>();
 
+        levelManager.invokeVaultOpened();
+        vaultDoor.Play(doorAnim, 0, 0.0f);
     }
 
 

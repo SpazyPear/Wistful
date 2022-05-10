@@ -63,6 +63,7 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
+        readyForNextItemSpawn = true;
         for (int x = 0; x < startingPlatforms.transform.childCount; x++)
             pastPlatforms.Add(startingPlatforms.transform.GetChild(x).gameObject);
         

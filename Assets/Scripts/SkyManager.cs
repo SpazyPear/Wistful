@@ -12,6 +12,7 @@ public class SkyManager : MonoBehaviour
     public List<Sprite> correctSprites = new List<Sprite>();
     public Sprite XSprite;
     public List<int> correctRots = new List<int>();
+    public PopUpManager popUpManager;
     bool isSpinning;
 
 
@@ -52,6 +53,7 @@ public class SkyManager : MonoBehaviour
             skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset, 0));
             yield return null;
         }
+        popUpManager.readyForNextItemSpawn = true;
         isSpinning = false;
     }
 

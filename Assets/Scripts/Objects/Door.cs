@@ -7,7 +7,6 @@ public class Door : MonoBehaviour
     float halfLength;
     bool isOpen;
     bool isTurning;
-    public GameObject prefab;
     Vector3 pivotPoint;
     public bool isLocked;
     public bool pivotsFromZero;

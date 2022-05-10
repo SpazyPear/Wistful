@@ -56,6 +56,8 @@ public class PlayerCollisions : MonoBehaviour
             
             if (hitDoor)
             {
+                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
+                    return;
                 hitDoor.toggleDoor();
             }
             else if (hitItem)

@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     {
         onVaultOpened += popUpManager.dropBlocks;
         onVaultOpened += popUpManager.spawnLevelLink;
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
     }
 
     public async Task<int> nextLevel()
@@ -35,6 +36,7 @@ public class LevelManager : MonoBehaviour
             currentLevel++;
             SceneManager.LoadSceneAsync(currentLevel, LoadSceneMode.Single);
             transitioning = false;
+
         }
         return currentLevel;
     }
