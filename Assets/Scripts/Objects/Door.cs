@@ -27,7 +27,7 @@ public class Door : MonoBehaviour
         pivotPoint = pivotsFromZero ? transform.position : new Vector3(transform.position.x - halfLength, transform.position.y, transform.position.z);
     }
 
-    public void toggleDoor()
+    virtual public void toggleDoor()
     {
         if (!isTurning)
         {

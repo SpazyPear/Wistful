@@ -27,7 +27,10 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collectedObjectText.enabled = false;
+        /*if (collectedObjectText)
+        {
+            collectedObjectText.enabled = false;
+        }
         heartRate = 0;
         if (!findObject3Text.enabled)
         {
@@ -36,7 +39,7 @@ public class UIManager : MonoBehaviour
         else
         {
             InvokeRepeating("UpdateHeartBeat", 2, 0.5f);
-        }
+        }*/
         fadeIn(2f);
     }
 

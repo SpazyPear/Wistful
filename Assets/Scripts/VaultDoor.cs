@@ -5,6 +5,11 @@ using UnityEngine;
 public class VaultDoor : Door
 {
 
+    [SerializeField]
+    private Animator vaultDoor;
+    [SerializeField]
+    private string doorOpen = "VaultDoor";
+
     LevelManager levelManager;
                 
 
@@ -16,6 +21,8 @@ public class VaultDoor : Door
     override public void toggleDoor()
     {
         levelManager.invokeVaultOpened();
+        vaultDoor.Play(doorOpen, 0, 0.0f);
+
     }
 
 

@@ -12,6 +12,7 @@ public class PlayerCollisions : MonoBehaviour
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
+    public LevelManager levelManager;
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
@@ -38,7 +39,7 @@ public class PlayerCollisions : MonoBehaviour
     {
         camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
-        onNextLevel += popUpManager.spawnPlatformLink;
+        onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
     }
 
@@ -57,32 +58,34 @@ public class PlayerCollisions : MonoBehaviour
             {
                 hitDoor.toggleDoor();
             }
-            else if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            else if (hitItem)
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Item)))
+      
+                itemsHeld.Add(hitItem.itemID);
+                gameObject.AddComponent(hitItem.GetType());
+                audioSource.clip = positiveSound;
+                audioSource.Play();
+                //CollectLevelOneItems();
+                //uiManager.collectedObjectText.enabled = true;
+                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                audioSource.Play();
+
+                if (hitItem.triggersPath)
                 {
-                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
-                    inventoryManager.pickUpItem(hitItem);
-                    itemsHeld.Add(hitItem.itemID);
-                    gameObject.AddComponent(hitItem.GetType());
-                    audioSource.clip = positiveSound;
-                    audioSource.Play();
-                    CollectLevelOneItems();
-                    uiManager.collectedObjectText.enabled = true;
-                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                    audioSource.Play();
-
-                    if (hitItem.triggersPath)
-                    {
-                        popUpManager.obstacleTime = true;
-                        popUpManager.generatePath(4);
-                    }
-
-                    inventoryManager.pickUpItem(hitItem);
-                    popUpManager.itemPickedUp = true;
-                    Destroy(hitItem.gameObject);
-                    hitItem = null;
+                    popUpManager.obstacleTime = true;
+                    popUpManager.generatePath(4);
                 }
+
+                if (hitItem.triggersNextItem)
+                {
+                    popUpManager.readyForNextItemSpawn = true;
+
+                }
+
+                inventoryManager.pickUpItem(hitItem);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
+                
             } else {
                 audioSource.clip = negativeSound;
                 audioSource.Play();
@@ -106,6 +109,11 @@ public class PlayerCollisions : MonoBehaviour
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
+        }
+        if (collider.gameObject.tag.Equals("levelEnd"))
+        {
+            collider.gameObject.tag = "Untagged";
+            levelManager.nextLevel();
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
@@ -137,18 +145,6 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider collider)
-    {
-        if (collider.tag.Equals("Vault Door"))
-        {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                onNextLevel.Invoke(this, new EventArgs());
-                collider.tag = "Untagged";
-                //anim.SetBool("isOpening", true);
-                //And trigger "Ascend blocks" UI
-            }
-        }
-    }
 
     void CollectLevelOneItems()
     {
