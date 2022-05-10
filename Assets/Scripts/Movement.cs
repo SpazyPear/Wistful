@@ -96,7 +96,7 @@ public class Movement : MonoBehaviour
             }
             else if (wallJumpCheck)
             {
-                rb.AddForce(new Vector3(wallJumpForce * xDiff, 2, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
+                rb.AddForce(new Vector3(wallJumpForce * xDiff, 3.5f, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
             }
         }
     }
