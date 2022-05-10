@@ -9,14 +9,18 @@ public class PlayerCollisions : MonoBehaviour
 {
     Animator anim;
 
-
     [HideInInspector]
     public List<string> itemsHeld = new List<string>();
 
+    public LevelManager levelManager;
     public UIManager uiManager;
     public InventoryManager inventoryManager;
     public PopUpManager popUpManager;
     CancellationTokenSource destroyPathTokenSource;
+
+    Camera camera;
+    [SerializeField]
+    private float hitRange;
 
     Door hitDoor;
     Item hitItem;
@@ -28,10 +32,16 @@ public class PlayerCollisions : MonoBehaviour
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+
+    public AudioSource audioSource;
+    public AudioClip positiveSound;
+    public AudioClip negativeSound;
+
     private void Start()
     {
+        camera = Camera.main;
         //anim = this.transform.parent.GetComponent<Animator>();
-        onNextLevel += popUpManager.spawnPlatformLink;
+        onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
         fallingBlocks = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
     }
@@ -45,17 +55,25 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            RaycastHit hit;
+            
             if (hitDoor)
+            {
+                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
+                    return;
                 hitDoor.toggleDoor();
-
+            }
             else if (hitItem)
             {
-                inventoryManager.pickUpItem(hitItem);
+      
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
-                CollectLevelOneItems();
-                uiManager.collectedObjectText.enabled = true;
+                audioSource.clip = positiveSound;
+                audioSource.Play();
+                //CollectLevelOneItems();
+                //uiManager.collectedObjectText.enabled = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                audioSource.Play();
 
                 if (hitItem.triggersPath)
                 {
@@ -63,10 +81,19 @@ public class PlayerCollisions : MonoBehaviour
                     popUpManager.generatePath(4);
                 }
 
+                if (hitItem.triggersNextItem)
+                {
+                    popUpManager.readyForNextItemSpawn = true;
+
+                }
+
                 inventoryManager.pickUpItem(hitItem);
-                popUpManager.itemPickedUp = true;
                 Destroy(hitItem.gameObject);
                 hitItem = null;
+                
+            } else {
+                audioSource.clip = negativeSound;
+                audioSource.Play();
             }
 
             
@@ -84,11 +111,14 @@ public class PlayerCollisions : MonoBehaviour
             if (destroyPathTokenSource != null)
                 destroyPathTokenSource.Cancel();
 
-            Debug.Log("hit");
-
             popUpManager.obstacleTime = false;
             popUpManager.popBiome();
             popUpManager.riseBlocks();
+        }
+        if (collider.gameObject.tag.Equals("levelEnd"))
+        {
+            collider.gameObject.tag = "Untagged";
+            levelManager.nextLevel();
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
@@ -132,19 +162,6 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider collider)
-    {
-        if (collider.tag.Equals("Vault Door"))
-        {
-            if (Input.GetKeyDown(KeyCode.E)) {
-                onNextLevel.Invoke(this, new EventArgs());
-                collider.tag = "Untagged";
-                //anim.SetBool("isOpening", true);
-                //And trigger "Ascend blocks" UI
-            }
-        }
-    }
-
 
     void CollectLevelOneItems()
     {
@@ -181,11 +198,10 @@ public class PlayerCollisions : MonoBehaviour
             uiManager.collectedObjectText.fontSize = 24;
         }
     }
+
     IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
     }
-
-
 }

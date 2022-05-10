@@ -227,7 +227,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5348559474679503278, guid: 5e9ffcf61fbc1c742aafc25e302a3087, type: 3}
+  - {fileID: 2100000, guid: ce74d1e35945d4545819848ea84fa4f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,6 +262,10 @@ GameObject:
   - component: {fileID: 4459906116307512334}
   - component: {fileID: 7963725311108694412}
   - component: {fileID: 4570222155850883489}
+  - component: {fileID: 7234911631730359722}
+  - component: {fileID: 1206854766093852232}
+  - component: {fileID: 2064322238368434533}
+  - component: {fileID: 4997358578778113332}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Vault Door
@@ -345,8 +349,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 160.04106, y: 200.001, z: 200.00005}
-  m_Center: {x: 1.7005433, y: 2.3199515e-12, z: 1}
+  m_Size: {x: 44.08413, y: 200.001, z: 200.00005}
+  m_Center: {x: -56.2782, y: -0.000002682131, z: 0.99999905}
 --- !u!65 &4570222155850883489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -360,6 +364,63 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 160.04108, y: 2348.03, z: 200.00005}
   m_Center: {x: 1.7005439, y: 654.7738, z: 1}
+--- !u!65 &7234911631730359722
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 36.725037, y: 200.001, z: 200.00005}
+  m_Center: {x: 62.48875, y: -0.0000026823197, z: 0.99999905}
+--- !u!65 &1206854766093852232
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 92.700005, y: 200.001, z: 36.56758}
+  m_Center: {x: 0.9299991, y: 0.000020533562, z: -95.38}
+--- !u!65 &2064322238368434533
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 92.700005, y: 200.001, z: 36.56758}
+  m_Center: {x: 0.9299991, y: 0.000020533562, z: 82.43121}
+--- !u!114 &4997358578778113332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678043409823991973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d83e871666dfd74090a50a3d3d11cc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  isLocked: 0
+  pivotsFromZero: 0
+  audioSource: {fileID: 0}
+  vaultDoor: {fileID: 374994540909595420}
+  doorOpen: VaultDoor
 --- !u!1 &711302185251628059
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,8 +545,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711302185860801895}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.49752477, y: 0, z: -19.937506}
-  m_LocalScale: {x: 40.624992, y: 1, z: 0.019801976}
+  m_LocalPosition: {x: 0.492, y: 0, z: -19.57}
+  m_LocalScale: {x: 40, y: 1, z: 0.019801976}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 711302186799680702}
@@ -581,7 +642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711302186249309828}
   m_LocalRotation: {x: 0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -39.812504}
+  m_LocalPosition: {x: -0, y: 0, z: -39.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2486,6 +2547,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6661853203840523214}
+  - component: {fileID: 1576460757}
   m_Layer: 0
   m_Name: Level1Vault
   m_TagString: Untagged
@@ -2522,6 +2584,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1576460757
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634668504059992644}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.21, y: 8.4, z: 7.35}
+  m_Center: {x: 4.19, y: 2.3, z: -2.64}
 --- !u!1 &4865103615464206595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2915,7 +2990,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8602880182391463667, guid: 5e9ffcf61fbc1c742aafc25e302a3087, type: 3}
+  - {fileID: 2100000, guid: ce74d1e35945d4545819848ea84fa4f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2998,7 +3073,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -177345253335394471, guid: 5e9ffcf61fbc1c742aafc25e302a3087, type: 3}
+  - {fileID: 2100000, guid: 320823e3c75d7b047ba772b1bdcd7fd0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3530,6 +3605,7 @@ GameObject:
   - component: {fileID: 147693117944422984}
   - component: {fileID: 2378462226718959644}
   - component: {fileID: 374994540909595420}
+  - component: {fileID: 1576460756}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -3634,6 +3710,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &1576460756
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619773287683121609}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8321685774571456786, guid: 5e9ffcf61fbc1c742aafc25e302a3087, type: 3}
 --- !u!1 &6682032699928227017
 GameObject:
   m_ObjectHideFlags: 0
@@ -3861,7 +3951,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -177345253335394471, guid: 5e9ffcf61fbc1c742aafc25e302a3087, type: 3}
+  - {fileID: 2100000, guid: 320823e3c75d7b047ba772b1bdcd7fd0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

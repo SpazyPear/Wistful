@@ -19,12 +19,24 @@ public class ArticleComputer : MonoBehaviour
     private bool loginTriggered = false; //Keeps track of whether the login page is open
     private bool emailTriggered = false; //Keeps track of whether the email is open
 
+    Movement movement;
+
+    PopUpManager popUpManager;
+
+    private void Start()
+    {
+        popUpManager = GameObject.Find("PopUpManager").GetComponent<PopUpManager>();
+    }
+
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
             if (Input.GetKeyDown(KeyCode.E) && !loginTriggered)
             {
+                movement = other.GetComponent<Movement>();
+                movement.canMove = false;
                 currentLoginPage = Instantiate(loginPagePrefab);
                 loginTriggered = true;
                 currentPasswordField = currentLoginPage.rootVisualElement.Q<TextField>();
@@ -42,12 +54,13 @@ public class ArticleComputer : MonoBehaviour
             if (currentLoginPage)
             {
                 Destroy(currentLoginPage);
+                movement.canMove = true;
             }
         }
 
         if (loginTriggered && Input.GetKeyDown(KeyCode.Return) || loginTriggered && Input.GetKeyDown(KeyCode.KeypadEnter)) //If on the login page and hit enter
         {
-            if (currentPasswordField.text.ToLower() == "m0ixvq8w" || currentPasswordField.text.ToLower() == "moixvq8w") //if correct
+            if (currentPasswordField.text == "W8pvXi0m") //if correct
             {
                 //remove login page
                 loginTriggered = false;
@@ -68,6 +81,8 @@ public class ArticleComputer : MonoBehaviour
             if (currentEmailPage)
             {
                 Destroy(currentEmailPage);
+                movement.canMove = true;
+                popUpManager.readyForNextItemSpawn = true;
             }
         }
     }

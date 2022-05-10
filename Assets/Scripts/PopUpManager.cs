@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 public class PopUpManager : MonoBehaviour
 {
     public Transform player;
-    public GameObject prefab;
+    public GameObject debugCube;
     private List<GameObject> toRise = new List<GameObject>();
     private float posX;
     private float posZ;
-    public float posY;
+    private float posY;
     public Tweener tweener;
 
     [HideInInspector]
@@ -31,6 +31,8 @@ public class PopUpManager : MonoBehaviour
 
     
     public GameObject platformLink;
+    [SerializeField]
+    private GameObject startingPlatforms;
 
     private bool vaultUp = false;
 
@@ -42,30 +44,28 @@ public class PopUpManager : MonoBehaviour
 
     public float levelHeight = 0;
 
-    public TerrainBlock vaultBlock;
-
-    public Movement movement;
-
-    public const float obstacleInterval = 20f;
-    bool obstacleTimerRunning = false;
     public bool obstacleTime;
     bool obstacleWasActive;
 
-    public bool itemPickedUp = true;
+    public bool readyForNextItemSpawn = true;
 
 
     List<List<GameObject>> currentPaths = new List<List<GameObject>>();
     List<List<GameObject>> fullCurrentPaths = new List<List<GameObject>>();
 
+    public AudioSource rumbleSource;
 
     void Awake()
     {
-        instantiateDataStructures(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        instantiateDataStructures();
     }
 
     void Start()
     {
-
+        readyForNextItemSpawn = true;
+        for (int x = 0; x < startingPlatforms.transform.childCount; x++)
+            pastPlatforms.Add(startingPlatforms.transform.GetChild(x).gameObject);
+        
     }
 
     void Update()
@@ -73,26 +73,7 @@ public class PopUpManager : MonoBehaviour
         posChangedInstantiate();
     }
 
-    IEnumerator obstacleTimer()
-    {
-        if (!obstacleTimerRunning)
-        {
-            obstacleTimerRunning = true;
-            float timer = obstacleInterval;
-            while (true)
-            {
-                timer -= Time.deltaTime;
-                if (timer < 0)
-                    break;
-                yield return null;
-            }
-            obstacleTime = true;
-            obstacleTimerRunning = false;
-
-        }
-    }
-
-    void instantiateDataStructures(Scene scene, LoadSceneMode mode)
+    void instantiateDataStructures()
     {
         posX = player.position.x;
         posZ = player.position.z;
@@ -159,44 +140,31 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    public void riseBlocks()
+    public async void riseBlocks()
     {
+        await tweener.waitForComplete();
         foreach (GameObject obj in toRise)
         {
-            tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, levelHeight, obj.transform.position.z)), 1.5f);
+            tweener.AddTween(obj.transform, obj.transform.position, VectorUtil.roundVector3(new Vector3(obj.transform.position.x, levelHeight, obj.transform.position.z)), 1.5f);
         }
     }
 
-    void dropBlocks()
+    public void dropBlocks(object sender = null, EventArgs e = null)
     {
         foreach (GameObject obj in pastPlatforms)
         {
             if (Vector3.Distance(new Vector3(player.position.x, levelHeight, player.position.z), obj.transform.position) > 10f)
-                tweener.AddTween(obj.transform, obj.transform.position, roundVector3(new Vector3(obj.transform.position.x, obj.transform.position.y - 12, obj.transform.position.z)), 3f);
+                tweener.AddTween(obj.transform, obj.transform.position, VectorUtil.roundVector3(new Vector3(obj.transform.position.x, obj.transform.position.y - 12, obj.transform.position.z)), 3f);
         }
     }
 
     void createDebugSphere(Vector3 pos, Vector3 scale)
     {
-        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+        GameObject obj = Instantiate(debugCube, pos, Quaternion.identity);
         obj.transform.localScale = scale;
-        Destroy(obj, 2f);
+        //Destroy(obj, 2f);
     }
 
-    public void popBiome() // Make recusrive, if something doesn't fit, find somewhere else or return something smaller.
-    {
-
-        for (int x = -width; x <= width; x++)
-        {
-            for (int y = 0; y <= length; y++)
-            {
-                Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
-                pos = roundVector3(new Vector3(pos.x, levelHeight, pos.z));
-                bool edgeCase = y == length ? true : false;
-                checkSpawnBlock(pos, edgeCase && itemPickedUp);
-            }
-        }
-    }
 
     public async void generatePath(int pathSize)
     {
@@ -218,16 +186,15 @@ public class PopUpManager : MonoBehaviour
         // Find edges
         while (cardinalsIndex < cardinals.Length)
         {
-            Vector3 edge = roundVector3(player.position);
-            edge = new Vector3(edge.x, levelHeight, edge.z);
+            edges[cardinalsIndex] = VectorUtil.roundVector3(new Vector3(player.position.x, levelHeight, player.position.z));
             Vector3 forward = cardinals[cardinalsIndex];
             int index = 0;
             while (true)
             {
-                if (!Physics.CheckBox(edge + (forward * blockSize) * index, new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
+                if (!Physics.CheckBox(edges[cardinalsIndex] + (forward * blockSize), new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                     break;
 
-                edges[cardinalsIndex] = roundVector3(edge + (forward * blockSize) * (index - 1));
+                edges[cardinalsIndex] = VectorUtil.roundVector3(edges[cardinalsIndex] + (forward * blockSize));
                 index++;
             }
             cardinalsIndex++;
@@ -254,7 +221,7 @@ public class PopUpManager : MonoBehaviour
                         break;
                 }
                 edges[cardinalsIndex] += new Vector3(cardinals[cardinalsIndex].x * tile.size.x, 0, cardinals[cardinalsIndex].z * tile.size.z) * blockSize;
-                Vector3 pos = roundVector3(edges[cardinalsIndex]);
+                Vector3 pos = VectorUtil.roundVector3(edges[cardinalsIndex]);
                 pos.y = levelHeight - 3;
                 GameObject obj = Instantiate(tile.prefab, pos, Quaternion.identity);
                 var angle = Vector3.Angle(transform.forward, Vector3.Scale(transform.InverseTransformPoint(cardinals[cardinalsIndex]), new Vector3(1, 0, 1)));
@@ -398,6 +365,7 @@ public class PopUpManager : MonoBehaviour
                 try
                 {
                     tweener.AddTween(fullCurrentPaths[x][y].transform, fullCurrentPaths[x][y].transform.position, new Vector3(fullCurrentPaths[x][y].transform.position.x, -12, fullCurrentPaths[x][y].transform.position.z), 2f);
+                    rumbleSource.Play();
                 }
                 catch (MissingReferenceException e)
                 {
@@ -415,7 +383,7 @@ public class PopUpManager : MonoBehaviour
 
         if (toSpawn.containsItem)
         {
-            pos = roundVector3(pos + new Vector3((toSpawn.size.x * blockSize), 0, toSpawn.size.z * blockSize));
+            pos = VectorUtil.roundVector3(pos + new Vector3((toSpawn.size.x * blockSize), 0, toSpawn.size.z * blockSize));
         }
         if (Physics.CheckBox(pos, toSpawn.size, Quaternion.identity, 1, QueryTriggerInteraction.Collide))
         {
@@ -432,10 +400,24 @@ public class PopUpManager : MonoBehaviour
         if (toSpawn.containsItem)
         {
             currentItemNum++;
-            itemPickedUp = false;
+            readyForNextItemSpawn = false;
         }
     }
 
+    public void popBiome()
+    {
+
+        for (int x = -width; x <= width; x++)
+        {
+            for (int y = 0; y <= length; y++)
+            {
+                Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
+                pos = VectorUtil.roundVector3(new Vector3(pos.x, levelHeight, pos.z));
+                bool edgeCase = y == length ? true : false;
+                checkSpawnBlock(pos, edgeCase && readyForNextItemSpawn);
+            }
+        }
+    }
 
     TerrainBlock getModel(bool canBeItem)
     {
@@ -463,25 +445,25 @@ public class PopUpManager : MonoBehaviour
         }
     }
 
-    public void spawnPlatformLink(object sender, EventArgs e)
+    public async void spawnLevelLink(object sender, EventArgs e)
     {
         obstacleTime = true;
         currentPaths.Clear();
         currentPaths.Add(new List<GameObject>());
 
-        Vector3 edge = roundVector3(player.position);
+        Vector3 edge = VectorUtil.roundVector3(player.position);
         edge = new Vector3(edge.x, levelHeight, edge.z);
 
-        Vector3 forward = nearestCardinal(player.forward);
+        Vector3 forward = -Vector3.forward;
 
-        int blockDist = 0;
+        await tweener.waitForComplete();
+
         while (true)
         {
-            if (!Physics.CheckBox(edge + (forward * blockSize) * blockDist, new Vector3(4, 4, 4)))
+            if (!Physics.CheckBox(edge + (forward * blockSize), new Vector3(4, 4, 4), Quaternion.identity, 1, QueryTriggerInteraction.Collide))
                 break;
 
-            edge = roundVector3(edge + (forward * blockSize) * (blockDist));
-            blockDist++;
+            edge = VectorUtil.roundVector3(edge + (forward * blockSize));
         }
 
         edge = new Vector3(edge.x, levelHeight - 3, edge.z);
@@ -499,34 +481,9 @@ public class PopUpManager : MonoBehaviour
         fullCurrentPaths = copyPaths(currentPaths);
 
         obstacleTime = true;
-
-        Vector3 nearestCardinal(Vector3 input)
-        {
-            Vector3 output = Vector3.zero;
-            int index = 0;
-            float largest = 0;
-            for (int x = 0; x < 3; x++)
-            {
-                if (largest < Mathf.Abs(input[x]))
-                {
-                    largest = input[x];
-                    index = x;
-                }
-            }
-            output[index] = 1;
-            return output;
-        }
     }
     
 
-    Vector3 roundVector3(Vector3 pos)
-    {
-        return new Vector3(nearestMultiple(Convert.ToInt32(Mathf.Round(pos.x))), nearestMultiple(Convert.ToInt32(Mathf.Round(pos.y))), nearestMultiple(Convert.ToInt32(Mathf.Round(pos.z))));
-    }
 
-    int nearestMultiple(int num)
-    {
-        return Mathf.RoundToInt(num / blockSize) * blockSize;
-    }
 
 }

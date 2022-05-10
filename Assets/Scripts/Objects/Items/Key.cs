@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class Key : Item
 {
-    public GameObject door;
-    //private bool doorLocked = true;
 
     private void Awake()
     {
         itemID = "Key";
-        //UseKey();
     }
 
-    /*public void UseKey()
+    override public void setItemProperties(string itemID, GameObject prefab = null, Sprite menuSprite = null, string description = "")
     {
-        if (doorLocked)
-        {
-            door.transform.Rotate(0, 90, 0);
-        }
-        doorLocked = false;
-    }*/
-
+        base.setItemProperties(itemID, prefab, menuSprite, description);
+        GameObject stickyNoteObj = GameObject.FindGameObjectWithTag("StickyNote");
+        if (stickyNoteObj)
+            (stickyNoteObj.GetComponent(typeof(Item)) as Item).triggersNextItem = true;
+    }
 }

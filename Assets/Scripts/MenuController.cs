@@ -11,11 +11,12 @@ public class MenuController : MonoBehaviour
     //This script is used to manage the menu system.
     //It is attached to the Start menu canvas and the Levels' pause menu canvas.
     
-    //-------------Level pres-----------------
+    #region Variables
     public bool GameisPause = false;
+    public static bool isPromptActive = false;
     public GameObject PauseMenu;
     public Camera cam;
-
+    public static string NewPromptText = "";
     public GameObject Resume;
     public GameObject Quit;
     public GameObject Reset;
@@ -24,12 +25,18 @@ public class MenuController : MonoBehaviour
     public AudioMixer audioMixer;
     public bool SettingisActive;
     public TMPro.TMP_Text SettingText;
-
-    //-------------Start pres---------------------------
     public TMPro.TMP_Dropdown dropdown;
     public GameObject PlayerPrefab;
     public bool OnStartScene;
-    // Start is called before the first frame update
+    private float sens;
+    public GameObject StartMenu;
+    public GameObject OptionsMenu;
+    public GameObject Title;
+    public GameObject StartScene;
+    public GameObject PromptMenu;
+    public TMPro.TMP_Text PromptText;
+    #endregion
+    #region Start&Update
     void Start()
     {
         GameisPause = false;
@@ -62,11 +69,10 @@ public class MenuController : MonoBehaviour
         // Dropdown resolutionDropdown = GameObject.Find("Resolution Dropdown").GetComponent<Dropdown>();
     }
 
-    // Update is called once per frame
-    private float sens;
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if(OnStartScene == false)
             {
@@ -75,16 +81,36 @@ public class MenuController : MonoBehaviour
         }
         if (GameisPause)
         {
-
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;        
         }
-        
-        //debug the current volumn  
-        //Debug.Log(AudioListener.volume);
+        if(isPromptActive){
+            SetPromptText(NewPromptText);
+            activatePrompt();
         }
-
-    
+        else{
+            deactivatePrompt();
+        }
+        if(isPromptActive && Input.GetKeyDown(KeyCode.Return)){
+            isPromptActive = false;
+        }
+        
+    }
+    #endregion
+    #region Menu functions
+    public void GameStart(){
+        OnStartScene = false;
+        LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
+        Cursor.lockState = CursorLockMode.Locked;
+        //load level 1 after 1 second
+        Invoke("transitionAnimation", 1.5f);
+        Invoke("loadLevel1", 3f);
+    }
+    public void disablethings(){
+        StartMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+        Title.SetActive(false);
+    }
     public void AwakeSettings(){
         if (!SettingisActive)
         {
@@ -105,17 +131,11 @@ public class MenuController : MonoBehaviour
         }
         
     }
-    public GameObject StartMenu;
-    public GameObject OptionsMenu;
-    public GameObject Title;
-    public void GameStart(){
-        OnStartScene = false;
-        LeanTween.moveLocalY(StartScene, 1500, 1.5f).setEase(LeanTweenType.easeOutQuad);
-        Cursor.lockState = CursorLockMode.Locked;
-        //load level 1 after 1 second
-        Invoke("loadLevel1", 2f);
-        
-        
+    public void transitionAnimation(){
+        disablethings();
+        NewPromptText = "Block generation is now active";
+        isPromptActive = true;
+        SetPromptText("Block generation is in progress...test text");
     }
     public void applyMouseSenstivity(float value){
         sens = value;
@@ -164,6 +184,8 @@ public class MenuController : MonoBehaviour
 
         
     }
+    #endregion
+    #region Button Functions
     public void ResumetheGame()
     {
         
@@ -173,7 +195,6 @@ public class MenuController : MonoBehaviour
         PlayerPrefab.gameObject.GetComponent<Movement>().sensitivity = sens;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    public GameObject StartScene;
     public void ResettheLevel()
     {
         
@@ -194,5 +215,16 @@ public class MenuController : MonoBehaviour
     {
         Application.Quit();
     }
-
+    #endregion
+    #region prompt Functions
+    void activatePrompt(){
+        LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutQuad);
+    }
+    void deactivatePrompt(){
+        LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutQuad);
+    }
+    public void SetPromptText(string text){
+        PromptText.text = text;
+    }
+    #endregion
 }
