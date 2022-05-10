@@ -23,38 +23,56 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     int heartRate;
 
+    public FallingBlocks fallingBlockSpawner;
+
+    public PopUpManager popUpManager;
+
+    public GameObject grassForFalling;
+
+    public GameObject platformLink;
+
     // Start is called before the first frame update
     void Start()
     {
+        fallingBlockSpawner = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
         player = GameObject.Find("Player");
         collectedObjectText.enabled = false;
         heartRate = 0;
         InvokeRepeating("UpdateHeartBeat", 2, 5f);
-        if(heartRate > 250)
+        if (heartRate > 400)
         {
-        InvokeRepeating("UpdateHeartBeat", 2, 2.5f);
+            InvokeRepeating("UpdateHeartBeat", 2, 2.5f);
         }
+        platformLink = popUpManager.platformLink;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((heartRate % 5 == 0 || heartRate % 10 == 0))
+        if ((heartRate % 5 == 0 || heartRate % 10 == 0) && heartRate > 0)
         {
-            if (heartRate > 0 && heartRate < 120)
-            {
-                //spawn a falling object
-            }
-            if (heartRate >= 120)
+            Vector3 platformBounds = platformLink.GetComponent<Collider>().bounds.size;
+            float spawnPointx = Random.Range(-platformBounds.x/2f, platformBounds.x/2f);
+            float spawnPointZ = Random.Range(-platformBounds.z/2f, -platformBounds.z/2f);
+            Vector3 pos = new Vector3(spawnPointx, platformBounds.y + 40, spawnPointZ) + platformLink.transform.position;
+            fallingBlockSpawner.SpawnBlock(pos);
+            //spawn a falling object
+            if (heartRate >= 400 && heartRate % 3 == 0)
             {
                 //spawn a falling object but quicker
+                fallingBlockSpawner.spawnRate = 10000f;
+                fallingBlockSpawner.SpawnBlock(pos);
             }
             /*if(cutscene is on)
             {
                 stop spawning
             }*/
         }
-        if (heartRate > 500)
+        else
+        {
+            fallingBlockSpawner.blockSpawned = false;
+        }
+        if (heartRate > 1200)
         {
             player.SetActive(false); //temporary death placeholder
             Debug.Log("Dead");

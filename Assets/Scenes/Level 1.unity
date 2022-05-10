@@ -2014,6 +2014,10 @@ MonoBehaviour:
   collectedObjectText: {fileID: 1863980681}
   heartRateText: {fileID: 1050188360}
   heartRate: 0
+  fallingBlockSpawner: {fileID: 612373631}
+  popUpManager: {fileID: 356297473}
+  grassForFalling: {fileID: 2144333697972489470, guid: a9f629729797c4b13b48e6842626fda5, type: 3}
+  platformLink: {fileID: 6559213848720791111, guid: b71479e6d0ab64c54aa0f0d3ed5808a4, type: 3}
 --- !u!1 &394479601
 GameObject:
   m_ObjectHideFlags: 0
@@ -2711,6 +2715,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73ef0b63ffe19f94ab35e4475b345d70, type: 3}
+--- !u!1 &612373630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612373632}
+  - component: {fileID: 612373631}
+  m_Layer: 0
+  m_Name: FallingBlockSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &612373631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612373630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b33dadc42c4f430a88c2d5bce1d296a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRate: 0
+  grassForFalling: {fileID: 2144333697972489470, guid: a9f629729797c4b13b48e6842626fda5, type: 3}
+  blockSpawned: 0
+--- !u!4 &612373632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612373630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 352, z: -12}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644575537
 GameObject:
   m_ObjectHideFlags: 0
@@ -10603,6 +10654,10 @@ PrefabInstance:
       propertyPath: popUpManager
       value: 
       objectReference: {fileID: 356297473}
+    - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: fallingBlocks
+      value: 
+      objectReference: {fileID: 612373631}
     - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: inventoryManager
       value: 

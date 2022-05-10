@@ -23,15 +23,17 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
+    public FallingBlocks fallingBlocks;
+
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
-
     private void Start()
     {
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnPlatformLink;
         startCalled = true;
+        fallingBlocks = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
     }
 
     private void Update()
@@ -95,6 +97,18 @@ public class PlayerCollisions : MonoBehaviour
 
             hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
         }
+         if(collider.gameObject.tag.Equals("Falling"))
+        {
+            Debug.Log("dead");
+            this.gameObject.SetActive(false);
+            Invoke("PlayerRespawn", 2.0f);
+            Destroy(collider.gameObject);
+        }
+    }
+
+    void PlayerRespawn()
+    {
+        this.gameObject.SetActive(true);
     }
 
     private void OnTriggerExit(Collider collider)
