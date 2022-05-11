@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour
     private float rotationY = 0.0f;
     private float height;
     private bool sprint;
-
+    public Vector3 lastGroundedPos;
     public GameObject target;
     public PopUpManager popUpManager;
     public PlayerCollisions playerCollisions;
@@ -35,6 +35,8 @@ public class Movement : MonoBehaviour
     public bool canMove = true;
 
     public MenuController menuController;
+
+    bool isGrounded = false;
 
 
 
@@ -63,7 +65,7 @@ public class Movement : MonoBehaviour
     {
         if (transform.position.y < -16)
         {
-            Vector3 pos = Vector3.positiveInfinity;
+            /*Vector3 pos = Vector3.positiveInfinity;
             for (int x = -12; x <= 12; x += 4)
             {
                 for (int y = -12; y <= 12; y += 4)
@@ -74,8 +76,10 @@ public class Movement : MonoBehaviour
                     }
                 }
             }
-            transform.position = pos;
+            transform.position = pos;*/
+            transform.position = new Vector3(lastGroundedPos.x, lastGroundedPos.y + 4, lastGroundedPos.z);
         }
+        
     }
 
     void createDebugSphere(Vector3 pos, Vector3 scale)
@@ -146,11 +150,21 @@ public class Movement : MonoBehaviour
         else
         {
             wallJumpCheck = false;
+            VectorUtil.roundVector3(transform.position);
+        }
+        if (collision.gameObject.tag == "ground")
+        {
+            lastGroundedPos = transform.position;
+            isGrounded = true;
         }
     }
 
-    private void OnCollisionExit(Collision other)
+    private void OnCollisionExit(Collision collision)
     {
+        if (collision.gameObject.tag == "ground")
+        {
+            isGrounded = false;
+        }
         wallJumpCheck = false;
     }
 
