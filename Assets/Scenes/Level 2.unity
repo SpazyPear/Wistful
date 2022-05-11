@@ -532,6 +532,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 675326576, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8605812191029334072, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_Name
       value: Player
@@ -603,7 +607,7 @@ PrefabInstance:
     - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: fallingBlocks
       value: 
-      objectReference: {fileID: 519582516}
+      objectReference: {fileID: 0}
     - target: {fileID: 8605812191029334079, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: inventoryManager
       value: 
@@ -1053,53 +1057,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
---- !u!1 &519582515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 519582517}
-  - component: {fileID: 519582516}
-  m_Layer: 0
-  m_Name: FallingBlockSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &519582516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519582515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b33dadc42c4f430a88c2d5bce1d296a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnRate: 0
-  grassForFalling: {fileID: 2144333697972489470, guid: a9f629729797c4b13b48e6842626fda5, type: 3}
-  blockSpawned: 0
---- !u!4 &519582517
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519582515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 352, z: -12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &547380216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1315,8 +1272,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.985104
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1324,7 +1293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.176998
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1357,7 +1326,7 @@ PrefabInstance:
     - target: {fileID: 2300006, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c0abe82bbf594244e95daef4ed487071, type: 2}
+      objectReference: {fileID: 2100000, guid: a4fe3864e26b3f64a9ab5016c0b881d2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21b0eb0b7d485e64f9e4a5eb7200c5bc, type: 3}
 --- !u!1001 &668810664
@@ -3136,6 +3105,24 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 1999010800939360531, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
   m_PrefabInstance: {fileID: 290324265}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1929039355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139355841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80ee235dfcb17a4da74cb024301730b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: 
+  prefab: {fileID: 0}
+  menuSprite: {fileID: 0}
+  description: 
+  triggersPath: 0
+  triggersNextItem: 0
 --- !u!1 &1959287633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3384,7 +3371,7 @@ PrefabInstance:
     - target: {fileID: 3845492854773411971, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: fallingBlockSpawner
       value: 
-      objectReference: {fileID: 519582516}
+      objectReference: {fileID: 0}
     - target: {fileID: 3845492854773411971, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: rocketFuelContainer
       value: 
@@ -3405,6 +3392,26 @@ PrefabInstance:
       propertyPath: popUpManager
       value: 
       objectReference: {fileID: 1844994683}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].time
+      value: 0.64055586
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].value
+      value: 0.46662134
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].inSlope
+      value: -3.2776806
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].outSlope
+      value: -3.2776806
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].outWeight
+      value: 0.15897861
+      objectReference: {fileID: 0}
     - target: {fileID: 3845492855395010086, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: player
       value: 
