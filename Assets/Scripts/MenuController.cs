@@ -21,6 +21,8 @@ public class MenuController : MonoBehaviour
     public GameObject Quit;
     public GameObject Reset;
 
+
+
     public GameObject Settings;
     public AudioMixer audioMixer;
     public bool SettingisActive;
