@@ -75,7 +75,7 @@ public class MenuController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(OnStartScene == false)
             {
