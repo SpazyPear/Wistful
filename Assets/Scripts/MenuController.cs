@@ -41,6 +41,7 @@ public class MenuController : MonoBehaviour
     #region Start&Update
     void Start()
     {
+        PromptMenu.SetActive(false);
         GameisPause = false;
         sens = PlayerPrefab.GetComponent<Movement>().sensitivity;
         if(SceneManager.GetActiveScene().name == "Level 1")
@@ -91,7 +92,8 @@ public class MenuController : MonoBehaviour
             activatePrompt();
         }
         else{
-            deactivatePrompt();
+            LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutQuad);
+            Invoke("deactivatePrompt", 0.5f);
         }
         if(isPromptActive && Input.GetKeyDown(KeyCode.Return)){
             isPromptActive = false;
@@ -220,11 +222,14 @@ public class MenuController : MonoBehaviour
     #endregion
     #region prompt Functions
     void activatePrompt(){
+        PromptMenu.SetActive(true);
         LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutQuad);
     }
     void deactivatePrompt(){
-        LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutQuad);
+        
+        PromptMenu.SetActive(false);
     }
+     
     public void SetPromptText(string text){
         PromptText.text = text;
     }
