@@ -117,11 +117,11 @@ public class Movement : MonoBehaviour
         {
             if (checkGrounded())
             {
-                rb.AddForce(new Vector3(0, 4.0f, 0) * jumpForce, ForceMode.Impulse);
+                rb.AddForce(new Vector3(0, 3.0f, 0) * jumpForce, ForceMode.Impulse);
             }
             else if (wallJumpCheck)
             {
-                rb.AddForce(new Vector3(wallJumpForce * xDiff, 2, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
+                rb.AddForce(new Vector3(wallJumpForce * xDiff, 3.0f, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
             }
         }
     }
