@@ -27,6 +27,8 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
+    public FallingBlocks fallingBlocks;
+
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
@@ -41,6 +43,7 @@ public class PlayerCollisions : MonoBehaviour
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
+        fallingBlocks = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
     }
 
     private void Update()
@@ -55,8 +58,16 @@ public class PlayerCollisions : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Door)))
-                {
+                if (hit.transform.gameObject.GetComponent(typeof(Door))) {
+      
+                    //itemsHeld.Add(hitItem.itemID);
+                    //gameObject.AddComponent(hitItem.GetType());
+                    //audioSource.clip = positiveSound;
+                    //audioSource.Play();
+                    //(GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                    //audioSource.Play();
+
+                
                     hitDoor = hit.transform.gameObject.GetComponent(typeof(Door)) as Door;
                     if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
                         return;
@@ -132,6 +143,18 @@ public class PlayerCollisions : MonoBehaviour
 
             hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
         }
+         if(collider.gameObject.tag.Equals("Falling"))
+        {
+            Debug.Log("dead");
+            this.gameObject.SetActive(false);
+            Invoke("PlayerRespawn", 2.0f);
+            Destroy(collider.gameObject);
+        }
+    }
+
+    void PlayerRespawn()
+    {
+        this.gameObject.SetActive(true);
     }
 
     private void OnTriggerExit(Collider collider)
@@ -156,7 +179,7 @@ public class PlayerCollisions : MonoBehaviour
     }
 
 
-    void CollectLevelOneItems()
+    /*void CollectLevelOneItems()
     {
         switch (hitItem.itemID)
         {
@@ -196,5 +219,5 @@ public class PlayerCollisions : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
-    }
+    }*/
 }

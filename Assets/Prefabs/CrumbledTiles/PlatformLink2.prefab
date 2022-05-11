@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3633036427487772501}
+  - component: {fileID: 6612213735059052382}
   m_Layer: 0
   m_Name: PlatformLink2
   m_TagString: Untagged
@@ -258,6 +259,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6612213735059052382
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376735450489387412}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3821304361114456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13851,7 +13865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8812771074341564304, guid: 86d2a110c8a1abf41b5b4844031f05d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 152.05
+      value: 152
       objectReference: {fileID: 0}
     - target: {fileID: 8812771074341564304, guid: 86d2a110c8a1abf41b5b4844031f05d8, type: 3}
       propertyPath: m_LocalPosition.y

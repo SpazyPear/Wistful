@@ -29,11 +29,10 @@ public class PopUpManager : MonoBehaviour
     [SerializeField]
     private List<PathTile> crumbledTiles = new List<PathTile>();
 
+    
+    public GameObject platformLink;
     [SerializeField]
     private GameObject startingPlatforms;
-
-    [SerializeField]
-    private GameObject platformLink;
 
     private bool vaultUp = false;
 
