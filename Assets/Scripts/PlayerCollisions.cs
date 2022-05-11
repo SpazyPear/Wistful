@@ -65,7 +65,8 @@ public class PlayerCollisions : MonoBehaviour
             }
             else if (hitItem)
             {
-      
+                uiManager.collectedObjectText.enabled = true;
+                CollectLevelOneItems();
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
                 audioSource.clip = positiveSound;
@@ -161,30 +162,30 @@ public class PlayerCollisions : MonoBehaviour
     }
 
 
-    /*void CollectLevelOneItems()
+    void CollectLevelOneItems()
     {
         switch (hitItem.itemID)
         {
             case "Ladder":
-                uiManager.findObject2Text.enabled = false;
+                //uiManager.findObject2Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 StartCoroutine(HideText());
                 foundLadder = true;
                 break;
             case "Rocket":
-                uiManager.findObject3Text.enabled = false;
+                //uiManager.findObject3Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
             case "Kite":
-                uiManager.findObject4Text.enabled = false;
+                //uiManager.findObject4Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
             case "Photo": //should be photo
-                uiManager.findObject1Text.enabled = false;
+                //uiManager.findObject1Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
                 StartCoroutine(HideText());
@@ -201,5 +202,5 @@ public class PlayerCollisions : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
-    }*/
+    }
 }

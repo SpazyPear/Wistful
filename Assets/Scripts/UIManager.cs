@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    //public Text collectedObjectText;
+    public Text collectedObjectText;
 
     public Text heartRateText;
 
@@ -35,8 +35,8 @@ public class UIManager : MonoBehaviour
     {
         fallingBlockSpawner = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
         player = GameObject.Find("Player");
-        /*collectedObjectText.enabled = false;
-        if (collectedObjectText)
+        collectedObjectText.enabled = false;
+        /*if (collectedObjectText)
         {
             collectedObjectText.enabled = false;
         }*/
@@ -83,10 +83,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /*public void HideText()
+    public void HideText()
     {
         collectedObjectText.enabled = false;
-    }*/
+    }
 
     void UpdateHeartBeat()
     {
