@@ -16,6 +16,7 @@ public class RocketToy : Item
         cam = transform.GetChild(0).GetComponent<Camera>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         uiManager.toggleRocketBar(true);
+        uiManager.updateHoldPrompt("Use Mouse To Aim and Click To Use Rocket");
     }
     void Update()
     {

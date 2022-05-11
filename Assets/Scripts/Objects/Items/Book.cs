@@ -10,11 +10,13 @@ public class Book : Item
     // Start is called before the first frame update
     void Start()
     {
+        transform.eulerAngles = Vector3.zero;
+
         openBookInst = Instantiate((Resources.Load("OpenBook") as GameObject), Vector3.zero, Quaternion.identity);
-        openBookInst.transform.localEulerAngles += new Vector3(0, 0, 180);
+        openBookInst.transform.eulerAngles += new Vector3(0, 180, 180);
         openBookInst.transform.localScale = new Vector3(0.0002f, 0.0002f, 0.0002f);
         openBookInst.transform.SetParent(transform, true);
-        openBookInst.transform.localPosition = new Vector3(0, 0.5f, 3);
+        openBookInst.transform.localPosition = new Vector3(0, 1f, 3);
         openBookInst.SetActive(false);
 
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
