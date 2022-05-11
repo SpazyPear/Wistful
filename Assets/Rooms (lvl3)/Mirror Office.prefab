@@ -355,6 +355,7 @@ MonoBehaviour:
   menuSprite: {fileID: 0}
   description: Sticky note that says "W8pvXi0m".
   triggersPath: 1
+  triggersNextItem: 1
 --- !u!65 &1684803784857697675
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -366,8 +367,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.028693983, y: 0.2648434, z: 0.16448705}
-  m_Center: {x: -0.0016867484, y: -0.020413013, z: -0.058835756}
+  m_Size: {x: 0.06961623, y: 0.20000003, z: 0.16448705}
+  m_Center: {x: -0.016494786, y: -0.020413006, z: -0.058835756}
 --- !u!1 &3209453297837631846
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,7 +3565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80e2236ca89cb14f953dc11831c4314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
   isLocked: 0
   pivotsFromZero: 0
   audioSource: {fileID: 0}
@@ -3627,6 +3627,22 @@ PrefabInstance:
     - target: {fileID: 4125076608012318904, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
       propertyPath: m_Name
       value: Mirror Office Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125076608528474335, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
+      propertyPath: m_Radius
+      value: 0.49806702
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125076608528474335, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
+      propertyPath: m_Center.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125076608528474335, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
+      propertyPath: m_Center.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125076608528474335, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
+      propertyPath: m_Center.z
+      value: -0.21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93cfbeb66f0f8bd4eb2f9e149928f1f8, type: 3}
