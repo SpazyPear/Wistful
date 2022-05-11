@@ -58,6 +58,12 @@ public class Movement : MonoBehaviour
             movement();
             jump();
         }
+        moveX = Input.GetAxis("Mouse X");
+        moveY = Input.GetAxis("Mouse Y");
+        rotationY -= moveY * sensitivity;
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+        target.transform.Rotate(0, moveX * sensitivity, 0);
+        cam.transform.localRotation = Quaternion.Euler(rotationY, 0, 0);
         checkRespawn();
     }
 
@@ -95,18 +101,14 @@ public class Movement : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
 
-        moveX = Input.GetAxis("Mouse X");
-        moveY = Input.GetAxis("Mouse Y");
-        rotationY -= moveY * sensitivity;
-        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+        
 
         sprint = (Input.GetKey(KeyCode.LeftShift));
     }
 
     private void movement()
     {
-        target.transform.Rotate(0, moveX * sensitivity, 0);
-        cam.transform.localRotation = Quaternion.Euler(rotationY, 0, 0);
+        
         target.transform.Translate(Vector3.right * moveHorizontal * moveSens * ((sprint) ? sprintMultiplier : 1) * Time.deltaTime, Space.Self);
         target.transform.Translate(Vector3.forward * moveVertical * moveSens * ((sprint) ? sprintMultiplier : 1) * Time.deltaTime, Space.Self);
     }
