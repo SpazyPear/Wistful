@@ -27,8 +27,6 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
-    public FallingBlocks fallingBlocks;
-
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
@@ -43,7 +41,6 @@ public class PlayerCollisions : MonoBehaviour
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
-        fallingBlocks = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
     }
 
     private void Update()
@@ -55,11 +52,8 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            if (hitItem)
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Door)))
-      
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
                 audioSource.clip = positiveSound;
@@ -69,50 +63,25 @@ public class PlayerCollisions : MonoBehaviour
 
                 if (hitItem.triggersPath)
                 {
-                    hitDoor = hit.transform.gameObject.GetComponent(typeof(Door)) as Door;
-                    if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
-                        return;
-                    hitDoor.toggleDoor();
+                    popUpManager.obstacleTime = true;
+                    popUpManager.generatePath(4);
                 }
-                else if (hit.transform.gameObject.GetComponent(typeof(Item)))
+
+                if (hitItem.triggersNextItem)
                 {
-                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
-                    itemsHeld.Add(hitItem.itemID);
-                    gameObject.AddComponent(hitItem.GetType());
-                    audioSource.clip = positiveSound;
-                    audioSource.Play();
-                    //CollectLevelOneItems();
-                    //uiManager.collectedObjectText.enabled = true;
-                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                    audioSource.Play();
-
-                    if (hitItem.triggersPath)
-                    {
-                        popUpManager.obstacleTime = true;
-                        popUpManager.generatePath(4);
-                    }
-
-                    if (hitItem.triggersNextItem)
-                    {
-                        popUpManager.readyForNextItemSpawn = true;
-
-                    }
-
-                    inventoryManager.pickUpItem(hitItem);
-                    Destroy(hitItem.gameObject);
-                    hitItem = null;
-
+                    popUpManager.readyForNextItemSpawn = true;
                 }
-                else
-                {
-                    audioSource.clip = negativeSound;
-                    audioSource.Play();
-                }
+
+                inventoryManager.pickUpItem(hitItem);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
+
             }
-            else
+            if (hitDoor)
             {
-                audioSource.clip = negativeSound;
-                audioSource.Play();
+                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
+                    return;
+                hitDoor.toggleDoor();
             }
         }
     }
@@ -122,6 +91,10 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+        }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
@@ -137,25 +110,7 @@ public class PlayerCollisions : MonoBehaviour
             collider.gameObject.tag = "Untagged";
             levelManager.nextLevel();
         }
-        if (collider.gameObject.GetComponent(typeof(Door)))
-        {
-            if (collider.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
-                return;
-
-            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
-        }
-         if(collider.gameObject.tag.Equals("Falling"))
-        {
-            Debug.Log("dead");
-            this.gameObject.SetActive(false);
-            Invoke("PlayerRespawn", 2.0f);
-            Destroy(collider.gameObject);
-        }
-    }
-
-    void PlayerRespawn()
-    {
-        this.gameObject.SetActive(true);
+        
     }
 
     private void OnTriggerExit(Collider collider)

@@ -22,8 +22,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     static int heartRate;
 
-    public FallingBlocks fallingBlockSpawner;
-
     public PopUpManager popUpManager;
 
     public GameObject grassForFalling;
@@ -33,7 +31,6 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fallingBlockSpawner = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
         player = GameObject.Find("Player");
         /*collectedObjectText.enabled = false;
         if (collectedObjectText)
@@ -53,34 +50,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((heartRate % 5 == 0 || heartRate % 10 == 0) && heartRate > 0)
-        {
-            Vector3 platformBounds = platformLink.GetComponent<Collider>().bounds.size;
-            float spawnPointx = Random.Range(-platformBounds.x / 2f, platformBounds.x / 2f);
-            float spawnPointZ = Random.Range(-platformBounds.z / 2f, -platformBounds.z / 2f);
-            Vector3 pos = new Vector3(spawnPointx, platformBounds.y + 40, spawnPointZ) + platformLink.transform.position;
-            fallingBlockSpawner.SpawnBlock(pos);
-            //spawn a falling object
-            if (heartRate >= 200 && heartRate % 3 == 0)
-            {
-                //spawn a falling object but quicker
-                fallingBlockSpawner.spawnRate = 10000f;
-                fallingBlockSpawner.SpawnBlock(pos);
-            }
-            /*if(cutscene is on)
-            {
-                stop spawning
-            }*/
-        }
-        else
-        {
-            fallingBlockSpawner.blockSpawned = false;
-        }
-        if (heartRate > 500)
-        {
-            player.SetActive(false); //temporary death placeholder
-            Debug.Log("Dead");
-        }
+
     }
 
     /*public void HideText()
