@@ -16,6 +16,7 @@ public class PopUpManager : MonoBehaviour
     private float posZ;
     private float posY;
     public Tweener tweener;
+    
 
     [HideInInspector]
     public List<GameObject> pastPlatforms = new List<GameObject>();
@@ -31,6 +32,7 @@ public class PopUpManager : MonoBehaviour
 
     
     public GameObject platformLink;
+
     [SerializeField]
     private GameObject startingPlatforms;
 
@@ -55,6 +57,10 @@ public class PopUpManager : MonoBehaviour
 
     public AudioSource rumbleSource;
 
+    HeartRateManager heartRateManager;
+    public GameObject fallingBlockPrefab;
+    public bool dropFallingBlocks;
+
     void Awake()
     {
         instantiateDataStructures();
@@ -62,6 +68,7 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
+        heartRateManager = player.GetComponent<HeartRateManager>();
         readyForNextItemSpawn = true;
         for (int x = 0; x < startingPlatforms.transform.childCount; x++)
             pastPlatforms.Add(startingPlatforms.transform.GetChild(x).gameObject);
@@ -467,20 +474,37 @@ public class PopUpManager : MonoBehaviour
         }
 
         edge = new Vector3(edge.x, levelHeight - 3, edge.z);
-        GameObject obj = Instantiate(platformLink, edge, Quaternion.identity);
+        GameObject platformLinkInst = Instantiate(platformLink, edge, Quaternion.identity);
         var angle = Vector3.Angle(transform.forward, Vector3.Scale(transform.InverseTransformPoint(forward), new Vector3(1, 0, 1)));
         angle = Vector3.Dot(Vector3.right, transform.InverseTransformPoint(forward)) > 0.0f ? angle : -angle;
-        obj.transform.eulerAngles = new Vector3(0, angle, 0);
+        platformLinkInst.transform.eulerAngles = new Vector3(0, angle, 0);
 
-        for (int i = 0; i < obj.transform.childCount; i++)
+        for (int i = 0; i < platformLinkInst.transform.childCount; i++)
         {
-            currentPaths[0].Add(obj.transform.GetChild(i).gameObject);
-            obj.transform.GetChild(i).gameObject.SetActive(false);
+            currentPaths[0].Add(platformLinkInst.transform.GetChild(i).gameObject);
+            platformLinkInst.transform.GetChild(i).gameObject.SetActive(false);
         }
 
         fullCurrentPaths = copyPaths(currentPaths);
 
         obstacleTime = true;
+
+        dropHazards(platformLinkInst);
+    }
+
+    async void dropHazards(GameObject platformLinkInst)
+    {
+        heartRateManager.endLevel = true;
+        dropFallingBlocks = true;
+        while (dropFallingBlocks && platformLinkInst)
+        {
+            Vector3 platformBounds = platformLinkInst.GetComponent<Collider>().bounds.size;
+            float spawnPointX = UnityEngine.Random.Range(-platformBounds.x, platformBounds.x);
+            float spawnPointZ = UnityEngine.Random.Range(-platformBounds.z, platformBounds.z);
+            Vector3 pos = new Vector3(spawnPointX, platformBounds.y + 30, spawnPointZ) + platformLinkInst.transform.position;
+            GameObject block = Instantiate(fallingBlockPrefab, pos, Quaternion.identity);
+            await Task.Delay(Mathf.CeilToInt(Mathf.Clamp(800f - heartRateManager.heartRate * 40, 10, 1000)));
+        }
     }
     
 

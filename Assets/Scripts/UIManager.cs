@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class UIManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    public Text collectedObjectText;
+    //public Text collectedObjectText;
 
     public Text heartRateText;
 
@@ -22,76 +23,46 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     static int heartRate;
 
-    public FallingBlocks fallingBlockSpawner;
+    public TMP_Text interactPrompt;
+
+    public TMP_Text holdPrompt;
 
     public PopUpManager popUpManager;
 
-    public GameObject grassForFalling;
-
-    public GameObject platformLink;
 
     // Start is called before the first frame update
     void Start()
     {
-        fallingBlockSpawner = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
         player = GameObject.Find("Player");
-        collectedObjectText.enabled = false;
-        /*if (collectedObjectText)
-        {
-            collectedObjectText.enabled = false;
-        }*/
-        heartRate = 0;
-            InvokeRepeating("UpdateHeartBeat", 2, 5f);
-            if (heartRate > 200)
-            {
-                InvokeRepeating("UpdateHeartBeat", 2, 2.5f);
-            }
-        platformLink = popUpManager.platformLink;
+        interactPrompt = GameObject.FindGameObjectWithTag("InteractPrompt").GetComponent<TMP_Text>();
         fadeIn(2f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((heartRate % 5 == 0 || heartRate % 10 == 0) && heartRate > 0)
-        {
-            Vector3 platformBounds = platformLink.GetComponent<Collider>().bounds.size;
-            float spawnPointx = Random.Range(-platformBounds.x / 2f, platformBounds.x / 2f);
-            float spawnPointZ = Random.Range(-platformBounds.z / 2f, -platformBounds.z / 2f);
-            Vector3 pos = new Vector3(spawnPointx, platformBounds.y + 40, spawnPointZ) + platformLink.transform.position;
-            fallingBlockSpawner.SpawnBlock(pos);
-            //spawn a falling object
-            if (heartRate >= 200 && heartRate % 3 == 0)
-            {
-                //spawn a falling object but quicker
-                fallingBlockSpawner.spawnRate = 10000f;
-                fallingBlockSpawner.SpawnBlock(pos);
-            }
-            /*if(cutscene is on)
-            {
-                stop spawning
-            }*/
-        }
-        else
-        {
-            fallingBlockSpawner.blockSpawned = false;
-        }
-        if (heartRate > 500)
-        {
-            player.SetActive(false); //temporary death placeholder
-            Debug.Log("Dead");
-        }
+
     }
 
-    public void HideText()
+    /*public void HideText()
     {
         collectedObjectText.enabled = false;
-    }
+    }*/
 
     void UpdateHeartBeat()
     {
         heartRate++;
         heartRateText.text = heartRate.ToString();
+    }
+
+    public void updateInteractPrompt(string newContent)
+    {
+        interactPrompt.text = newContent;
+    }
+
+    public void updateHoldPrompt(string newContent)
+    {
+        holdPrompt.text = newContent;
     }
 
 

@@ -9,6 +9,7 @@ public class ModelPlanet : Item
     List<int> planetPositions = new List<int>();
     GameObject modelObj;
     SkyManager skyManager;
+    UIManager uiManager;
     int currentPlanetIndex = 0;
     bool beingHeld;
     bool turning;
@@ -16,6 +17,7 @@ public class ModelPlanet : Item
     // Start is called before the first frame update
     void Start()
     {
+
         modelObj = Instantiate((Resources.Load("planetInHand") as GameObject), Vector3.zero, Quaternion.identity);
         modelObj.transform.localEulerAngles += new Vector3(0, 90, 0);
         modelObj.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
@@ -32,6 +34,8 @@ public class ModelPlanet : Item
 
         movement = GetComponent<Movement>();
         skyManager = GameObject.FindGameObjectWithTag("SkyManager").GetComponent<SkyManager>();
+        uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        uiManager.updateHoldPrompt("Press 1 or 2 To Switch Items");
 
     }
 
@@ -46,9 +50,11 @@ public class ModelPlanet : Item
             {
                 StartCoroutine(flashSelectedPlanet());
                 movement.canMove = false;
+                uiManager.updateHoldPrompt("W-S To Select Planet, A-D To Rotate");
             }
             else
             {
+                uiManager.updateHoldPrompt("Press 1 or 2 To Switch Items");
                 movement.canMove = true;
             }
 

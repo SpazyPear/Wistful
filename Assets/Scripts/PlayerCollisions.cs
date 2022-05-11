@@ -27,8 +27,6 @@ public class PlayerCollisions : MonoBehaviour
 
     bool startCalled = false;
 
-    public FallingBlocks fallingBlocks;
-
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite = false;
@@ -43,7 +41,6 @@ public class PlayerCollisions : MonoBehaviour
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
-        fallingBlocks = GameObject.Find("FallingBlockSpawner").GetComponent<FallingBlocks>();
     }
 
     private void Update()
@@ -55,18 +52,8 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
-            
-            if (hitDoor)
+            if (hitItem)
             {
-                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
-                    return;
-                hitDoor.toggleDoor();
-            }
-            else if (hitItem)
-            {
-                uiManager.collectedObjectText.enabled = true;
-                CollectLevelOneItems();
                 itemsHeld.Add(hitItem.itemID);
                 gameObject.AddComponent(hitItem.GetType());
                 audioSource.clip = positiveSound;
@@ -83,19 +70,20 @@ public class PlayerCollisions : MonoBehaviour
                 if (hitItem.triggersNextItem)
                 {
                     popUpManager.readyForNextItemSpawn = true;
-
                 }
 
                 inventoryManager.pickUpItem(hitItem);
                 Destroy(hitItem.gameObject);
                 hitItem = null;
-                
-            } else {
-                audioSource.clip = negativeSound;
-                audioSource.Play();
+                uiManager.updateInteractPrompt("");
             }
-
-            
+            if (hitDoor)
+            {
+                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
+                    return;
+                hitDoor.toggleDoor();
+                uiManager.updateInteractPrompt("");
+            }
         }
     }
 
@@ -104,6 +92,12 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+            uiManager.updateInteractPrompt("Press E to Interact");
+        }
+        if (collider.gameObject.GetComponent(typeof(Door)))
+        {
+            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
+            uiManager.updateInteractPrompt("Press E to Interact");
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
@@ -119,25 +113,7 @@ public class PlayerCollisions : MonoBehaviour
             collider.gameObject.tag = "Untagged";
             levelManager.nextLevel();
         }
-        if (collider.gameObject.GetComponent(typeof(Door)))
-        {
-            if (collider.gameObject.GetComponent<Door>().isLocked && !itemsHeld.Contains("Key"))
-                return;
-
-            hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
-        }
-         if(collider.gameObject.tag.Equals("Falling"))
-        {
-            Debug.Log("dead");
-            this.gameObject.SetActive(false);
-            Invoke("PlayerRespawn", 2.0f);
-            Destroy(collider.gameObject);
-        }
-    }
-
-    void PlayerRespawn()
-    {
-        this.gameObject.SetActive(true);
+        
     }
 
     private void OnTriggerExit(Collider collider)
@@ -145,10 +121,12 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = null;
+            uiManager.updateInteractPrompt("");
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
             hitDoor = null;
+            uiManager.updateInteractPrompt("");
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
@@ -162,30 +140,30 @@ public class PlayerCollisions : MonoBehaviour
     }
 
 
-    void CollectLevelOneItems()
+    /*void CollectLevelOneItems()
     {
         switch (hitItem.itemID)
         {
             case "Ladder":
-                //uiManager.findObject2Text.enabled = false;
+                uiManager.findObject2Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 StartCoroutine(HideText());
                 foundLadder = true;
                 break;
             case "Rocket":
-                //uiManager.findObject3Text.enabled = false;
+                uiManager.findObject3Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
                 StartCoroutine(HideText());
                 break;
             case "Kite":
-                //uiManager.findObject4Text.enabled = false;
+                uiManager.findObject4Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
                 StartCoroutine(HideText());
                 break;
             case "Photo": //should be photo
-                //uiManager.findObject1Text.enabled = false;
+                uiManager.findObject1Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
                 StartCoroutine(HideText());
@@ -202,5 +180,5 @@ public class PlayerCollisions : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
-    }
+    }*/
 }

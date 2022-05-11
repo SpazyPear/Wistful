@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3474665482144989163}
   - component: {fileID: 8977193119257150300}
   - component: {fileID: 3353115912382973641}
+  - component: {fileID: 47061821084883809}
   m_Layer: 0
   m_Name: ForestGround01
   m_TagString: Untagged
@@ -93,6 +94,19 @@ BoxCollider:
   m_GameObject: {fileID: 3258110710297477125}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20000, y: 20000.008, z: 20000.004}
+  m_Center: {x: 0.009277344, y: -1.6699315e-16, z: -1.3183898e-16}
+--- !u!65 &47061821084883809
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3258110710297477125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 20000, y: 20000.008, z: 20000.004}

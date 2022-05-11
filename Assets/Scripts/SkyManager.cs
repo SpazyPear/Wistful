@@ -50,7 +50,8 @@ public class SkyManager : MonoBehaviour
             timer += Time.deltaTime / duration;
             float offset = starCurve.Evaluate(timer) / 6f;
             StarField.transform.eulerAngles += new Vector3(0, offset / 0.1f, 0);
-            skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset, 0));
+            skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset * 6, 0));
+            Debug.Log(offset);
             yield return null;
         }
         popUpManager.readyForNextItemSpawn = true;
