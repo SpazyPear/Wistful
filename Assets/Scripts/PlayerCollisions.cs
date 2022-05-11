@@ -70,8 +70,6 @@ public class PlayerCollisions : MonoBehaviour
                 gameObject.AddComponent(hitItem.GetType());
                 audioSource.clip = positiveSound;
                 audioSource.Play();
-                //CollectLevelOneItems();
-                //uiManager.collectedObjectText.enabled = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 audioSource.Play();
 
@@ -163,7 +161,7 @@ public class PlayerCollisions : MonoBehaviour
     }
 
 
-    void CollectLevelOneItems()
+    /*void CollectLevelOneItems()
     {
         switch (hitItem.itemID)
         {
@@ -203,5 +201,5 @@ public class PlayerCollisions : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();
-    }
+    }*/
 }
