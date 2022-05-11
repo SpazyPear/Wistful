@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class UIManager : MonoBehaviour
@@ -22,28 +23,18 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     static int heartRate;
 
+    public TMP_Text interactPrompt;
+
+    public TMP_Text holdPrompt;
+
     public PopUpManager popUpManager;
 
-    public GameObject grassForFalling;
-
-    public GameObject platformLink;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        /*collectedObjectText.enabled = false;
-        if (collectedObjectText)
-        {
-            collectedObjectText.enabled = false;
-        }*/
-        heartRate = 0;
-            InvokeRepeating("UpdateHeartBeat", 2, 5f);
-            if (heartRate > 200)
-            {
-                InvokeRepeating("UpdateHeartBeat", 2, 2.5f);
-            }
-        platformLink = popUpManager.platformLink;
+        interactPrompt = GameObject.FindGameObjectWithTag("InteractPrompt").GetComponent<TMP_Text>();
         fadeIn(2f);
     }
 
@@ -62,6 +53,16 @@ public class UIManager : MonoBehaviour
     {
         heartRate++;
         heartRateText.text = heartRate.ToString();
+    }
+
+    public void updateInteractPrompt(string newContent)
+    {
+        interactPrompt.text = newContent;
+    }
+
+    public void updateHoldPrompt(string newContent)
+    {
+        holdPrompt.text = newContent;
     }
 
 

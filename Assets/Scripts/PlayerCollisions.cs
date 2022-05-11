@@ -75,13 +75,14 @@ public class PlayerCollisions : MonoBehaviour
                 inventoryManager.pickUpItem(hitItem);
                 Destroy(hitItem.gameObject);
                 hitItem = null;
-
+                uiManager.updateInteractPrompt("");
             }
             if (hitDoor)
             {
                 if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
                     return;
                 hitDoor.toggleDoor();
+                uiManager.updateInteractPrompt("");
             }
         }
     }
@@ -91,10 +92,12 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = collider.gameObject.GetComponent(typeof(Item)) as Item;
+            uiManager.updateInteractPrompt("Press E to Interact");
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
             hitDoor = collider.gameObject.GetComponent(typeof(Door)) as Door;
+            uiManager.updateInteractPrompt("Press E to Interact");
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {
@@ -118,10 +121,12 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.GetComponent(typeof(Item)))
         {
             hitItem = null;
+            uiManager.updateInteractPrompt("");
         }
         if (collider.gameObject.GetComponent(typeof(Door)))
         {
             hitDoor = null;
+            uiManager.updateInteractPrompt("");
         }
         if (collider.gameObject.tag.Equals("pathEdge"))
         {

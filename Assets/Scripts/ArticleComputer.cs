@@ -33,6 +33,8 @@ public class ArticleComputer : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateInteractPrompt("Press E To Interact");
+
             if (Input.GetKeyDown(KeyCode.E) && !loginTriggered)
             {
                 movement = other.GetComponent<Movement>();
@@ -41,6 +43,8 @@ public class ArticleComputer : MonoBehaviour
                 loginTriggered = true;
                 currentPasswordField = currentLoginPage.rootVisualElement.Q<TextField>();
                 currentPasswordField.Focus();
+                GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateInteractPrompt("");
+
             }
         }
     }
@@ -72,6 +76,8 @@ public class ArticleComputer : MonoBehaviour
                 //get email page up
                 currentEmailPage = Instantiate(emailPrefab);
                 emailTriggered = true;
+                GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateHoldPrompt("");
+
             }
         }
 
@@ -84,6 +90,15 @@ public class ArticleComputer : MonoBehaviour
                 movement.canMove = true;
                 popUpManager.readyForNextItemSpawn = true;
             }
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateInteractPrompt("");
         }
     }
 }

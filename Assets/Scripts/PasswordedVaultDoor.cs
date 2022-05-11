@@ -15,12 +15,10 @@ public class PasswordedVaultDoor : VaultDoor
     public AudioClip successChime;
     public AudioClip negativeTone;
 
-    public Animator anim;
-
     // Start is called before the first frame update
     void Start()
     {
-        anim.SetBool("isOpening", false);
+        //anim.SetBool("isOpening", false);
     }
 
     // Update is called once per frame
@@ -39,7 +37,8 @@ public class PasswordedVaultDoor : VaultDoor
                     audioSource.Play();
                     Destroy(currentPasswordUI);
                     base.toggleDoor();
-                } else
+                } 
+                else
                 {
                     audioSource.clip = negativeTone;
                     audioSource.Play();

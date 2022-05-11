@@ -35,6 +35,7 @@ public class Crowbar : Item
                 Destroy(shatteredPane.transform.GetChild(x).gameObject, 2f);
             }
 
+            GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateInteractPrompt("");
 
         }
     }
