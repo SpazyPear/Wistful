@@ -17,12 +17,12 @@ public class ModelPlanet : Item
     // Start is called before the first frame update
     void Start()
     {
-
+        transform.eulerAngles = Vector3.zero;
         modelObj = Instantiate((Resources.Load("planetInHand") as GameObject), Vector3.zero, Quaternion.identity);
-        modelObj.transform.localEulerAngles += new Vector3(0, 90, 0);
+        modelObj.transform.eulerAngles += new Vector3(0, 90, -90);
         modelObj.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         modelObj.transform.SetParent(transform, true);
-        modelObj.transform.localPosition = new Vector3(0, 0.5f, 3);
+        modelObj.transform.localPosition = new Vector3(0, 1f, 3);
 
         modelObj.SetActive(false);
 
@@ -50,7 +50,7 @@ public class ModelPlanet : Item
             {
                 StartCoroutine(flashSelectedPlanet());
                 movement.canMove = false;
-                uiManager.updateHoldPrompt("W-S To Select Planet, A-D To Rotate");
+                uiManager.updateHoldPrompt("W-S To Select Planet, A-D To Rotate, E To Confirm (Watch The Sky)");
             }
             else
             {
