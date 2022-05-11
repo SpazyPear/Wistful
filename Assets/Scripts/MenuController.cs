@@ -138,7 +138,7 @@ public class MenuController : MonoBehaviour
     public void transitionAnimation(){
         disablethings();
         NewPromptText = "Block generation is now active";
-        isPromptActive = true;
+        //isPromptActive = true;
         SetPromptText("Block generation is in progress...test text");
     }
     public void applyMouseSenstivity(float value){
