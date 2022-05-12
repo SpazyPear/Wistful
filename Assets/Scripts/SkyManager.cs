@@ -34,28 +34,30 @@ public class SkyManager : MonoBehaviour
 
     public IEnumerator spin(float duration, bool rotsCorrect)
     {
-        isSpinning = true;
-        float timer = 0;
-        bool constUpdated = false;
-        float initialOffset = skyMaterial.GetTextureOffset("_MainTex").x;
-        while (timer < 1)
+        if (!isSpinning)
         {
-            if (timer > 0.6 && !constUpdated)
+            isSpinning = true;
+            float timer = 0;
+            bool constUpdated = false;
+            float initialOffset = skyMaterial.GetTextureOffset("_MainTex").x;
+            while (timer < 1)
             {
-                displayAnswer(rotsCorrect);
+                if (timer > 0.6 && !constUpdated)
+                {
+                    displayAnswer(rotsCorrect);
 
-                constUpdated = true;
+                    constUpdated = true;
+                }
+
+                timer += Time.deltaTime / duration;
+                float offset = starCurve.Evaluate(timer) / 6f;
+                StarField.transform.eulerAngles += new Vector3(0, offset / 0.1f, 0);
+                skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset * 6, 0));
+                yield return null;
             }
-
-            timer += Time.deltaTime / duration;
-            float offset = starCurve.Evaluate(timer) / 6f;
-            StarField.transform.eulerAngles += new Vector3(0, offset / 0.1f, 0);
-            skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset * 6, 0));
-            Debug.Log(offset);
-            yield return null;
+            popUpManager.readyForNextItemSpawn = true;
+            isSpinning = false;
         }
-        popUpManager.readyForNextItemSpawn = true;
-        isSpinning = false;
     }
 
     void displayAnswer(bool correct)
@@ -65,6 +67,7 @@ public class SkyManager : MonoBehaviour
             for (int x = 0; x < rends.Count; x++)
             {
                 rends[x].sprite = correctSprites[x];
+                popUpManager.readyForNextItemSpawn = true;
             }
         }
         else

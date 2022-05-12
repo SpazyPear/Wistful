@@ -26,7 +26,7 @@ public class ModelPlanet : Item
 
         modelObj.SetActive(false);
 
-        for (int x = 1; x < modelObj.transform.childCount; x++)
+        for (int x = 1; x < modelObj.transform.childCount - 1; x++)
         {
             planets.Add(modelObj.transform.GetChild(x).gameObject);
             planetPositions.Add(0);
@@ -100,6 +100,7 @@ public class ModelPlanet : Item
         {
             planetPositions[currentPlanetIndex] = 4;
         }
+        Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
     }
 
     bool isRotsCorrect()

@@ -16,7 +16,7 @@ public class PopUpManager : MonoBehaviour
     private float posZ;
     private float posY;
     public Tweener tweener;
-    
+    Pointer pointer;
 
     [HideInInspector]
     public List<GameObject> pastPlatforms = new List<GameObject>();
@@ -68,6 +68,7 @@ public class PopUpManager : MonoBehaviour
 
     void Start()
     {
+        pointer = GameObject.FindGameObjectWithTag("Pointer").GetComponent<Pointer>();
         heartRateManager = player.GetComponent<HeartRateManager>();
         readyForNextItemSpawn = true;
         for (int x = 0; x < startingPlatforms.transform.childCount; x++)
@@ -402,12 +403,14 @@ public class PopUpManager : MonoBehaviour
             return;
         }
 
-        toRise.Add(Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeight - 4, pos.z), Quaternion.identity));
+        GameObject obj = Instantiate(toSpawn.prefab, new Vector3(pos.x, levelHeight - 4, pos.z), Quaternion.identity);
+        toRise.Add(obj);
 
         if (toSpawn.containsItem)
         {
             currentItemNum++;
             readyForNextItemSpawn = false;
+            pointer.addItemInstance(obj);
         }
     }
 
