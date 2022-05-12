@@ -13,7 +13,7 @@ public class Key : Item
     override public void setItemProperties(string itemID, GameObject prefab = null, Sprite menuSprite = null, string description = "")
     {
         base.setItemProperties(itemID, prefab, menuSprite, description);
-        GameObject stickyNoteObj = GameObject.FindGameObjectWithTag("StickyNote");
+        GameObject stickyNoteObj = GameObject.Find("StickyNote");
         if (stickyNoteObj)
             (stickyNoteObj.GetComponent(typeof(Item)) as Item).triggersNextItem = true;
     }

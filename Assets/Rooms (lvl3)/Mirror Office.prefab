@@ -263,7 +263,6 @@ GameObject:
   - component: {fileID: 3209453298046530224}
   - component: {fileID: 3209453297653180243}
   - component: {fileID: 3209453297653180244}
-  - component: {fileID: 3209453297653180245}
   - component: {fileID: 1684803784857697675}
   m_Layer: 0
   m_Name: StickyNote
@@ -338,24 +337,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3209453297653180245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209453297653180246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad283a529368a7d45a2e5a7bae4bd6b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemID: StickyNote
-  prefab: {fileID: 3209453297653180246}
-  menuSprite: {fileID: 0}
-  description: Sticky note that says "W8pvXi0m".
-  triggersPath: 1
-  triggersNextItem: 1
 --- !u!65 &1684803784857697675
 BoxCollider:
   m_ObjectHideFlags: 0
