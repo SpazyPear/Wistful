@@ -34,6 +34,7 @@ public class PlayerCollisions : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip positiveSound;
     public AudioClip negativeSound;
+    public AudioClip staticSound;
 
     private void Start()
     {
@@ -117,9 +118,13 @@ public class PlayerCollisions : MonoBehaviour
         if (collider.gameObject.tag.Equals("levelEnd"))
         {
             collider.gameObject.tag = "Untagged";
+            if (staticSound)
+            {
+                audioSource.clip = staticSound;
+                audioSource.Play();
+            }
             levelManager.nextLevel();
         }
-        
     }
 
     private void OnTriggerExit(Collider collider)
