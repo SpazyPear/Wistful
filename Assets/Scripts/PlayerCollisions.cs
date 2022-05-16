@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
@@ -29,7 +30,8 @@ public class PlayerCollisions : MonoBehaviour
 
     public event EventHandler onNextLevel;
 
-    bool foundPhoto, foundLadder, foundRocket, foundKite = false;
+    bool foundPhoto, foundLadder, foundRocket, foundKite, foundCrowbar, foundBook, foundSolarSystem, foundStickyNote, foundKey = false;
+    public bool foundPC = false;
 
     public AudioSource audioSource;
     public AudioClip positiveSound;
@@ -58,6 +60,19 @@ public class PlayerCollisions : MonoBehaviour
                 gameObject.AddComponent(hitItem.GetType());
                 audioSource.clip = positiveSound;
                 audioSource.Play();
+                if(SceneManager.GetActiveScene().name == "Level 1")
+                {                
+                    CollectLevelOneItems();
+                }
+                 if(SceneManager.GetActiveScene().name == "Level 2")
+                {                
+                    CollectLevelTwoItems();
+                }
+                 if(SceneManager.GetActiveScene().name == "Level 3")
+                {                
+                    CollectLevelThreeItems();
+                }
+                //uiManager.collectedObjectText = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
                 audioSource.Play();
 
@@ -140,43 +155,100 @@ public class PlayerCollisions : MonoBehaviour
     }
 
 
-    /*void CollectLevelOneItems()
+    void CollectLevelOneItems()
     {
-        switch (hitItem.itemID)
-        {
-            case "Ladder":
+            if (hitItem.itemID == "Ladder")
+            {
                 uiManager.findObject2Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
-                StartCoroutine(HideText());
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                //StartCoroutine(HideText());
                 foundLadder = true;
-                break;
-            case "Rocket":
+            }
+            if (hitItem.itemID == "Rocket")
+            {
                 uiManager.findObject3Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
-                StartCoroutine(HideText());
-                break;
-            case "Kite":
+                //StartCoroutine(HideText());
+            }
+            if (hitItem.itemID == "Kite")
+            {
                 uiManager.findObject4Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
-                StartCoroutine(HideText());
-                break;
-            case "Photo": //should be photo
+                //StartCoroutine(HideText());
+            }
+            if (hitItem.itemID == "Photo")
+            {
                 uiManager.findObject1Text.enabled = false;
-                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
-                StartCoroutine(HideText());
-                break;
-        }
-        if (foundKite && foundLadder && foundPhoto && foundRocket)
+                //StartCoroutine(HideText());
+            }
+        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
             uiManager.collectedObjectText.fontSize = 24;
-        }
+        }*/
     }
 
-    IEnumerator HideText()
+    void CollectLevelTwoItems()
+    {
+            if (hitItem.itemID == "Crowbar")
+            {
+                uiManager.findObject1Text.enabled = false;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                foundCrowbar = true;
+                //StartCoroutine(HideText());
+            }
+             if (hitItem.itemID == "Book")
+            {
+                uiManager.findObject3Text.enabled = false;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                foundBook = true;
+                //StartCoroutine(HideText());
+            }
+             if (hitItem.itemID == "SolarSystem")
+            {
+                uiManager.findObject2Text.enabled = false;
+                uiManager.findObject4Text.enabled = false;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                foundSolarSystem = true;
+                //StartCoroutine(HideText());
+            }
+        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
+        {
+            uiManager.collectedObjectText.text = "Go to the Vault";
+            uiManager.collectedObjectText.fontSize = 24;
+        }*/
+    }
+
+     void CollectLevelThreeItems()
+    {
+             if (hitItem.itemID == "StickyNote")
+            {
+                uiManager.findObject1Text.enabled = false;
+                uiManager.findObject4Text.enabled = false;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                foundStickyNote = true;
+                //StartCoroutine(HideText());
+            }
+             if (hitItem.itemID == "Key")
+            {
+                uiManager.findObject3Text.enabled = false;
+                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                foundKey = true;
+                //StartCoroutine(HideText());
+            }
+        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
+        {
+            uiManager.collectedObjectText.text = "Go to the Vault";
+            uiManager.collectedObjectText.fontSize = 24;
+        }*/
+    }
+
+
+    /*IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
         uiManager.HideText();

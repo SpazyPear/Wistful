@@ -15,6 +15,11 @@ public class UIManager : MonoBehaviour
 
     //public Text collectedObjectText;
 
+    public Text findObject1Text;
+    public Text findObject2Text;
+    public Text findObject3Text;
+    public Text findObject4Text;
+
     public Text heartRateText;
 
     GameObject player;
