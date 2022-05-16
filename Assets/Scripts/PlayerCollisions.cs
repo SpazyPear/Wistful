@@ -52,33 +52,39 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (hitItem)
+            RaycastHit hit;
+            if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
             {
-                itemsHeld.Add(hitItem.itemID);
-                gameObject.AddComponent(hitItem.GetType());
-                audioSource.clip = positiveSound;
-                audioSource.Play();
-                (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                audioSource.Play();
-
-                if (hitItem.triggersPath)
+                if (hit.transform.gameObject.GetComponent(typeof(Item)))
                 {
-                    popUpManager.obstacleTime = true;
-                    popUpManager.generatePath(4);
-                }
+                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
+                    itemsHeld.Add(hitItem.itemID);
+                    gameObject.AddComponent(hitItem.GetType());
+                    audioSource.clip = positiveSound;
+                    audioSource.Play();
+                    (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
+                    audioSource.Play();
 
-                if (hitItem.triggersNextItem)
-                {
-                    popUpManager.readyForNextItemSpawn = true;
-                }
+                    if (hitItem.triggersPath)
+                    {
+                        popUpManager.obstacleTime = true;
+                        popUpManager.generatePath(4);
+                    }
 
-                inventoryManager.pickUpItem(hitItem);
-                Destroy(hitItem.gameObject);
-                hitItem = null;
-                uiManager.updateInteractPrompt("");
+                    if (hitItem.triggersNextItem)
+                    {
+                        popUpManager.readyForNextItemSpawn = true;
+                    }
+
+                    inventoryManager.pickUpItem(hitItem);
+                    Destroy(hitItem.gameObject);
+                    hitItem = null;
+                    uiManager.updateInteractPrompt("");
+                }
             }
-            if (hitDoor)
+            if (hit.transform.gameObject.GetComponent(typeof(Door)))
             {
+                hitDoor = hit.transform.gameObject.GetComponent(typeof(Door)) as Door;
                 if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
                     return;
                 hitDoor.toggleDoor();
