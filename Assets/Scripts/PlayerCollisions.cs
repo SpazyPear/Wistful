@@ -30,9 +30,7 @@ public class PlayerCollisions : MonoBehaviour
 
     public event EventHandler onNextLevel;
 
-    bool foundPhoto, foundLadder, foundRocket, foundKite, foundCrowbar, foundBook, foundSolarSystem, foundStickyNote, foundKey = false;
-    public bool foundPC = false;
-
+    bool foundPhoto, foundLadder, foundRocket, foundKite, foundCrowbar, foundBook, foundSolarSystem, foundStickyNote, foundKey, foundPC = false;
     public AudioSource audioSource;
     public AudioClip positiveSound;
     public AudioClip negativeSound;
@@ -68,7 +66,7 @@ public class PlayerCollisions : MonoBehaviour
                 {                
                     CollectLevelTwoItems();
                 }
-                 if(SceneManager.GetActiveScene().name == "Level 3")
+                 if(SceneManager.GetActiveScene().name == "Level3")
                 {                
                     CollectLevelThreeItems();
                 }
@@ -235,10 +233,14 @@ public class PlayerCollisions : MonoBehaviour
             }
              if (hitItem.itemID == "Key")
             {
-                uiManager.findObject3Text.enabled = false;
+                uiManager.findObject2Text.enabled = false;
                 //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKey = true;
                 //StartCoroutine(HideText());
+            }
+            if(!uiManager.findObject3Text.enabled)
+            {
+                foundPC = true;
             }
         /*if (foundKite && foundLadder && foundPhoto && foundRocket)
         {

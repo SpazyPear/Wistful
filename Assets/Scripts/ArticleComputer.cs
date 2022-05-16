@@ -27,7 +27,7 @@ public class ArticleComputer : MonoBehaviour
     private void Start()
     {
         popUpManager = GameObject.Find("PopUpManager").GetComponent<PopUpManager>();
-        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
 
@@ -43,8 +43,7 @@ public class ArticleComputer : MonoBehaviour
                 movement.canMove = false;
                 currentLoginPage = Instantiate(loginPagePrefab);
                 loginTriggered = true;
-                uIManager.findObject2Text = false;
-                uIManager.findPC = true;
+                uIManager.findObject3Text.enabled = false;
                 currentPasswordField = currentLoginPage.rootVisualElement.Q<TextField>();
                 currentPasswordField.Focus();
                 GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateInteractPrompt("");
