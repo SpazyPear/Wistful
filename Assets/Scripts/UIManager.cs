@@ -13,8 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    //public Text collectedObjectText;
-
+    public Text collectedObjectText;
     public Text findObject1Text;
     public Text findObject2Text;
     public Text findObject3Text;
@@ -48,11 +47,6 @@ public class UIManager : MonoBehaviour
     {
 
     }
-
-    /*public void HideText()
-    {
-        collectedObjectText.enabled = false;
-    }*/
 
     void UpdateHeartBeat()
     {

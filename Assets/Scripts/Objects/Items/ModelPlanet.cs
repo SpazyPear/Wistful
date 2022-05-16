@@ -103,7 +103,7 @@ public class ModelPlanet : Item
         Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
     }
 
-    bool isRotsCorrect()
+    public bool isRotsCorrect()
     {
         return planetPositions.SequenceEqual(skyManager.correctRots);
     }

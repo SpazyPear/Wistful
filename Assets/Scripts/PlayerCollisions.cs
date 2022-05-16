@@ -31,6 +31,7 @@ public class PlayerCollisions : MonoBehaviour
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite, foundCrowbar, foundBook, foundSolarSystem, foundStickyNote, foundKey, foundPC = false;
+    ModelPlanet modelPlanet;
     public AudioSource audioSource;
     public AudioClip positiveSound;
     public AudioClip negativeSound;
@@ -38,6 +39,7 @@ public class PlayerCollisions : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
+        modelPlanet = GetComponent<ModelPlanet>();
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
@@ -183,11 +185,11 @@ public class PlayerCollisions : MonoBehaviour
                 foundPhoto = true;
                 //StartCoroutine(HideText());
             }
-        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
+        if (foundKite && foundLadder && foundPhoto && foundRocket)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
-            uiManager.collectedObjectText.fontSize = 24;
-        }*/
+            StartCoroutine(HideText());
+        }
     }
 
     void CollectLevelTwoItems()
@@ -214,11 +216,11 @@ public class PlayerCollisions : MonoBehaviour
                 foundSolarSystem = true;
                 //StartCoroutine(HideText());
             }
-        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
+        if (foundCrowbar && foundBook && foundSolarSystem && modelPlanet.isRotsCorrect()==true)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
-            uiManager.collectedObjectText.fontSize = 24;
-        }*/
+            StartCoroutine(HideText());
+        }
     }
 
      void CollectLevelThreeItems()
@@ -242,17 +244,17 @@ public class PlayerCollisions : MonoBehaviour
             {
                 foundPC = true;
             }
-        /*if (foundKite && foundLadder && foundPhoto && foundRocket)
+        if (foundStickyNote && foundKey && foundPC)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
-            uiManager.collectedObjectText.fontSize = 24;
-        }*/
+            StartCoroutine(HideText());
+        }
     }
 
 
-    /*IEnumerator HideText()
+    IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
-        uiManager.HideText();
-    }*/
+        uiManager.collectedObjectText.enabled = false;
+    }
 }
