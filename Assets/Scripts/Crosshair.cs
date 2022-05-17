@@ -7,6 +7,8 @@ public class Crosshair : MonoBehaviour
 {
     [SerializeField]
     private Image image;
+    [SerializeField]
+    private float hitRange;
     Camera camera;
     RaycastHit hit;
     // Start is called before the first frame update
@@ -18,7 +20,7 @@ public class Crosshair : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, 3.0f))
+        if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
             
             if (hit.transform.gameObject.GetComponent(typeof(Item)) || hit.transform.gameObject.GetComponent(typeof(Door)))

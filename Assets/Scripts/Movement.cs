@@ -22,6 +22,7 @@ public class Movement : MonoBehaviour
     private float zDiff;
     private float moveHorizontal;
     private float moveVertical;
+    private Vector3 normalizedVector;
     private float moveX;
     private float moveY;
     private float rotationY = 0.0f;
@@ -97,13 +98,11 @@ public class Movement : MonoBehaviour
 
     void collectInput()
     {
-        
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        normalizedVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        moveHorizontal = normalizedVector.x;
+        moveVertical = normalizedVector.z;
 
-        
-
-        sprint = (Input.GetKey(KeyCode.LeftShift));
+        //sprint = (Input.GetKey(KeyCode.LeftShift));
     }
 
     private void movement()
@@ -123,7 +122,7 @@ public class Movement : MonoBehaviour
             }
             else if (wallJumpCheck)
             {
-                rb.AddForce(new Vector3(wallJumpForce * xDiff, 3.0f, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
+                //rb.AddForce(new Vector3(wallJumpForce * xDiff, 3.0f, wallJumpForce * zDiff) * jumpForce, ForceMode.Impulse);
             }
         }
     }
@@ -154,10 +153,10 @@ public class Movement : MonoBehaviour
             wallJumpCheck = false;
             VectorUtil.roundVector3(transform.position);
         }
-        if (collision.gameObject.tag == "ground")
+        if (collision.gameObject.tag == "ground" && checkGrounded())
         {
             lastGroundedPos = transform.position;
-            isGrounded = true;
+            //isGrounded = true;
         }
     }
 
@@ -165,7 +164,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "ground")
         {
-            isGrounded = false;
+            //isGrounded = false;
         }
         wallJumpCheck = false;
     }
