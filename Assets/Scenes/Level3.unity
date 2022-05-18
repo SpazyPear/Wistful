@@ -1817,7 +1817,7 @@ MonoBehaviour:
   rocketFuelBar: {fileID: 1792649698}
   rocketFuelContainer: {fileID: 1792649699}
   rocketFuelBackground: {fileID: 1792649700}
-  collectedObjectText: {fileID: 0}
+  collectedObjectText: {fileID: 1284639260}
   findObject1Text: {fileID: 2144356719}
   findObject2Text: {fileID: 905072445}
   findObject3Text: {fileID: 131240304}
@@ -1827,6 +1827,7 @@ MonoBehaviour:
   interactPrompt: {fileID: 1163285087}
   holdPrompt: {fileID: 1133459605}
   popUpManager: {fileID: 631434371}
+  goToVaultlvl3: 0
 --- !u!1001 &940785126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2478,6 +2479,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7c9228a6cc543f5a32863aa01b4d46, type: 3}
+--- !u!114 &1284639260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4850074636905592125, guid: 7f7c9228a6cc543f5a32863aa01b4d46, type: 3}
+  m_PrefabInstance: {fileID: 1284639259}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1312664516
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,7 +31,6 @@ public class PlayerCollisions : MonoBehaviour
     public event EventHandler onNextLevel;
 
     bool foundPhoto, foundLadder, foundRocket, foundKite, foundCrowbar, foundBook, foundSolarSystem, foundStickyNote, foundKey, foundPC = false;
-    ModelPlanet modelPlanet;
     public AudioSource audioSource;
     public AudioClip positiveSound;
     public AudioClip negativeSound;
@@ -39,7 +38,6 @@ public class PlayerCollisions : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
-        modelPlanet = GetComponent<ModelPlanet>();
         //anim = this.transform.parent.GetComponent<Animator>();
         onNextLevel += popUpManager.spawnLevelLink;
         startCalled = true;
@@ -188,7 +186,7 @@ public class PlayerCollisions : MonoBehaviour
         if (foundKite && foundLadder && foundPhoto && foundRocket)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
-            StartCoroutine(HideText());
+            StartCoroutine(uiManager.HideText());
         }
     }
 
@@ -216,13 +214,12 @@ public class PlayerCollisions : MonoBehaviour
                 foundSolarSystem = true;
                 //StartCoroutine(HideText());
             }
-        if (foundCrowbar && foundBook && foundSolarSystem && modelPlanet.isRotsCorrect()==true)
+        if (foundCrowbar && foundBook && foundSolarSystem)
         {
-            uiManager.collectedObjectText.text = "Go to the Vault";
-            StartCoroutine(HideText());
+            uiManager.collectedObjectText.text = "Solve the puzzle";
+            StartCoroutine(uiManager.HideText());
         }
     }
-
      void CollectLevelThreeItems()
     {
              if (hitItem.itemID == "StickyNote")
@@ -244,17 +241,9 @@ public class PlayerCollisions : MonoBehaviour
             {
                 foundPC = true;
             }
-        if (foundStickyNote && foundKey && foundPC)
+        if (foundStickyNote && foundKey && foundPC && uiManager.goToVaultlvl3)
         {
             uiManager.collectedObjectText.text = "Go to the Vault";
-            StartCoroutine(HideText());
         }
-    }
-
-
-    IEnumerator HideText()
-    {
-        yield return new WaitForSeconds(3);
-        uiManager.collectedObjectText.enabled = false;
     }
 }
