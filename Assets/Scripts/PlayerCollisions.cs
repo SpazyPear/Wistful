@@ -53,73 +53,50 @@ public class PlayerCollisions : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(camera.transform.position, camera.transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            if (hitItem)
             {
-                if (hit.transform.gameObject.GetComponent(typeof(Item)))
-                {
-                    hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
-                    itemsHeld.Add(hitItem.itemID);
-                    gameObject.AddComponent(hitItem.GetType());
-                    audioSource.clip = positiveSound;
-                    audioSource.Play();
-                    if (SceneManager.GetActiveScene().name == "Level 1")
-                    {
-                        CollectLevelOneItems();
-                    }
-                    if (SceneManager.GetActiveScene().name == "Level 2")
-                    {
-                        CollectLevelTwoItems();
-                    }
-                    if (SceneManager.GetActiveScene().name == "Level3")
-                    {
-                        CollectLevelThreeItems();
-                    }
+                itemsHeld.Add(hitItem.itemID);
+                gameObject.AddComponent(hitItem.GetType());
+                audioSource.clip = positiveSound;
+                audioSource.Play();
+                if(SceneManager.GetActiveScene().name == "Level 1")
+                {                
+                    CollectLevelOneItems();
+                }
+                 if(SceneManager.GetActiveScene().name == "Level 2")
+                {                
+                    CollectLevelTwoItems();
+                }
+                 if(SceneManager.GetActiveScene().name == "Level3")
+                {                
+                    CollectLevelThreeItems();
+                }
                 //uiManager.collectedObjectText = true;
                 (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                    audioSource.Play();
+                audioSource.Play();
 
-                    if (hitItem.triggersPath)
-                    {
-                        popUpManager.obstacleTime = true;
-                        popUpManager.generatePath(4);
-                    }
-
-                    if (hitItem.triggersNextItem)
-                    {
-                        hitItem = hit.transform.gameObject.GetComponent(typeof(Item)) as Item;
-                        itemsHeld.Add(hitItem.itemID);
-                        gameObject.AddComponent(hitItem.GetType());
-                        audioSource.clip = positiveSound;
-                        audioSource.Play();
-                        (GetComponent(typeof(Item)) as Item).setItemProperties(hitItem.itemID, hitItem.prefab, hitItem.menuSprite, hitItem.description);
-                        audioSource.Play();
-
-                        if (hitItem.triggersPath)
-                        {
-                            popUpManager.obstacleTime = true;
-                            popUpManager.generatePath(4);
-                        }
-
-                        if (hitItem.triggersNextItem)
-                        {
-                            popUpManager.readyForNextItemSpawn = true;
-                        }
-
-                        inventoryManager.pickUpItem(hitItem);
-                        Destroy(hitItem.gameObject);
-                        hitItem = null;
-                        uiManager.updateInteractPrompt("");
-                    }
-                }
-                if (hit.transform.gameObject.GetComponent(typeof(Door)))
+                if (hitItem.triggersPath)
                 {
-                    hitDoor = hit.transform.gameObject.GetComponent(typeof(Door)) as Door;
-                    if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
-                        return;
-                    hitDoor.toggleDoor();
-                    uiManager.updateInteractPrompt("");
+                    popUpManager.obstacleTime = true;
+                    popUpManager.generatePath(4);
                 }
+
+                if (hitItem.triggersNextItem)
+                {
+                    popUpManager.readyForNextItemSpawn = true;
+                }
+
+                inventoryManager.pickUpItem(hitItem);
+                Destroy(hitItem.gameObject);
+                hitItem = null;
+                uiManager.updateInteractPrompt("");
+            }
+            if (hitDoor)
+            {
+                if (hitDoor.isLocked && !itemsHeld.Contains("Key"))
+                    return;
+                hitDoor.toggleDoor();
+                uiManager.updateInteractPrompt("");
             }
 
         }
