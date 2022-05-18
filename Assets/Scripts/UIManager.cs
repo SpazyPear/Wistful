@@ -13,7 +13,11 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    //public Text collectedObjectText;
+    public Text collectedObjectText;
+    public Text findObject1Text;
+    public Text findObject2Text;
+    public Text findObject3Text;
+    public Text findObject4Text;
 
     public Text heartRateText;
 
@@ -29,6 +33,8 @@ public class UIManager : MonoBehaviour
 
     public PopUpManager popUpManager;
 
+    public bool goToVaultlvl3 = false; 
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,11 +49,6 @@ public class UIManager : MonoBehaviour
     {
 
     }
-
-    /*public void HideText()
-    {
-        collectedObjectText.enabled = false;
-    }*/
 
     void UpdateHeartBeat()
     {
@@ -104,5 +105,18 @@ public class UIManager : MonoBehaviour
     public void setFade(float value)
     {
         faderImage.color = new Color(faderImage.color.r, faderImage.color.g, faderImage.color.b, value);
+    }
+
+    public void GoToVaultlvl2()
+    {
+        collectedObjectText.enabled = true;
+        collectedObjectText.text = "Go to the Vault";
+        StartCoroutine(HideText());
+    }
+
+    public IEnumerator HideText()
+    {
+        yield return new WaitForSeconds(3);
+        collectedObjectText.enabled = false;
     }
 }
