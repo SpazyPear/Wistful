@@ -72,18 +72,6 @@ public class Movement : MonoBehaviour
     {
         if (transform.position.y < -16)
         {
-            /*Vector3 pos = Vector3.positiveInfinity;
-            for (int x = -12; x <= 12; x += 4)
-            {
-                for (int y = -12; y <= 12; y += 4)
-                {
-                    if (Vector3.Distance(new Vector3(transform.position.x, popUpManager.levelHeight, transform.position.z), VectorUtil.roundVector3(new Vector3(transform.position.x + x, popUpManager.levelHeight, transform.position.z + y))) < Vector3.Distance(new Vector3(transform.position.x, popUpManager.levelHeight, transform.position.z), pos) && Physics.CheckBox(VectorUtil.roundVector3(new Vector3(transform.position.x + x, popUpManager.levelHeight, transform.position.z + y)), new Vector3(1, 1, 1)))
-                    {
-                        pos = VectorUtil.roundVector3(new Vector3(transform.position.x + x - 3, popUpManager.levelHeight + 4, transform.position.z + y - 3));
-                    }
-                }
-            }
-            transform.position = pos;*/
             transform.position = new Vector3(lastGroundedPos.x, lastGroundedPos.y + 4, lastGroundedPos.z);
         }
         
@@ -98,7 +86,7 @@ public class Movement : MonoBehaviour
 
     void collectInput()
     {
-        normalizedVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        normalizedVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         moveHorizontal = normalizedVector.x;
         moveVertical = normalizedVector.z;
 
