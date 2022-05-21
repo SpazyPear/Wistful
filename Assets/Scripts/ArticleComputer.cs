@@ -14,6 +14,7 @@ public class ArticleComputer : MonoBehaviour
 
     //UIElements
     private TextField currentPasswordField; //Password field on login page
+    private Button nextEmailBtn;
 
     //Bools
     private bool loginTriggered = false; //Keeps track of whether the login page is open
@@ -22,7 +23,7 @@ public class ArticleComputer : MonoBehaviour
     Movement movement;
 
     PopUpManager popUpManager;
-    UIManager uIManager; 
+    UIManager uIManager;
 
     private void Start()
     {
@@ -54,7 +55,7 @@ public class ArticleComputer : MonoBehaviour
 
     private void Update()
     {
-        if(loginTriggered && Input.GetKeyDown(KeyCode.Escape)) //If on the login page and hit esc
+        if (loginTriggered && Input.GetKeyDown(KeyCode.Escape)) //If on the login page and hit esc
         {
             //remove login page
             loginTriggered = false;
@@ -67,7 +68,7 @@ public class ArticleComputer : MonoBehaviour
 
         if (loginTriggered && Input.GetKeyDown(KeyCode.Return) || loginTriggered && Input.GetKeyDown(KeyCode.KeypadEnter)) //If on the login page and hit enter
         {
-            if (currentPasswordField.text == "W8pvXi0m") //if correct
+            if (currentPasswordField.text == "m0iXvq8W") //if correct
             {
                 //remove login page
                 loginTriggered = false;
@@ -95,7 +96,6 @@ public class ArticleComputer : MonoBehaviour
             }
         }
     }
-
 
     private void OnTriggerExit(Collider other)
     {
