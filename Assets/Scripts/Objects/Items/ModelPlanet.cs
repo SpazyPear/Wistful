@@ -14,6 +14,7 @@ public class ModelPlanet : Item
     bool beingHeld;
     bool turning;
     Movement movement;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,7 +85,7 @@ public class ModelPlanet : Item
 
             if (Input.GetKey(KeyCode.E))
             {
-                StartCoroutine(skyManager.spin(8f, isRotsCorrect()));
+                StartCoroutine(skyManager.spin(11f, isRotsCorrect()));
             }
         }
     }

@@ -98,7 +98,7 @@ public class Movement : MonoBehaviour
 
     void collectInput()
     {
-        normalizedVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        normalizedVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         moveHorizontal = normalizedVector.x;
         moveVertical = normalizedVector.z;
 

@@ -2483,7 +2483,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1a81e606c958e4c49be72e5bb166be43, type: 3}
+  m_audioClip: {fileID: 8300000, guid: abd82d42561c9df46a26783ebc1531d7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.55
   m_Pitch: 1
@@ -4890,9 +4890,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 433751606}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: spinClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1543fafd1800c7d4a8352f874acbc5cb, type: 3}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: StarField
       value: 
       objectReference: {fileID: 751917179}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1929039347}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: rendsParent
       value: 
@@ -4903,23 +4911,27 @@ PrefabInstance:
       objectReference: {fileID: 1844994683}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].time
-      value: 0.64055586
+      value: 0.5578241
       objectReference: {fileID: 0}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].value
-      value: 0.46662134
+      value: 1.2064003
       objectReference: {fileID: 0}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].inSlope
-      value: -3.2776806
+      value: -2.877292
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: starCurve.m_Curve.Array.data[1].inWeight
+      value: 0.08905802
       objectReference: {fileID: 0}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].outSlope
-      value: -3.2776806
+      value: -2.877292
       objectReference: {fileID: 0}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].outWeight
-      value: 0.15897861
+      value: 0.07769461
       objectReference: {fileID: 0}
     - target: {fileID: 3845492855395010086, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: player

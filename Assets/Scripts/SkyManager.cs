@@ -14,6 +14,8 @@ public class SkyManager : MonoBehaviour
     public List<int> correctRots = new List<int>();
     public PopUpManager popUpManager;
     bool isSpinning;
+    public AudioClip spinClip;
+    public AudioSource audioSource;
 
 
     // Start is called before the first frame update
@@ -36,6 +38,8 @@ public class SkyManager : MonoBehaviour
     {
         if (!isSpinning)
         {
+            audioSource.clip = spinClip;
+            audioSource.Play();
             isSpinning = true;
             float timer = 0;
             bool constUpdated = false;
