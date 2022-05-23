@@ -12,16 +12,16 @@
             </ui:GroupBox>
             <ui:GroupBox name="Email" style="background-color: rgb(255, 255, 255); flex-direction: column; width: 100%; flex-wrap: nowrap; height: 300%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 16px; padding-right: 16px; min-height: 220px; font-size: 40px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:Label text="Press esc to exit" display-tooltip-when-elided="true" style="-unity-font-style: normal; color: rgb(0, 0, 0);" />
-                <ui:Label text="From: JAXA President" display-tooltip-when-elided="true" style="-unity-font-style: bold; color: rgb(0, 0, 0);" />
-                <ui:Label text="CC: RFSA Director, ESA Director General" display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
+                <ui:Label text="From: JAXA President" display-tooltip-when-elided="true" name="from" style="-unity-font-style: bold; color: rgb(0, 0, 0);" />
+                <ui:Label text="CC: RFSA Director, ESA Director General" display-tooltip-when-elided="true" name="cc" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
                 <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
-                <ui:Label display-tooltip-when-elided="true" text="Got results back and they&apos;re worse than we thought. Earth has 10 years left, max. " style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0); -unity-text-align: upper-left; width: 100%; flex-wrap: wrap; background-color: rgba(0, 0, 0, 0);" />
+                <ui:Label display-tooltip-when-elided="true" text="Got results back and they&apos;re worse than we thought. Earth has 10 years left, max. " name="line1" style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0); -unity-text-align: upper-left; width: 100%; flex-wrap: wrap; background-color: rgba(0, 0, 0, 0);" />
                 <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
-                <ui:Label display-tooltip-when-elided="true" text="We need to start pouring resources into space exploration and deep space travel. " style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0);" />
+                <ui:Label display-tooltip-when-elided="true" text="We need to start pouring resources into space exploration and deep space travel. " name="line2" style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0);" />
                 <ui:Label display-tooltip-when-elided="true" style="-unity-font-style: normal; white-space: nowrap; color: rgb(0, 0, 0);" />
-                <ui:Label display-tooltip-when-elided="true" text="If we don&apos;t find a habitable planet soon and start evacuating, humanity is screwed." style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0); flex-wrap: nowrap;" />
+                <ui:Label display-tooltip-when-elided="true" text="If we don&apos;t find a habitable planet soon and start evacuating, humanity is screwed." name="line3" style="-unity-font-style: normal; white-space: normal; color: rgb(0, 0, 0); flex-wrap: nowrap;" />
                 <ui:GroupBox name="PrevNextButtons" style="position: relative; align-items: auto; justify-content: flex-end; visibility: visible; overflow: visible; left: auto; flex-direction: row; flex-wrap: nowrap; display: flex; padding-right: 6px; width: auto;">
-                    <ui:Button text="&lt;" display-tooltip-when-elided="true" name="prevButton" style="flex-direction: row-reverse; width: 5%; flex-wrap: nowrap; align-items: auto; justify-content: space-around; left: auto; overflow: visible; height: auto; font-size: 40px;" />
+                    <ui:Button text="&lt;" display-tooltip-when-elided="true" name="prevButton" style="flex-direction: row-reverse; width: 5%; flex-wrap: nowrap; align-items: auto; justify-content: space-around; left: auto; overflow: visible; height: auto; font-size: 40px; display: flex;" />
                     <ui:Button text="&gt;" display-tooltip-when-elided="true" name="nextButton" style="flex-direction: row; width: 5%; justify-content: space-around; align-items: auto; flex-wrap: wrap-reverse; white-space: nowrap; -unity-text-align: middle-center; overflow: visible; height: auto; font-size: 40px;" />
                 </ui:GroupBox>
             </ui:GroupBox>
