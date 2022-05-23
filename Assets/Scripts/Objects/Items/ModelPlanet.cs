@@ -51,7 +51,7 @@ public class ModelPlanet : Item
             {
                 StartCoroutine(flashSelectedPlanet());
                 movement.canMove = false;
-                uiManager.updateHoldPrompt("W-S To Select Planet, A-D To Rotate, E To Confirm (Watch The Sky)");
+                uiManager.updateHoldPrompt("W-S To Select Planet, A-D To Rotate, E To Confirm (Watch The Sky), R to Reset");
             }
             else
             {
@@ -87,6 +87,17 @@ public class ModelPlanet : Item
             {
                 StartCoroutine(skyManager.spin(11f, isRotsCorrect()));
             }
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                int temp = currentPlanetIndex;
+                for (currentPlanetIndex = 0; currentPlanetIndex < planetPositions.Count; currentPlanetIndex++)
+                {
+                    StartCoroutine(rotatePlanet(planets[currentPlanetIndex].transform, -planetPositions[currentPlanetIndex]));
+                    updatePlanetPosition(-planetPositions[currentPlanetIndex]);
+                }
+                currentPlanetIndex = temp;
+            }
         }
     }
 
@@ -101,7 +112,7 @@ public class ModelPlanet : Item
         {
             planetPositions[currentPlanetIndex] = 4;
         }
-        Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
+        //Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
     }
 
     bool isRotsCorrect()

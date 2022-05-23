@@ -13,6 +13,8 @@ public class SkyManager : MonoBehaviour
     public Sprite XSprite;
     public List<int> correctRots = new List<int>();
     public PopUpManager popUpManager;
+
+    public UIManager uIManager;
     bool isSpinning;
     public AudioClip spinClip;
     public AudioClip correctJingle;
@@ -22,6 +24,7 @@ public class SkyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         for (int x = 0; x < rendsParent.transform.childCount; x++)
         {
             rends.Add(rendsParent.transform.GetChild(x).GetComponent<SpriteRenderer>());
@@ -78,6 +81,7 @@ public class SkyManager : MonoBehaviour
                 rends[x].sprite = correctSprites[x];
                 popUpManager.readyForNextItemSpawn = true;
             }
+            uIManager.GoToVaultlvl2();
         }
         else
         {

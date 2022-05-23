@@ -13,6 +13,7 @@ public class MenuController : MonoBehaviour
     
     #region Variables
     public bool GameisPause = false;
+
     public static bool isPromptActive = false;
     public GameObject PauseMenu;
     public Camera cam;
@@ -89,15 +90,10 @@ public class MenuController : MonoBehaviour
         }
         if(isPromptActive){
             SetPromptText(NewPromptText);
-            activatePrompt();
-        }
-        else{
-            LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutQuad);
-            Invoke("deactivatePrompt", 0.5f);
-        }
-        if(isPromptActive && Input.GetKeyDown(KeyCode.Return)){
+            StartCoroutine(showPrompt());
             isPromptActive = false;
         }
+
         
     }
     #endregion
@@ -137,15 +133,17 @@ public class MenuController : MonoBehaviour
     }
     public void transitionAnimation(){
         disablethings();
-        NewPromptText = "Block generation is now active";
-        //isPromptActive = true;
-        SetPromptText("Block generation is in progress...test text");
+        NewPromptText = "if you dont know where to go..."+System.Environment.NewLine+"follow the arrow";
+        isPromptActive = true;        
     }
     public void applyMouseSenstivity(float value){
         sens = value;
     }
     void loadLevel1(){
+        
+        //isPromptActive = true;
         StartScene.SetActive(false);
+        
         //SceneManager.LoadScene("Level 1");
     }
     public void AwakeStartMenu(){
@@ -221,15 +219,14 @@ public class MenuController : MonoBehaviour
     }
     #endregion
     #region prompt Functions
-    void activatePrompt(){
+    IEnumerator showPrompt(){
         PromptMenu.SetActive(true);
-        LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutQuad);
-    }
-    void deactivatePrompt(){
-        
+        LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutBounce);
+        yield return new WaitForSeconds(2f);
+        LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutBounce);
+        yield return new WaitForSeconds(0.5f);
         PromptMenu.SetActive(false);
     }
-     
     public void SetPromptText(string text){
         PromptText.text = text;
     }

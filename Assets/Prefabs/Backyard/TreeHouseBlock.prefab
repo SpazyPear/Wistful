@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 6428708552733778124}
   - component: {fileID: 8923581033953077601}
   - component: {fileID: 7200479614537946138}
+  - component: {fileID: 5366753031323646865}
   m_Layer: 0
   m_Name: Platform_1
   m_TagString: ground
@@ -624,7 +625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3139356592918490161}
   m_LocalRotation: {x: 0.50000006, y: 0.49999997, z: 0.5, w: -0.5}
-  m_LocalPosition: {x: -7.3766403, y: 17.949072, z: 8.164456}
+  m_LocalPosition: {x: -7.3766403, y: 18.71, z: 8.16}
   m_LocalScale: {x: 22.54063, y: 37.172127, z: 14.680302}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -721,6 +722,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4903728102528272854, guid: c03c2ee01cf6d204bb8a52914dee921f, type: 3}
+--- !u!65 &5366753031323646865
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139356592918490161}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6733873, y: 0.01, z: 0.52}
+  m_Center: {x: -0.31, y: -0.13, z: -0.07}
 --- !u!1 &3309547081440420264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,8 +1103,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11, y: 10.33, z: 11}
-  m_Center: {x: 0, y: 2.78, z: -2.64}
+  m_Size: {x: 6.99, y: 12.51, z: 7.5}
+  m_Center: {x: -1.26, y: 3.15, z: -1.07}
 --- !u!114 &7423348017900318087
 MonoBehaviour:
   m_ObjectHideFlags: 0
