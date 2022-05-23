@@ -42,7 +42,7 @@ public class SkyManager : MonoBehaviour
     {
         if (!isSpinning)
         {
-            audioSource.volume = 0.4f;
+            audioSource.volume = 0.5f;
             audioSource.clip = spinClip;
             audioSource.Play();
             isSpinning = true;
@@ -64,9 +64,11 @@ public class SkyManager : MonoBehaviour
                 skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset * 6, 0));
                 yield return null;
             }
-            audioSource.clip = correctJingle;
-            
-            audioSource.Play();
+            if (rotsCorrect)
+            {
+                audioSource.clip = correctJingle;
+                audioSource.Play();
+            }
             popUpManager.readyForNextItemSpawn = true;
             isSpinning = false;
         }

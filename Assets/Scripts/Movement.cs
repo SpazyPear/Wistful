@@ -48,6 +48,7 @@ public class Movement : MonoBehaviour
         sprintMultiplier = 1.5f;
         //Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 144;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
