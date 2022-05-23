@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Pointer : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class Pointer : MonoBehaviour
                         minDist = Vector3.Distance(transform.position, item.position);
                     }
                 }
-                catch (MissingReferenceException e)
+                catch (Exception e)
                 {
                     currentItemObjects.RemoveAt(x);
                     continue;
@@ -51,7 +52,7 @@ public class Pointer : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, _lookRotation.y, 0);
             }
 
-            catch (MissingReferenceException e)
+            catch (Exception e)
             {
                 currentItemObjects.Remove(closestItem);
             }
