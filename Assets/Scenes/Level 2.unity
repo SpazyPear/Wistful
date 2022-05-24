@@ -892,6 +892,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8605812192538607844, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
   m_PrefabInstance: {fileID: 290324265}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &290324267 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8605812192508491611, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+  m_PrefabInstance: {fileID: 290324265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &304585036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2045821335944613843, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
@@ -2710,7 +2715,7 @@ AudioSource:
   m_GameObject: {fileID: 1370789019}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 17d58393aacdc6a43bf5db41696da67e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1a81e606c958e4c49be72e5bb166be43, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.55
@@ -5313,6 +5318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 8853350593977394721, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 290324267}
     - target: {fileID: 8853350593977394721, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: PlayerPrefab
       value: 
