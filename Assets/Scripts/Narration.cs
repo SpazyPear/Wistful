@@ -27,9 +27,14 @@ public class Narration : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        StartCoroutine(WaitBeforeDisappear());
+        
+    }
+
+    IEnumerator WaitBeforeDisappear()
+    {
+        yield return new WaitForSeconds(2);
         UiObject.SetActive(false);
         Destroy(theItem);
     }
-
-
 }
