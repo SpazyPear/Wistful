@@ -81,6 +81,11 @@ public class Pointer : MonoBehaviour
 
     void recursiveChildSearch(Transform searchObj)
     {
+        if (searchObj.CompareTag("Trackable"))
+        {
+            currentItemObjects.Add(searchObj);
+        }
+
         for (int x = 0; x < searchObj.transform.childCount; x++)
         {
             if (searchObj.transform.GetChild(x).CompareTag("Trackable")) {
