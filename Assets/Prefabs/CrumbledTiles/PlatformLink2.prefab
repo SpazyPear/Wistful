@@ -32,8 +32,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1316588964816705857}
-  m_Father: {fileID: 3633036427487772501}
-  m_RootOrder: 227
+  m_Father: {fileID: 5943607296674421816}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -167,8 +167,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u201CYou know, Mum and Dad named me \u2018Hunter\u2019 after the Orion
-    constellation.\""
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -493,7 +492,6 @@ Transform:
   - {fileID: 4512354349639365103}
   - {fileID: 7060928330725659519}
   - {fileID: 1304906582618530071}
-  - {fileID: 5026178923061353662}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7583,6 +7581,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4751680440139849114, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
+      propertyPath: m_Center.y
+      value: 0.27
+      objectReference: {fileID: 0}
     - target: {fileID: 5150809793834731250, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -7593,15 +7595,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6282652232122940829, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 4.75176
       objectReference: {fileID: 0}
     - target: {fileID: 6282652232122940829, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 4.1784563
       objectReference: {fileID: 0}
     - target: {fileID: 6282652232122940829, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 6.7872
       objectReference: {fileID: 0}
     - target: {fileID: 6282652232122940829, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7645,7 +7647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6282652232122940829, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6664102900009068327, guid: afa1df272158dca40b8a409aaca2f100, type: 3}
       propertyPath: m_Name

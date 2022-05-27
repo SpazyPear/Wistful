@@ -16,9 +16,9 @@ public class StickyNote : Item
     void flipNote()
     {
         if (!isFliped)
-            stickyNote.SetTrigger("Flip");
+            stickyNote.SetTrigger("FlipNote");
         else
-            stickyNote.SetTrigger("Revert");
+            stickyNote.SetTrigger("RevertNote");
 
         isFliped = !isFliped;
     }

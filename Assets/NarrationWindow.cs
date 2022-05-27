@@ -33,7 +33,7 @@ public class NarrationWindow : MonoBehaviour
 
     IEnumerator WaitBeforeDisappear()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(6);
         UiObject.SetActive(false);
         Destroy(theItem);
     }
