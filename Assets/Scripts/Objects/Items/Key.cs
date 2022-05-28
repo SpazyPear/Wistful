@@ -16,5 +16,7 @@ public class Key : Item
         GameObject stickyNoteObj = GameObject.Find("StickyNote");
         if (stickyNoteObj)
             (stickyNoteObj.GetComponent(typeof(Item)) as Item).triggersNextItem = true;
+
     }
 }
+
