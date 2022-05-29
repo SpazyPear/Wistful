@@ -8,6 +8,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    Color32 c = new Color32(172, 222, 94, 255);
 
     public Slider rocketFuelBar;
     public GameObject rocketFuelContainer;
@@ -67,7 +68,7 @@ public class UIManager : MonoBehaviour
     public void UpdateRocketBar(float value)
     {
         rocketFuelBar.value = value;
-        rocketFuelBackground.color = Color.Lerp(Color.red, Color.green, value);
+        rocketFuelBackground.color = Color.Lerp(Color.red, c, value);
     }
 
     public void toggleRocketBar(bool on)

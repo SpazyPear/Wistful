@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5527,8 +5527,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 158.2
-  m_fontSizeBase: 158.2
+  m_fontSize: 75.68
+  m_fontSizeBase: 75.68
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5594,7 +5594,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -160, y: 308}
+  m_AnchoredPosition: {x: -160, y: 372.6}
   m_SizeDelta: {x: 1500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1191639513
@@ -8549,8 +8549,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 158.2
-  m_fontSizeBase: 158.2
+  m_fontSize: 75.68
+  m_fontSizeBase: 75.68
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9380,6 +9380,14 @@ PrefabInstance:
       propertyPath: inventoryManager
       value: 
       objectReference: {fileID: 1466194452}
+    - target: {fileID: 8605812191291641875, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 777.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605812191291641875, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -253.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8605812191564312756, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
