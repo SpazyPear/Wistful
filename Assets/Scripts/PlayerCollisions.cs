@@ -164,30 +164,28 @@ public class PlayerCollisions : MonoBehaviour
             if (hitItem.itemID == "Ladder")
             {
                 uiManager.findObject2Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
-                //StartCoroutine(HideText());
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                StartCoroutine(uiManager.HideText());
                 foundLadder = true;
             }
             if (hitItem.itemID == "Rocket")
             {
                 uiManager.findObject3Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundRocket = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
             if (hitItem.itemID == "Kite")
             {
                 uiManager.findObject4Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKite = true;
-                //StartCoroutine(HideText());
             }
             if (hitItem.itemID == "Photo")
             {
                 uiManager.findObject1Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundPhoto = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
         if (foundKite && foundLadder && foundPhoto && foundRocket)
         {
@@ -201,24 +199,22 @@ public class PlayerCollisions : MonoBehaviour
             if (hitItem.itemID == "Crowbar")
             {
                 uiManager.findObject1Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundCrowbar = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
              if (hitItem.itemID == "Book")
             {
                 uiManager.findObject3Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundBook = true;
-                //StartCoroutine(HideText());
             }
              if (hitItem.itemID == "SolarSystem")
             {
                 uiManager.findObject2Text.enabled = false;
                 uiManager.findObject4Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundSolarSystem = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
         if (foundCrowbar && foundBook && foundSolarSystem)
         {
@@ -232,16 +228,16 @@ public class PlayerCollisions : MonoBehaviour
             {
                 uiManager.findObject1Text.enabled = false;
                 uiManager.findObject4Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundStickyNote = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
              if (hitItem.itemID == "Key")
             {
                 uiManager.findObject2Text.enabled = false;
-                //uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
+                uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundKey = true;
-                //StartCoroutine(HideText());
+                StartCoroutine(uiManager.HideText());
             }
             if(!uiManager.findObject3Text.enabled)
             {
