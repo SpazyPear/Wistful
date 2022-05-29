@@ -9,7 +9,7 @@ public class Pointer : MonoBehaviour
     List<Transform> currentItemObjects = new List<Transform>();
     Material material;
     public AnimationCurve curve;
-
+    Color32 c = new Color32(172, 222, 94, 255);
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +56,7 @@ public class Pointer : MonoBehaviour
 
                 Debug.Log(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1));
 
-                material.color = Color.Lerp(Color.green, Color.red, curve.Evaluate(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1)));
+                material.color = Color.Lerp(c, Color.red, curve.Evaluate(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1)));
             }
 
             catch (Exception e)
