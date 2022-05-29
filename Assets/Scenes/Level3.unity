@@ -4172,10 +4172,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1644316656668525116, guid: bdfb0a5c21d81ce44a67cf394fab73bd, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 476265202}
-    - target: {fileID: 1644316656668525116, guid: bdfb0a5c21d81ce44a67cf394fab73bd, type: 3}
       propertyPath: PlayerPrefab
       value: 
       objectReference: {fileID: 230407428}
@@ -5287,7 +5283,7 @@ AudioSource:
   m_GameObject: {fileID: 1692435091}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 17d58393aacdc6a43bf5db41696da67e, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3f304ebcb79dde445bca4f5bedb6e941, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.32
@@ -11221,7 +11217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameisPause: 0
   PauseMenu: {fileID: 1644316658473230449}
-  cam: {fileID: 476265202}
+  cam: {fileID: 0}
   Resume: {fileID: 1644316656852216673}
   Quit: {fileID: 1644316657861762435}
   Reset: {fileID: 1644316656669550386}
@@ -11257,7 +11253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1644316657901392726
 MonoBehaviour:
   m_ObjectHideFlags: 0
