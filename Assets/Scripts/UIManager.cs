@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator HideText()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.7f);
         collectedObjectText.text = "";
     }
 }
