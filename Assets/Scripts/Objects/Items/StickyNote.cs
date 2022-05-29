@@ -11,8 +11,9 @@ public class StickyNote : Item
 
     private void Start()
     {
-        stickyNote = GameObject.FindGameObjectWithTag("SickyNoteCanvas").GetComponent<Animator>();
-        UiObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("SickyNoteCanvas").transform.GetChild(0).gameObject.SetActive(true);
+        stickyNote = GameObject.FindGameObjectWithTag("SickyNoteCanvas").transform.GetChild(0).gameObject.GetComponent<Animator>();
+        //UiObject.SetActive(false);
     }
 
     void flipNote()

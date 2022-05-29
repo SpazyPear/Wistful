@@ -80,7 +80,7 @@ public class ArticleComputer : MonoBehaviour
                 //get email page up
                 currentEmailPage = Instantiate(emailPrefab);
                 emailTriggered = true;
-                GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().updateHoldPrompt("");
+                GameObject.FindGameObjectWithTag("DropOutWall").SetActive(false);
 
             }
         }
