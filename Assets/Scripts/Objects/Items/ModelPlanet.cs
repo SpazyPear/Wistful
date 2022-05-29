@@ -111,7 +111,6 @@ public class ModelPlanet : Item
         {
             planetPositions[currentPlanetIndex] = 4;
         }
-        //Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
     }
 
     bool isRotsCorrect()
