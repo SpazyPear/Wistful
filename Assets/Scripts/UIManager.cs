@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    public Text collectedObjectText;
+    public TMP_Text collectedObjectText;
     public Text findObject1Text;
     public Text findObject2Text;
     public Text findObject3Text;
@@ -32,9 +32,6 @@ public class UIManager : MonoBehaviour
     public TMP_Text holdPrompt;
 
     public PopUpManager popUpManager;
-
-    public bool goToVaultlvl3 = false; 
-
 
     // Start is called before the first frame update
     void Start()
@@ -109,7 +106,6 @@ public class UIManager : MonoBehaviour
 
     public void GoToVaultlvl2()
     {
-        collectedObjectText.enabled = true;
         collectedObjectText.text = "Go to the Vault";
         StartCoroutine(HideText());
     }
@@ -117,6 +113,6 @@ public class UIManager : MonoBehaviour
     public IEnumerator HideText()
     {
         yield return new WaitForSeconds(3);
-        collectedObjectText.enabled = false;
+        collectedObjectText.text = "";
     }
 }

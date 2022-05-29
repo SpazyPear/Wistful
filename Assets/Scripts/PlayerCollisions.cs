@@ -247,9 +247,5 @@ public class PlayerCollisions : MonoBehaviour
             {
                 foundPC = true;
             }
-        if (foundStickyNote && foundKey && foundPC && uiManager.goToVaultlvl3)
-        {
-            uiManager.collectedObjectText.text = "Go to the Vault";
-        }
     }
 }
