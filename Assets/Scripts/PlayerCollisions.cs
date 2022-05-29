@@ -189,7 +189,7 @@ public class PlayerCollisions : MonoBehaviour
             }
         if (foundKite && foundLadder && foundPhoto && foundRocket)
         {
-            uiManager.collectedObjectText.text = "Go to the Vault";
+            uiManager.collectedObjectText.text = "Find the Memory Vault";
             StartCoroutine(uiManager.HideText());
         }
     }
@@ -211,7 +211,6 @@ public class PlayerCollisions : MonoBehaviour
              if (hitItem.itemID == "SolarSystem")
             {
                 uiManager.findObject2Text.enabled = false;
-                uiManager.findObject4Text.enabled = false;
                 uiManager.collectedObjectText.text = "Collects " + hitItem.itemID;
                 foundSolarSystem = true;
                 StartCoroutine(uiManager.HideText());

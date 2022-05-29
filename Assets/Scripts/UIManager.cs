@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToVaultlvl2()
     {
-        collectedObjectText.text = "Go to the Vault";
+        collectedObjectText.text = "Find the Memory Vault";
         StartCoroutine(HideText());
     }
 
