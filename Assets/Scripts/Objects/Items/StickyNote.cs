@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class StickyNote : Item
 {
-
+    public GameObject UiObject;
     Animator stickyNote;
     bool isFliped;
+    private bool hasPlayer;
 
     private void Start()
     {
         stickyNote = GameObject.FindGameObjectWithTag("SickyNoteCanvas").GetComponent<Animator>();
+        UiObject.SetActive(false);
     }
 
     void flipNote()
     {
         if (!isFliped)
-            stickyNote.SetTrigger("Flip");
+            stickyNote.SetTrigger("FlipNote");
         else
-            stickyNote.SetTrigger("Revert");
+            stickyNote.SetTrigger("RevertNote");
 
         isFliped = !isFliped;
     }
@@ -30,6 +32,7 @@ public class StickyNote : Item
         GameObject keyObj = GameObject.Find("Key");
         if (keyObj)
             (keyObj.GetComponent(typeof(Item)) as Item).triggersNextItem = true;
+
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -38,6 +41,28 @@ public class StickyNote : Item
         {
             flipNote();
         }
+
+        if (collider.CompareTag("StickyNote2"))
+        {
+            hasPlayer = true;
+        }
+
     }
 
+    //private void OnTriggerStay(Collider collider)
+    //{
+    //    if (collider.CompareTag("StickyNote2") && (Input.GetKeyDown(KeyCode.E)))
+    //    {
+    //        UiObject.SetActive(true);
+    //    }
+    //}
+
+
+    private void Update()
+    {
+        if (hasPlayer && Input.GetKeyDown("e"))
+        {
+            UiObject.SetActive(true);
+        }
+    }
 }
