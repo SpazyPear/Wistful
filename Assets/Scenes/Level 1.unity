@@ -899,6 +899,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.09691158
       objectReference: {fileID: 0}
+    - target: {fileID: 1983303181672456970, guid: 222d830e2aaf38f45b625620b0f43806, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4014718704419366671, guid: 222d830e2aaf38f45b625620b0f43806, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1621,6 +1625,7 @@ MonoBehaviour:
   player: {fileID: 1365182998}
   debugCube: {fileID: 0}
   tweener: {fileID: 493531343}
+  pointer: {fileID: 0}
   pastPlatforms: []
   currentLevelTerrain:
   - prefab: {fileID: 7995298249158147278, guid: 36906cf48ca61d64a96f3338b434b184, type: 3}
@@ -2292,6 +2297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpManager: {fileID: 356297473}
+  blockChimes: []
 --- !u!4 &493531344
 Transform:
   m_ObjectHideFlags: 0
@@ -3099,7 +3105,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.990566, g: 0.9843964, b: 0.8924439, a: 1}
+  m_Color: {r: 0.8301887, g: 0.5999288, b: 0.4965468, a: 1}
   m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
@@ -5441,7 +5447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5450,8 +5456,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 486539263
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9348,6 +9354,10 @@ PrefabInstance:
       propertyPath: _cutscene
       value: 
       objectReference: {fileID: 1059428048}
+    - target: {fileID: 1365183015, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: PlayerPrefab
+      value: 
+      objectReference: {fileID: 1365182992}
     - target: {fileID: 1538921767, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 4.8
