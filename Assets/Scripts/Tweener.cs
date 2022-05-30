@@ -44,7 +44,7 @@ public class Tweener : MonoBehaviour
                        // Debug.Log("3");
                         activeTween.Target.position = activeTween.EndPos;
                         toBeRemoved.Add(activeTween);
-                        AudioSource audioSource = activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>();
+                       /* AudioSource audioSource = activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>();
                         audioSource.clip = blockChimes[UnityEngine.Random.Range(0, blockChimes.Length - 1)];
                         int reverse = UnityEngine.Random.Range(0, 8);  
                         if (reverse == 7)
@@ -52,8 +52,7 @@ public class Tweener : MonoBehaviour
                             audioSource.time = audioSource.clip.length - 0.01f;
                             audioSource.pitch = -1;
                         }
-                        activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>().Play();
-                        //Cursor.lockState = CursorLockMode.Confined;
+                        activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>().Play();*/
                     }
                 }
             }

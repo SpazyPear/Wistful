@@ -42,7 +42,6 @@ public class SkyManager : MonoBehaviour
     {
         if (!isSpinning)
         {
-            audioSource.volume = 0.5f;
             audioSource.clip = spinClip;
             audioSource.Play();
             isSpinning = true;
