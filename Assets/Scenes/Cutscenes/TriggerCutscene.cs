@@ -17,6 +17,7 @@ public class TriggerCutscene : MonoBehaviour
             PlayerPrefab.gameObject.GetComponent<Movement>().enabled = false;
             StartCoroutine(FinishCut());
             StartCoroutine(MovementEnable());
+            GameObject.FindGameObjectWithTag("TIME").GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -28,7 +29,7 @@ public class TriggerCutscene : MonoBehaviour
 
     IEnumerator MovementEnable()
     {
-        yield return new WaitForSeconds(39);
+        yield return new WaitForSeconds(45);
         PlayerPrefab.gameObject.GetComponent<Movement>().enabled = true;
     }
 }
