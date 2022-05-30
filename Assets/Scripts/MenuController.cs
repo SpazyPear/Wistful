@@ -133,7 +133,7 @@ public class MenuController : MonoBehaviour
     }
     public void transitionAnimation(){
         disablethings();
-        NewPromptText = "if you dont know where to go..."+System.Environment.NewLine+"follow the arrow";
+        NewPromptText = "If you dont know where to go, "+System.Environment.NewLine+"follow the arrow at your feet.";
         isPromptActive = true;        
     }
     public void applyMouseSenstivity(float value){
@@ -222,7 +222,7 @@ public class MenuController : MonoBehaviour
     IEnumerator showPrompt(){
         PromptMenu.SetActive(true);
         LeanTween.scale(PromptMenu, new Vector3(1,1,1), 0.5f).setEase(LeanTweenType.easeOutBounce);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4.5f);
         LeanTween.scale(PromptMenu, new Vector3(0,0,0), 0.5f).setEase(LeanTweenType.easeOutBounce);
         yield return new WaitForSeconds(0.5f);
         PromptMenu.SetActive(false);

@@ -31,7 +31,7 @@ public class Tweener : MonoBehaviour
                 if (activeTween.Target != null)
                 {
                    // Debug.Log("1");
-                    if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.1f)
+                    if (Vector3.Distance(activeTween.Target.position, activeTween.EndPos) > 0.04f)
                     {
                         //Debug.Log("2");
                         float timeFraction = (Time.time - activeTween.StartTime) / activeTween.Duration;
