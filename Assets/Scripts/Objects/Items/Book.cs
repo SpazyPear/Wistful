@@ -14,7 +14,7 @@ public class Book : Item
 
         openBookInst = Instantiate((Resources.Load("OpenBook") as GameObject), Vector3.zero, Quaternion.identity);
         openBookInst.transform.eulerAngles += new Vector3(0, 180, 180);
-        openBookInst.transform.localScale = new Vector3(0.0002f, 0.0002f, 0.0002f);
+        openBookInst.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
         openBookInst.transform.SetParent(transform, true);
         openBookInst.transform.localPosition = new Vector3(0, 1f, 3);
         openBookInst.SetActive(false);
