@@ -8,12 +8,13 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    Color32 c = new Color32(172, 222, 94, 255);
 
     public Slider rocketFuelBar;
     public GameObject rocketFuelContainer;
     public Image rocketFuelBackground;
 
-    public Text collectedObjectText;
+    public TMP_Text collectedObjectText;
     public Text findObject1Text;
     public Text findObject2Text;
     public Text findObject3Text;
@@ -32,9 +33,6 @@ public class UIManager : MonoBehaviour
     public TMP_Text holdPrompt;
 
     public PopUpManager popUpManager;
-
-    public bool goToVaultlvl3 = false; 
-
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +68,7 @@ public class UIManager : MonoBehaviour
     public void UpdateRocketBar(float value)
     {
         rocketFuelBar.value = value;
-        rocketFuelBackground.color = Color.Lerp(Color.red, Color.green, value);
+        rocketFuelBackground.color = Color.Lerp(Color.red, c, value);
     }
 
     public void toggleRocketBar(bool on)
@@ -109,14 +107,13 @@ public class UIManager : MonoBehaviour
 
     public void GoToVaultlvl2()
     {
-        collectedObjectText.enabled = true;
-        collectedObjectText.text = "Go to the Vault";
+        collectedObjectText.text = "Find the Memory Vault";
         StartCoroutine(HideText());
     }
 
     public IEnumerator HideText()
     {
-        yield return new WaitForSeconds(3);
-        collectedObjectText.enabled = false;
+        yield return new WaitForSeconds(2.7f);
+        collectedObjectText.text = "";
     }
 }

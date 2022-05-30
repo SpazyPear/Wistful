@@ -16,7 +16,8 @@ public class RocketToy : Item
         cam = transform.GetChild(0).GetComponent<Camera>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         uiManager.toggleRocketBar(true);
-        uiManager.updateHoldPrompt("Use Mouse To Aim and Click To Use Rocket");
+        MenuController.isPromptActive = true;
+        MenuController.NewPromptText = "Use Mouse To Aim and Click To Use Rocket";
     }
     void Update()
     {
@@ -32,7 +33,7 @@ public class RocketToy : Item
 
             if (mouseDown && rocketFuel > 0)
             {
-                rb.AddForce(new Vector3(transform.forward.x * (1 - cam.transform.forward.y), cam.transform.forward.y, transform.forward.z * (1 - cam.transform.forward.y)).normalized * 60 * Time.deltaTime, ForceMode.Impulse);
+                rb.AddForce(new Vector3(transform.forward.x * (1 - cam.transform.forward.y), cam.transform.forward.y + 3, transform.forward.z * (1 - cam.transform.forward.y)) * 20 * Time.deltaTime, ForceMode.Impulse);
                 rocketFuel -= 1.2f * Time.deltaTime;
             }
 

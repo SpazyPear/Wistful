@@ -36,7 +36,9 @@ public class ModelPlanet : Item
         movement = GetComponent<Movement>();
         skyManager = GameObject.FindGameObjectWithTag("SkyManager").GetComponent<SkyManager>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
-        uiManager.updateHoldPrompt("Press 1 or 2 To Switch Items");
+        //uiManager.updateHoldPrompt("Press 1 or 2 To Switch Items");
+        MenuController.isPromptActive = true; 
+        MenuController.NewPromptText = "Press 1 or 2 To Switch Items. Press again to disable item view.";
 
     }
 
@@ -55,7 +57,8 @@ public class ModelPlanet : Item
             }
             else
             {
-                uiManager.updateHoldPrompt("Press 1 or 2 To Switch Items");
+                MenuController.isPromptActive = true;
+                MenuController.NewPromptText = "Press 1 or 2 To Switch Items. Press again to disable item view.";
                 movement.canMove = true;
             }
 
@@ -112,7 +115,6 @@ public class ModelPlanet : Item
         {
             planetPositions[currentPlanetIndex] = 4;
         }
-        //Debug.Log(currentPlanetIndex + " " + planetPositions[currentPlanetIndex]);
     }
 
     bool isRotsCorrect()

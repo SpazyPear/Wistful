@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Pointer : MonoBehaviour
 {
 
     List<Transform> currentItemObjects = new List<Transform>();
-
+    Material material;
+    public AnimationCurve curve;
+    Color32 c = new Color32(172, 222, 94, 255);
 
     // Start is called before the first frame update
     void Start()
     {
+        material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
@@ -34,7 +38,7 @@ public class Pointer : MonoBehaviour
                         minDist = Vector3.Distance(transform.position, item.position);
                     }
                 }
-                catch (MissingReferenceException e)
+                catch (Exception e)
                 {
                     currentItemObjects.RemoveAt(x);
                     continue;
@@ -49,9 +53,13 @@ public class Pointer : MonoBehaviour
                 Vector3 _lookRotation = Quaternion.LookRotation(_direction).eulerAngles;
 
                 transform.rotation = Quaternion.Euler(0, _lookRotation.y, 0);
+
+                Debug.Log(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1));
+
+                material.color = Color.Lerp(c, Color.red, curve.Evaluate(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 5, 50), 5, 50, 0, 1)));
             }
 
-            catch (MissingReferenceException e)
+            catch (Exception e)
             {
                 currentItemObjects.Remove(closestItem);
             }
@@ -80,6 +88,11 @@ public class Pointer : MonoBehaviour
 
     void recursiveChildSearch(Transform searchObj)
     {
+        if (searchObj.CompareTag("Trackable"))
+        {
+            currentItemObjects.Add(searchObj);
+        }
+
         for (int x = 0; x < searchObj.transform.childCount; x++)
         {
             if (searchObj.transform.GetChild(x).CompareTag("Trackable")) {
@@ -89,5 +102,10 @@ public class Pointer : MonoBehaviour
             recursiveChildSearch(searchObj.transform.GetChild(x));
 
         }
+    }
+
+    public float Remap(float value, float from1, float to1, float from2, float to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 }
