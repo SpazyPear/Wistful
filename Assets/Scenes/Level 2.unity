@@ -838,6 +838,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1999010800939360531, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_Volume
+      value: 0.372
+      objectReference: {fileID: 0}
     - target: {fileID: 3155443677761072761, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -845,6 +849,10 @@ PrefabInstance:
     - target: {fileID: 4108362274099867805, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804423202596927633, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8605812190949275153, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
       propertyPath: m_RootOrder
@@ -3634,9 +3642,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 17d58393aacdc6a43bf5db41696da67e, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 1a81e606c958e4c49be72e5bb166be43, type: 3}
+  m_audioClip: {fileID: 8300000, guid: abd82d42561c9df46a26783ebc1531d7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.55
+  m_Volume: 0.489
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5788,6 +5796,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3cd5b598a5a5a14a922a48edce5d3d1, type: 3}
+--- !u!114 &2062573554 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1973265833657341956, guid: 0f50fa57796b7dd44b6a22b6e1716aaa, type: 3}
+  m_PrefabInstance: {fileID: 290324265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88260310cbfca7e48a0c094e220db050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2065320793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6693,9 +6712,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8605812192291906473}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: spinClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1543fafd1800c7d4a8352f874acbc5cb, type: 3}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: StarField
       value: 
       objectReference: {fileID: 751917179}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: uIManager
+      value: 
+      objectReference: {fileID: 3845492856163083361}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1999010800691650106}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: rendsParent
       value: 
@@ -6704,6 +6735,10 @@ PrefabInstance:
       propertyPath: popUpManager
       value: 
       objectReference: {fileID: 1844994683}
+    - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: correctJingle
+      value: 
+      objectReference: {fileID: 8300000, guid: 21cc4feeb356ca540a29089e6845bf9b, type: 3}
     - target: {fileID: 3845492855222516617, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: starCurve.m_Curve.Array.data[1].time
       value: 0.64055586
@@ -6728,6 +6763,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 8605812190782058263}
+    - target: {fileID: 3845492855395010086, guid: 995658df717f652468ac17215fdbf36e, type: 3}
+      propertyPath: pointer
+      value: 
+      objectReference: {fileID: 2062573554}
     - target: {fileID: 3845492855395010086, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: platformLink
       value: 
@@ -6898,7 +6937,7 @@ PrefabInstance:
       objectReference: {fileID: 8605812190782058257}
     - target: {fileID: 8853350594496271621, guid: 995658df717f652468ac17215fdbf36e, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 995658df717f652468ac17215fdbf36e, type: 3}

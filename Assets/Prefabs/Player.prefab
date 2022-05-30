@@ -1726,6 +1726,7 @@ GameObject:
   - component: {fileID: 8605812191029334079}
   - component: {fileID: 1999010800939360531}
   - component: {fileID: 1365183015}
+  - component: {fileID: 2670636442696675058}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1990,6 +1991,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cutscene: {fileID: 0}
   PlayerPrefab: {fileID: 0}
+--- !u!114 &2670636442696675058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8605812191029334072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53fe59c48bbb838418f32847188f36ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartRate: 0.01
+  increaseDamper: 3
+  maxHeartRate: 100
+  endLevel: 0
 --- !u!1 &8605812191126545476
 GameObject:
   m_ObjectHideFlags: 0

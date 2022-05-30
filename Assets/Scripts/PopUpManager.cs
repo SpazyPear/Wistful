@@ -16,7 +16,7 @@ public class PopUpManager : MonoBehaviour
     private float posZ;
     private float posY;
     public Tweener tweener;
-    Pointer pointer;
+    public Pointer pointer;
 
     [HideInInspector]
     public List<GameObject> pastPlatforms = new List<GameObject>();
@@ -460,6 +460,8 @@ public class PopUpManager : MonoBehaviour
         obstacleTime = true;
         currentPaths.Clear();
         currentPaths.Add(new List<GameObject>());
+
+        pointer.gameObject.SetActive(false);
 
         Vector3 edge = VectorUtil.roundVector3(player.position);
         edge = new Vector3(edge.x, levelHeight, edge.z);

@@ -16,6 +16,9 @@ public class SkyManager : MonoBehaviour
 
     public UIManager uIManager;
     bool isSpinning;
+    public AudioClip spinClip;
+    public AudioClip correctJingle;
+    public AudioSource audioSource;
 
 
     // Start is called before the first frame update
@@ -39,6 +42,8 @@ public class SkyManager : MonoBehaviour
     {
         if (!isSpinning)
         {
+            audioSource.clip = spinClip;
+            audioSource.Play();
             isSpinning = true;
             float timer = 0;
             bool constUpdated = false;
@@ -57,6 +62,11 @@ public class SkyManager : MonoBehaviour
                 StarField.transform.eulerAngles += new Vector3(0, offset / 0.03f, 0);
                 skyMaterial.SetTextureOffset("_MainTex", new Vector2(initialOffset + offset * 6, 0));
                 yield return null;
+            }
+            if (rotsCorrect)
+            {
+                audioSource.clip = correctJingle;
+                audioSource.Play();
             }
             popUpManager.readyForNextItemSpawn = true;
             isSpinning = false;

@@ -11,6 +11,7 @@ public class Tweener : MonoBehaviour
     public List<Tween> activeTweens;
     private List<Tween> toBeRemoved;
     public PopUpManager popUpManager;
+    public AudioClip[] blockChimes;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,15 @@ public class Tweener : MonoBehaviour
                        // Debug.Log("3");
                         activeTween.Target.position = activeTween.EndPos;
                         toBeRemoved.Add(activeTween);
-                        //Cursor.lockState = CursorLockMode.Confined;
+                       /* AudioSource audioSource = activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>();
+                        audioSource.clip = blockChimes[UnityEngine.Random.Range(0, blockChimes.Length - 1)];
+                        int reverse = UnityEngine.Random.Range(0, 8);  
+                        if (reverse == 7)
+                        {
+                            audioSource.time = audioSource.clip.length - 0.01f;
+                            audioSource.pitch = -1;
+                        }
+                        activeTween.Target.transform.GetChild(0).GetComponent<AudioSource>().Play();*/
                     }
                 }
             }
@@ -75,7 +84,7 @@ public class Tweener : MonoBehaviour
     public void AddTween(Transform targetObject, Vector3 startPos, Vector3 endPos, float duration)
     {
        
-        activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration));
+        activeTweens.Add(new Tween(targetObject, startPos, endPos, Time.time, duration - UnityEngine.Random.Range(-9f, 0.5f)));
         
     }
 
