@@ -40,8 +40,8 @@ public class Book : Item
             }
             else
             {
-                MenuController.isPromptActive = true;
-                MenuController.NewPromptText = "Press 1 or 2 To Switch Items. Press again to disable item view.";
+                //MenuController.isPromptActive = true;
+                //MenuController.NewPromptText = "Press 1 or 2 To Switch Items. Press again to disable item view.";
             }
         }
     }
