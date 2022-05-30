@@ -56,7 +56,7 @@ public class Pointer : MonoBehaviour
 
                 Debug.Log(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1));
 
-                material.color = Color.Lerp(c, Color.red, curve.Evaluate(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1)));
+                material.color = Color.Lerp(c, Color.red, curve.Evaluate(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 5, 50), 5, 50, 0, 1)));
             }
 
             catch (Exception e)
