@@ -14,6 +14,7 @@ public class PasswordedVaultDoor : VaultDoor
     public AudioSource audioSource;
     public AudioClip successChime;
     public AudioClip negativeTone;
+    bool collidingWithPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,15 @@ public class PasswordedVaultDoor : VaultDoor
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E) && !passwordUITriggered && collidingWithPlayer)
+        {
+            collidingWithPlayer = false;
+            currentPasswordUI = Instantiate(passwordUIPrefab);
+            passwordUITriggered = true;
+            currentPasswordField = currentPasswordUI.rootVisualElement.Q<TextField>("pw-field");
+            currentPasswordField.Focus();
+
+        }
         if (passwordUITriggered) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 Destroy(currentPasswordUI);
@@ -49,18 +59,19 @@ public class PasswordedVaultDoor : VaultDoor
         }
     }
 
-    void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E) && !passwordUITriggered)
-            {
-                currentPasswordUI = Instantiate(passwordUIPrefab);
-                passwordUITriggered = true;
-                currentPasswordField = currentPasswordUI.rootVisualElement.Q<TextField>("pw-field");
-                currentPasswordField.Focus();
+            collidingWithPlayer = true;
+        }
+    }
 
-            }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            collidingWithPlayer = false;
         }
     }
 }

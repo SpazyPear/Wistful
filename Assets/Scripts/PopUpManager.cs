@@ -38,8 +38,8 @@ public class PopUpManager : MonoBehaviour
 
     private bool vaultUp = false;
 
-    public const int width = 3;
-    public const int length = 3;
+    public int width = 6;
+    public int length = 6;
     public const int blockSize = 4;
     public int currentItemNum = 0;
     public bool deservesItem;
@@ -512,7 +512,4 @@ public class PopUpManager : MonoBehaviour
         }
     }
     
-
-
-
 }
