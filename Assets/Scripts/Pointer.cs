@@ -52,7 +52,7 @@ public class Pointer : MonoBehaviour
 
                 Vector3 _lookRotation = Quaternion.LookRotation(_direction).eulerAngles;
 
-                transform.rotation = Quaternion.Euler(0, _lookRotation.y, 0);
+                transform.rotation = Quaternion.Euler(_lookRotation.x, _lookRotation.y, 0);
 
                 Debug.Log(Remap(Mathf.Clamp(Vector3.Distance(transform.position, closestItem.position), 1, 50), 1, 50, 0, 1));
 

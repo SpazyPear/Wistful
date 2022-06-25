@@ -423,7 +423,7 @@ public class PopUpManager : MonoBehaviour
             {
                 Vector3 pos = player.position + (player.forward.normalized * y * blockSize) + (player.right * x * blockSize);
                 pos = VectorUtil.roundVector3(new Vector3(pos.x, levelHeight, pos.z));
-                bool edgeCase = y == length ? true : false;
+                bool edgeCase = y == length && x == -width ? true : false;
                 checkSpawnBlock(pos, edgeCase && readyForNextItemSpawn);
             }
         }
