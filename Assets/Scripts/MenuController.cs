@@ -175,7 +175,7 @@ public class MenuController : MonoBehaviour
         audioMixer.SetFloat("GameVolumn", vol);
     }
     public void applyFOV(float fovValue){
-        cam.fieldOfView = fovValue;
+        //cam.fieldOfView = fovValue;
     }
     private void PausetheGame()
     {

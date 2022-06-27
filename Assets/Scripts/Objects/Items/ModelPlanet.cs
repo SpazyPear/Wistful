@@ -23,7 +23,7 @@ public class ModelPlanet : Item
         modelObj.transform.eulerAngles += new Vector3(0, 90, -90);
         modelObj.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         modelObj.transform.SetParent(transform, true);
-        modelObj.transform.localPosition = new Vector3(0, 1f, 3);
+        modelObj.transform.localPosition = new Vector3(0, 0.85f, 1.3f);
 
         modelObj.SetActive(false);
 

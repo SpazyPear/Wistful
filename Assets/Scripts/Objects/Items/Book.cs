@@ -16,7 +16,7 @@ public class Book : Item
         openBookInst.transform.eulerAngles += new Vector3(0, 180, 180);
         openBookInst.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
         openBookInst.transform.SetParent(transform, true);
-        openBookInst.transform.localPosition = new Vector3(0, 1f, 3);
+        openBookInst.transform.localPosition = new Vector3(0, 0.85f, 1.3f);
         openBookInst.SetActive(false);
 
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
