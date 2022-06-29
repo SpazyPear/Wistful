@@ -13,11 +13,16 @@ public class TriggerCutscene : MonoBehaviour
     {
         if (other.CompareTag("TIME"))
         {
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("TIME"))
+            {
+                if (obj.GetComponent<BoxCollider>())
+                    obj.GetComponent<BoxCollider>().enabled = false;
+            }
             _cutscene.SetActive(true);
             PlayerPrefab.gameObject.GetComponent<Movement>().enabled = false;
             StartCoroutine(FinishCut());
             StartCoroutine(MovementEnable());
-            GameObject.FindGameObjectWithTag("TIME").GetComponent<BoxCollider>().enabled = false;
+            
         }
     }
 
