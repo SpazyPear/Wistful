@@ -134,7 +134,7 @@ public class MenuController : MonoBehaviour
     public void transitionAnimation(){
         disablethings();
         //NewPromptText = "If you dont know where to go, "+System.Environment.NewLine+"follow the arrow at your feet.";
-        isPromptActive = true;        
+        //isPromptActive = true;        
     }
     public void applyMouseSenstivity(float value){
         sens = value;
